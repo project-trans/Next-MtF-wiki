@@ -1,7 +1,9 @@
 "use client";
-import { cache, type FC, use } from "react";
+import { cache, type FC, type HTMLAttributes, use } from "react";
+import { useTheme } from "next-themes";
+import { useIsClient } from "foxact/use-is-client";
 
-interface SuggestionBoxProps {
+interface SuggestionBoxProps extends HTMLAttributes<HTMLElement> {
   attachImageButtonText?: string | undefined;
   sendButtonText?: string | undefined;
   sendingButtonText?: string | undefined;
@@ -22,12 +24,19 @@ declare module "react" {
 
 const suggestionBoxPromise = cache(async () => {
   if (typeof window === "undefined" || typeof document === "undefined") return;
-  return import("@project-trans/suggestion-box/aio");
+  import("@project-trans/suggestion-box/aio");
 })();
 
 const SuggestionBox: FC<SuggestionBoxProps> = (props) => {
-  use(suggestionBoxPromise);
-  return <suggestion-box {...props} />;
+  const isClient = useIsClient();
+  if (isClient) use(suggestionBoxPromise);
+  const { resolvedTheme } = useTheme();
+  return (
+    <suggestion-box
+      className={isClient && resolvedTheme === "dark" ? "dark" : ""}
+      {...props}
+    />
+  );
 };
 
 export default SuggestionBox;

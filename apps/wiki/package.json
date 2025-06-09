@@ -19,6 +19,7 @@
     "@types/estree-jsx": "^1.0.0",
     "@types/mdast": "^4.0.4",
     "@unpic/react": "^1.0.1",
+    "foxact": "^0.2.46",
     "jotai": "^2.12.5",
     "lucide-react": "^0.511.0",
     "mdast-util-compact": "^5.0.0",
