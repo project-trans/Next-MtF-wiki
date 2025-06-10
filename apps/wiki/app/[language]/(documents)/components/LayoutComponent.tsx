@@ -3,8 +3,9 @@ import Sidebar from "@/components/Sidebar";
 import MobileSidebar from "@/components/MobileSidebar";
 import TableOfContents from "@/components/TableOfContents";
 import MobileTableOfContents from "@/components/MobileTableOfContents";
-import { type DocItem } from "@/service/directory-service-client";
+import type { DocItem } from "@/service/directory-service-client";
 import { useParams, usePathname } from "next/navigation";
+import SuggestionBox from "@/components/SuggestionBox";
 
 export default function LayoutComponent({
   navigationItems,
@@ -21,7 +22,7 @@ export default function LayoutComponent({
   const isShowSidebar = true;
   const isShowTableOfContents = true;
 
-  const params = useParams<{ slug: string[] }>()
+  const params = useParams<{ slug: string[] }>();
   const subfolder = params.slug?.[0];
 
   const items = navigationItems.get(subfolder) ?? [];
@@ -44,7 +45,12 @@ export default function LayoutComponent({
         )}
 
         {/* 主要内容区域 */}
-        <main className="flex-1 min-w-0">{children}</main>
+        <main className="flex-1 min-w-0">
+          {children}
+          <div className="mt-8">
+            <SuggestionBox />
+          </div>
+        </main>
 
         {isShowTableOfContents && (
           // 桌面端右侧目录区域
@@ -62,9 +68,7 @@ export default function LayoutComponent({
       )}
 
       {/* 移动端目录组件 */}
-      {isShowTableOfContents && (
-        <MobileTableOfContents language={language} />
-      )}
+      {isShowTableOfContents && <MobileTableOfContents language={language} />}
     </div>
   );
 }

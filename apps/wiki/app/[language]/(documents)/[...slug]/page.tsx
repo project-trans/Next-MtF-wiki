@@ -1,5 +1,4 @@
 import fs from "node:fs/promises";
-import SuggestionBox from "@/components/SuggestionBox";
 import { Link } from "@/components/progress";
 import { ShortCodeComp } from "@/components/shortcode";
 import { t } from "@/lib/i18n/client";
@@ -33,8 +32,8 @@ export async function generateStaticParams() {
   // 生成所有语言和子目录的参数
   const paramPromises = languageConfigs.flatMap((langConfig) =>
     langConfig.subfolders.map((subfolder) =>
-      generateAllStaticParams(langConfig.code, subfolder)
-    )
+      generateAllStaticParams(langConfig.code, subfolder),
+    ),
   );
 
   const allParamsArrays = await Promise.all(paramPromises);
@@ -162,7 +161,7 @@ export default async function DocPage({
     props: DetailedHTMLProps<
       ImgHTMLAttributes<HTMLImageElement>,
       HTMLImageElement
-    >
+    >,
   ) {
     const imagePath = props.src as string;
     return (
@@ -222,7 +221,7 @@ export default async function DocPage({
   // 获取兄弟页面列表
   const siblings = parentItem?.children || [];
   const currentIndex = siblings.findIndex(
-    (item) => item.displayPath === navItem.displayPath
+    (item) => item.displayPath === navItem.displayPath,
   );
 
   // 获取上一页和下一页
@@ -350,9 +349,6 @@ export default async function DocPage({
             </div>
           </nav>
         )}
-        <div className="mt-8">
-          <SuggestionBox />
-        </div>
       </div>
     </DocContent>
   );
