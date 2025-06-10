@@ -34,6 +34,7 @@ const SuggestionBox: FC<SuggestionBoxProps> = (props) => {
   return (
     <suggestion-box
       className={isClient && resolvedTheme === "dark" ? "dark" : ""}
+      targetUrl="https://suggestion-box.project-trans.org/api/v1/suggestion"
       {...props}
     />
   );
