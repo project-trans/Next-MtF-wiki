@@ -1,9 +1,9 @@
 "use client";
-import { cache, type FC, type HTMLAttributes, use } from "react";
+import { cache, type FC, use } from "react";
 import { useTheme } from "next-themes";
 import { useIsClient } from "foxact/use-is-client";
 
-interface SuggestionBoxProps extends HTMLAttributes<HTMLElement> {
+interface SuggestionBoxProps {
   attachImageButtonText?: string | undefined;
   sendButtonText?: string | undefined;
   sendingButtonText?: string | undefined;
@@ -12,12 +12,13 @@ interface SuggestionBoxProps extends HTMLAttributes<HTMLElement> {
   targetUrl?: string | undefined;
   textContentPlaceholder?: string | undefined;
   contactContentPlaceholder?: string | undefined;
+  style?: Record<string, string>;
 }
 
 declare module "react" {
   namespace JSX {
     interface IntrinsicElements {
-      "suggestion-box": SuggestionBoxProps;
+      "suggestion-box": SuggestionBoxProps & HTMLAttributes<HTMLElement>;
     }
   }
 }
@@ -33,9 +34,14 @@ const SuggestionBox: FC<SuggestionBoxProps> = (props) => {
   const { resolvedTheme } = useTheme();
   return (
     <suggestion-box
-      className={isClient && resolvedTheme === "dark" ? "dark" : ""}
-      targetUrl="https://suggestion-box.project-trans.org/api/v1/suggestion"
       {...props}
+      className={isClient && resolvedTheme === "dark" ? "dark" : ""}
+      style={{
+        "--c-action-bg-light": "var(--color-base-200)",
+        "--c-textarea-bg-light": "var(--color-base-100)",
+        "--c-contact-bg-light": "var(--color-base-100)",
+      }}
+      targetUrl="https://suggestion-box.project-trans.org/api/v1/suggestion"
     />
   );
 };
