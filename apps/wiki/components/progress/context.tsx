@@ -254,11 +254,7 @@ export function useProgressInternal() {
  */
 export function ProgressBarProvider({ children }: { children: ReactNode }) {
   const progress = useProgressInternal();
-  return (
-    <ProgressContext.Provider value={progress}>
-      {children}
-    </ProgressContext.Provider>
-  );
+  return <ProgressContext value={progress}>{children}</ProgressContext>;
 }
 
 /**
