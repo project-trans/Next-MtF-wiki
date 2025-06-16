@@ -187,5 +187,26 @@
     "ja": "画像の読み込み中...",
     "es": "Cargando imagen...",
     "en": "Loading image..."
+  },
+  "hidden-photo-show-image-btn-text": {
+    "zh-cn": "显示图片",
+    "zh-hant": "顯示圖片",
+    "ja": "画像を表示",
+    "es": "Mostrar imagen",
+    "en": "Show image"
+  },
+  "hidden-photo-hide-image-btn-text": {
+    "zh-cn": "隐藏图片",
+    "zh-hant": "隱藏圖片",
+    "ja": "画像を非表示",
+    "es": "Ocultar imagen",
+    "en": "Hide image"
+  },
+  "hidden-photo-click-to-show-image": {
+    "zh-cn": "点击显示图片",
+    "zh-hant": "點擊顯示圖片",
+    "ja": "画像を表示",
+    "es": "Mostrar imagen",
+    "en": "Show image"
   }
 }

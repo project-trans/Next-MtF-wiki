@@ -1,11 +1,10 @@
-import type { ShortCodeCompProps } from "../types";
-import ShieldsBase from "./Base";
+import type { ShortCodeCompProps } from '../types';
+import ShieldsBase from './Base';
 
-export default function Wechat({ attrs }: ShortCodeCompProps) {
-  const message = attrs[0] || "";
-  // 根据当前语言环境选择标签文本
-  const label = "微信"; // 可以根据实际需求修改为动态获取
-  
+export default function Wechat({ attrs, mdContext }: ShortCodeCompProps) {
+  const message = attrs[0] || '';
+  const label = mdContext?.currentLanguage === 'zh-cn' ? '微信' : 'WeChat';
+
   return (
     <ShieldsBase
       label={label}
