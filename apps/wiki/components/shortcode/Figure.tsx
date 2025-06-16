@@ -1,6 +1,7 @@
-import type { ShortCodeCompProps } from "./types";
-import styles from "./css/Figure.module.css";
-import { getLocalImagePathFromMdContext } from "./utils";
+import { LocalImage } from '../LocalImage';
+import styles from './css/Figure.module.css';
+import type { ShortCodeCompProps } from './types';
+import { getLocalImagePathFromMdContext } from './utils';
 
 interface FigureProps {
   src?: string;
@@ -26,56 +27,56 @@ export default function Figure({ attrs, mdContext }: ShortCodeCompProps) {
     if (!attrs) return props;
 
     // 如果是位置参数，第一个参数通常是src
-    if (typeof attrs[0] === "string" && !attrs[0].includes("=")) {
+    if (typeof attrs[0] === 'string' && !attrs[0].includes('=')) {
       props.src = attrs[0];
       return props;
     }
 
     // 解析命名参数
     for (const attr of attrs) {
-      if (typeof attr === "string" && attr.includes("=")) {
-        const [key, value] = attr.split("=", 2);
+      if (typeof attr === 'string' && attr.includes('=')) {
+        const [key, value] = attr.split('=', 2);
         const cleanKey = key.trim();
-        const cleanValue = value.replace(/['"]/g, "").trim();
+        const cleanValue = value.replace(/['"]/g, '').trim();
 
         switch (cleanKey) {
-          case "src":
+          case 'src':
             props.src = cleanValue;
             break;
-          case "alt":
+          case 'alt':
             props.alt = cleanValue;
             break;
-          case "width":
+          case 'width':
             props.width = Number.parseInt(cleanValue);
             break;
-          case "height":
+          case 'height':
             props.height = Number.parseInt(cleanValue);
             break;
-          case "loading":
-            props.loading = cleanValue as "eager" | "lazy";
+          case 'loading':
+            props.loading = cleanValue as 'eager' | 'lazy';
             break;
-          case "class":
+          case 'class':
             props.class = cleanValue;
             break;
-          case "link":
+          case 'link':
             props.link = cleanValue;
             break;
-          case "target":
+          case 'target':
             props.target = cleanValue;
             break;
-          case "rel":
+          case 'rel':
             props.rel = cleanValue;
             break;
-          case "title":
+          case 'title':
             props.title = cleanValue;
             break;
-          case "caption":
+          case 'caption':
             props.caption = cleanValue;
             break;
-          case "attr":
+          case 'attr':
             props.attr = cleanValue;
             break;
-          case "attrlink":
+          case 'attrlink':
             props.attrlink = cleanValue;
             break;
         }
@@ -88,19 +89,18 @@ export default function Figure({ attrs, mdContext }: ShortCodeCompProps) {
   const figureProps = parseAttrs(attrs || []);
 
   const imageElement = (
-    <img
-      src={
-        getLocalImagePathFromMdContext(figureProps.src, mdContext)
-      }
+    <LocalImage
+      src={getLocalImagePathFromMdContext(figureProps.src, mdContext)}
       alt={figureProps.alt || figureProps.caption}
       width={figureProps.width}
       height={figureProps.height}
-      loading={figureProps.loading as "eager" | "lazy" | undefined}
+      loading={figureProps.loading as 'eager' | 'lazy' | undefined}
+      language={mdContext?.currentLanguage || undefined}
     />
   );
 
   return (
-    <figure className={`${styles.figure} ${figureProps.class || ""}`}>
+    <figure className={`${styles.figure} ${figureProps.class || ''}`}>
       {figureProps.link ? (
         <a
           href={figureProps.link}
@@ -120,7 +120,7 @@ export default function Figure({ attrs, mdContext }: ShortCodeCompProps) {
               {figureProps.caption}
               {figureProps.attr && (
                 <>
-                  {figureProps.caption && " "}
+                  {figureProps.caption && ' '}
                   {figureProps.attrlink ? (
                     <a
                       href={figureProps.attrlink}

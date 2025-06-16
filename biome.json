@@ -48,7 +48,8 @@
         "noUselessSwitchCase": "off"
       },
       "a11y": {
-        "useSemanticElements": "off"
+        "useSemanticElements": "off",
+        "useAltText": "off"
       }
     }
   },

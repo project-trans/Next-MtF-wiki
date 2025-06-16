@@ -23,7 +23,7 @@ export default function LanguageSwitcher({
         role="button"
         tabIndex={0}
         className="flex items-center gap-1 btn btn-ghost btn-sm group"
-        aria-label="语言选择器"
+        aria-label="Language Switcher"
       >
         <Languages className="w-5 h-5" />
         <ChevronDown className="w-4 h-4 transition-transform group-focus:rotate-180" />

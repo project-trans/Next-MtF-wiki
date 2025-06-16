@@ -23,6 +23,7 @@
     "@unpic/react": "^1.0.1",
     "foxact": "^0.2.46",
     "hast-util-from-html": "^2.0.3",
+    "image-size": "^2.0.2",
     "jotai": "^2.12.5",
     "lucide-react": "^0.511.0",
     "mdast-util-compact": "^5.0.0",

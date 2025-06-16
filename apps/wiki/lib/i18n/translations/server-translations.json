@@ -20,70 +20,70 @@
     "es": "Intenta con diferentes palabras clave",
     "en": "Try different keywords"
   },
-  "banner-text-disclaimer":{
+  "banner-text-disclaimer": {
     "zh-cn": "MtF.wiki 的内容仅供参考，可能存在过时或不准确的信息，请谨慎甄别。",
     "zh-hant": "MtF.wiki 的內容僅供參考，可能存在過時或不準確的信息，請謹慎甄別。",
     "ja": "MtF.wiki の内容は参考になりますが、過去の情報や不正確な情報が含まれている可能性があります。ご注意ください。",
     "es": "El contenido de MtF.wiki es solo para referencia y puede contener información obsoleta o incorrecta. Por favor, ten cuidado.",
     "en": "The content of MtF.wiki is for reference only and may contain outdated or inaccurate information. Please be cautious."
   },
-  "banner-text-disclaimer-preview":{
+  "banner-text-disclaimer-preview": {
     "zh-cn": "MtF.wiki 的内容仅供参考，可能存在过时或不准确的信息，请谨慎甄别。（您当前访问的是技术测试版本站点，仅供技术测试相关需求使用）",
     "zh-hant": "MtF.wiki 的內容僅供參考，可能存在過時或不準確的信息，請謹慎甄別。（您當前訪問的是技術測試版本站點，僅供技術測試相關需求使用）",
     "ja": "MtF.wiki の内容は参考になりますが、過去の情報や不正確な情報が含まれている可能性があります。ご注意ください。（あなたは現在技術テストバージョンのサイトにアクセスしています。技術テストのみに使用してください。）",
     "es": "El contenido de MtF.wiki es solo para referencia y puede contener información obsoleta o incorrecta. Por favor, ten cuidado. (Actualmente estás visitando un sitio web de versión de prueba técnica. Solo para uso técnico.)",
     "en": "The content of MtF.wiki is for reference only and may contain outdated or inaccurate information. Please be cautious. (You are currently visiting a technical test version site. Only for technical test.)"
   },
-  "banner-button-text-disclaimer":{
+  "banner-button-text-disclaimer": {
     "zh-cn": "免责声明",
     "zh-hant": "免責聲明",
     "ja": "免責聲明",
     "es": "Aviso de免责",
     "en": "Disclaimer"
   },
-  "banner-button-link-disclaimer":{
+  "banner-button-link-disclaimer": {
     "zh-cn": "/zh-cn/about/disclaimer",
     "zh-hant": "/zh-hant/about/disclaimer",
     "ja": null,
     "es": null,
     "en": null
   },
-  "banner-button-text-close":{
+  "banner-button-text-close": {
     "zh-cn": "关闭",
     "zh-hant": "關閉",
     "ja": "閉じる",
     "es": "Cerrar",
     "en": "Close"
   },
-  "last-modified-time":{
+  "last-modified-time": {
     "zh-cn": "最近更新于 ",
     "zh-hant": "最近更新於 ",
     "ja": "最近更新於 ",
     "es": "Última modificación ",
     "en": "Last Modified "
   },
-  "home-page-title":{
+  "home-page-title": {
     "zh-cn": "MtF.wiki",
     "zh-hant": "MtF.wiki",
     "ja": "MtF.wiki",
     "es": "MtF.wiki",
     "en": "MtF.wiki"
   },
-  "home-page-description":{
+  "home-page-description": {
     "zh-cn": "欢迎来到 MtF.wiki．我们试图整理汇总女性倾向跨性别的相关资料，为大家提供更好的帮助~",
     "zh-hant": "歡迎來到 MtF.wiki．我們試圖整理匯總女性傾向跨性別的相關資料，為大家提供更好的幫助~",
     "ja": "MtF.wiki へようこそ。 吾輩は、女性的なトランスジェンダーに関する情報を整理して要約し、より良い支援を提供するよう努めています〜",
     "es": "Bienvenida a MtF.wiki. Tratamos de organizar la información relevante de transfeminidad para daros mejor ayuda ^_^",
     "en": "Welcome to the MtF.wiki. We are trying to organize the relevant information of transfeminine to provide you with better help ^_^"
   },
-  "home-page-get-started":{
+  "home-page-get-started": {
     "zh-cn": "查看文档",
     "zh-hant": "查看文檔",
     "ja": "ドキュメントを見る",
     "es": "Ver documentos",
     "en": "View documents"
   },
-  "project":{
+  "project": {
     "zh-cn": "项目",
     "zh-hant": "項目",
     "ja": "プロジェクト",
@@ -173,5 +173,19 @@
     "ja": "All rights reserved. Maintained by",
     "es": "Todos los derechos reservados. Mantenido por",
     "en": "All rights reserved. Maintained by"
+  },
+  "local-image-load-failed-text": {
+    "zh-cn": "图片加载失败",
+    "zh-hant": "圖片加載失敗",
+    "ja": "画像の読み込みに失敗しました",
+    "es": "Error al cargar la imagen",
+    "en": "Image loading failed"
+  },
+  "local-image-loading-text": {
+    "zh-cn": "图片加载中...",
+    "zh-hant": "圖片加載中...",
+    "ja": "画像の読み込み中...",
+    "es": "Cargando imagen...",
+    "en": "Loading image..."
   }
 }

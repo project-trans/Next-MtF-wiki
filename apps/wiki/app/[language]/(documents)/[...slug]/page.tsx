@@ -1,4 +1,5 @@
 import fs from 'node:fs/promises';
+import { LocalImage } from '@/components/LocalImage';
 import { Link } from '@/components/progress';
 import { ShortCodeComp } from '@/components/shortcode';
 import { t } from '@/lib/i18n/client';
@@ -174,11 +175,11 @@ export default async function DocPage({
   ) {
     const imagePath = props.src as string;
     return (
-      <img
+      <LocalImage
         src={imagePath || ''}
         alt={props.alt || ''}
-        loading="lazy"
-        decoding="async"
+        className={props.className}
+        language={language}
       />
     );
   }
