@@ -9,7 +9,10 @@ const DropdownLink = React.forwardRef<HTMLAnchorElement, LinkProps>(
         href={href}
         ref={ref}
         {...rest}
-        onClick={() => {
+        onClick={(e) => {
+          if (rest.onClick) {
+            rest.onClick(e);
+          }
           (document.activeElement as HTMLElement).blur();
         }}
       >
