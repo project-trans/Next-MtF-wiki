@@ -1,6 +1,8 @@
 'use client';
+import { useAtom } from 'jotai';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { languageAtom } from './LanguageSwitcher';
 
 export default function HomeRedirect({
   languageConfigs,
@@ -8,9 +10,16 @@ export default function HomeRedirect({
   languageConfigs: { code: string; name: string }[];
 }) {
   const router = useRouter();
+
+  const [language] = useAtom(languageAtom);
+
   useEffect(() => {
     const detectAndRedirect = async () => {
       try {
+        if (language) {
+          return router.replace(`/${language}`);
+        }
+
         // 获取用户浏览器语言偏好
         const userLanguages = navigator.languages || [navigator.language];
 
@@ -156,7 +165,7 @@ export default function HomeRedirect({
         dangerouslySetInnerHTML={{
           __html: `
             window.HomeRedirectWikiRedirectTimeout = window.HomeRedirectWikiRedirectTimeout || window.setTimeout(() => {
-              window.HomeRedirectWikiRedirectTimeout = null;      
+              window.HomeRedirectWikiRedirectTimeout = null;
               window.location.href = '/zh-cn';
             }, 5000);
           `,

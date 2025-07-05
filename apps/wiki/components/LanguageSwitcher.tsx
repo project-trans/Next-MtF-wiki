@@ -1,6 +1,7 @@
 'use client';
 
 import { useAtom } from 'jotai';
+import { atomWithStorage } from 'jotai/utils';
 import { ChevronDown, Languages } from 'lucide-react';
 import DropdownLink from './DropdownLink';
 import { languageAlternateAtom } from './LanguageAlternate';
@@ -22,6 +23,8 @@ export default function LanguageSwitcher({
   const [globalLanguageAlternate, setGlobalLanguageAlternate] = useAtom(
     languageAlternateAtom,
   );
+
+  const [language, setLanguage] = useAtom(languageAtom);
 
   // 判断语言是否在可用的替代语言中
   const isLanguageAvailable = (langCode: string) => {
@@ -75,6 +78,9 @@ export default function LanguageSwitcher({
               <DropdownLink
                 href={getLanguageHref(lang.code)}
                 className={getLanguageClassName(lang)}
+                onClick={() => {
+                  setLanguage(lang.code);
+                }}
               >
                 {lang.name}
               </DropdownLink>
@@ -85,3 +91,5 @@ export default function LanguageSwitcher({
     </div>
   );
 }
+
+export const languageAtom = atomWithStorage<string | null>('language', null);
