@@ -116,11 +116,14 @@ const MobileNavItem = ({
   );
 };
 
+const COLLAPSE_BUFFER = 48;
+
 export default function MobileSidebar({
   navigationItems,
   language,
 }: MobileSidebarProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const [isCompressed, setIsCompressed] = useState(true);
   const pathname = usePathname();
   const [bannerHeight] = useAtom(bannerHeightAtom);
 
@@ -162,18 +165,62 @@ export default function MobileSidebar({
   const buttonBottomPosition =
     bannerHeight > 0 ? `${bannerHeight + 24}px` : '24px';
 
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    const footer = document.querySelector('footer');
+    if (!footer) {
+      setIsCompressed(false);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsCompressed(entry.isIntersecting);
+      },
+      {
+        rootMargin: `0px 0px -${Math.max(bannerHeight + COLLAPSE_BUFFER, 0)}px 0px`,
+        threshold: 0,
+      },
+    );
+
+    observer.observe(footer);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [bannerHeight]);
+
+  const buttonClassName = `fixed left-6 z-40 lg:hidden flex items-center overflow-hidden transition-all duration-200 ${
+    isCompressed
+      ? 'justify-center p-3 rounded-full bg-base-200/80 backdrop-blur-sm text-base-content border border-base-300/50 shadow-lg hover:bg-base-200/80 hover:scale-105'
+      : 'px-4 py-3 gap-2 rounded-full bg-primary text-primary-content shadow-lg hover:bg-primary/90 hover:scale-105'
+  }`;
+
   return (
     <>
       {/* 浮动按钮 - 直接显示为"目录"或"导航" */}
       <button
         type="button"
         onClick={() => setIsOpen(true)}
-        className="fixed left-6 z-40 lg:hidden flex items-center space-x-2 px-4 py-3 rounded-full bg-primary text-primary-content shadow-lg hover:bg-primary/90 transition-all duration-200 hover:scale-105"
+        className={buttonClassName}
         style={{ bottom: buttonBottomPosition }}
         aria-label={t('docs', language)}
       >
         <Menu className="w-5 h-5" />
-        <span className="text-sm font-medium">{t('navigation', language)}</span>
+        <span
+          className="text-sm font-medium whitespace-nowrap"
+          style={{
+            opacity: isCompressed ? 0 : 1,
+            maxWidth: isCompressed ? 0 : '160px',
+            transition: 'opacity 200ms ease, max-width 200ms ease',
+          }}
+          aria-hidden={isCompressed}
+        >
+          {t('navigation', language)}
+        </span>
       </button>
 
       {/* 遮罩层和侧边栏 */}
