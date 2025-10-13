@@ -50,8 +50,8 @@ importers:
         specifier: ^15.3.2
         version: 15.3.3(@mdx-js/loader@3.1.0(acorn@8.14.1)(webpack@5.99.9))(@mdx-js/react@3.1.0(@types/react@19.1.6)(react@19.1.0))
       '@project-trans/suggestion-box':
-        specifier: ^0.6.0
-        version: 0.6.0(vue@3.5.16(typescript@5.8.3))
+        specifier: ^0.6.1
+        version: 0.6.1(vue@3.5.16(typescript@5.8.3))
       '@types/estree-jsx':
         specifier: ^1.0.0
         version: 1.0.5
@@ -1415,8 +1415,8 @@ packages:
     resolution: {integrity: sha512-ROFF39F6ZrnzSUEmQQZUar0Jt4xVoP9WnDRdWwF4NNcXs3xBTLgBUDoOwW141y1jP+S8nahIbdxbFC7IShw9Iw==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@project-trans/suggestion-box@0.6.0':
-    resolution: {integrity: sha512-b8w0wxvmcJ+z7a+u2KjdmNTUY+qmoHnlHbOHvZttmJVFZYRtJ8tnr9oxM9hiPwwMFWAM17798og0FCQpFq3NCw==}
+  '@project-trans/suggestion-box@0.6.1':
+    resolution: {integrity: sha512-eoeiriOsL0/F3xCvHLsgrK6q12kCrt34e0i63XZF0kPWWvovHAJbb7tN/XRCs24M9hgY6aBiGxUsBV7pfIqaAg==}
     peerDependencies:
       vue: '3'
 
@@ -6235,7 +6235,7 @@ snapshots:
 
   '@pkgr/core@0.2.4': {}
 
-  '@project-trans/suggestion-box@0.6.0(vue@3.5.16(typescript@5.8.3))':
+  '@project-trans/suggestion-box@0.6.1(vue@3.5.16(typescript@5.8.3))':
     dependencies:
       vue: 3.5.16(typescript@5.8.3)
 
@@ -7255,7 +7255,7 @@ snapshots:
     dependencies:
       debug: 3.2.7
       enhanced-resolve: 0.9.1
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-webpack@0.13.10)(eslint@8.57.1)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-webpack@0.13.10(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1))(webpack@5.99.9))(eslint@8.57.1)
       find-root: 1.1.0
       hasown: '@nolyfill/hasown@1.0.44'
       interpret: 1.4.0
@@ -7304,7 +7304,7 @@ snapshots:
       eslint: 8.57.1
       ignore: 5.3.2
 
-  eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-webpack@0.13.10)(eslint@8.57.1):
+  eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-webpack@0.13.10(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1))(webpack@5.99.9))(eslint@8.57.1):
     dependencies:
       '@rtsao/scc': 1.1.0
       array-includes: '@nolyfill/array-includes@1.0.44'
@@ -11346,7 +11346,7 @@ snapshots:
       eslint-import-resolver-webpack: 0.13.10(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1))(webpack@5.99.9)
       eslint-plugin-ava: 14.0.0(eslint@8.57.1)
       eslint-plugin-eslint-comments: 3.2.0(eslint@8.57.1)
-      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-webpack@0.13.10)(eslint@8.57.1)
+      eslint-plugin-import: 2.31.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint-import-resolver-webpack@0.13.10(eslint-plugin-import@2.31.0(@typescript-eslint/parser@7.18.0(eslint@8.57.1)(typescript@5.8.3))(eslint@8.57.1))(webpack@5.99.9))(eslint@8.57.1)
       eslint-plugin-n: 17.18.0(eslint@8.57.1)
       eslint-plugin-no-use-extend-native: 0.5.0
       eslint-plugin-prettier: 5.4.1(@types/eslint@9.6.1)(eslint-config-prettier@9.1.0(eslint@8.57.1))(eslint@8.57.1)(prettier@3.5.3)
