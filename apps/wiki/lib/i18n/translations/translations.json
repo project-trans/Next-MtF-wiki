@@ -145,5 +145,159 @@
     "ja": "現在のテーマ",
     "es": "Tema actual",
     "en": "Current Theme"
+  },
+  "fontSettings": {
+    "zh-cn": "字体设置",
+    "zh-hant": "字體設置",
+    "ja": "フォント設定",
+    "es": "Configuración de fuente",
+    "en": "Font Settings"
+  },
+  "currentFont": {
+    "zh-cn": "当前字体",
+    "zh-hant": "當前字體",
+    "ja": "現在のフォント",
+    "es": "Fuente actual",
+    "en": "Current Font"
+  },
+  "fontSystem": {
+    "zh-cn": "系统字体",
+    "zh-hant": "系統字體",
+    "ja": "システムフォント",
+    "es": "Fuente del sistema",
+    "en": "System Font"
+  },
+  "fontSystemDesc": {
+    "zh-cn": "系统默认",
+    "zh-hant": "系統默認",
+    "ja": "システムデフォルト",
+    "es": "Predeterminado del sistema",
+    "en": "System default"
+  },
+  "fontSongti": {
+    "zh-cn": "宋体",
+    "zh-hant": "宋體",
+    "ja": "明朝体",
+    "es": "Song",
+    "en": "Song"
+  },
+  "fontSongtiDesc": {
+    "zh-cn": "传统宋体",
+    "zh-hant": "傳統宋體",
+    "ja": "伝統的な明朝体",
+    "es": "Fuente tradicional",
+    "en": "Traditional serif"
+  },
+  "fontHeiti": {
+    "zh-cn": "黑体",
+    "zh-hant": "黑體",
+    "ja": "ゴシック体",
+    "es": "Hei",
+    "en": "Hei"
+  },
+  "fontHeitiDesc": {
+    "zh-cn": "经典黑体",
+    "zh-hant": "經典黑體",
+    "ja": "クラシックゴシック",
+    "es": "Sans-serif clásico",
+    "en": "Classic sans-serif"
+  },
+  "fontSourceHanSerif": {
+    "zh-cn": "思源宋体",
+    "zh-hant": "思源宋體",
+    "ja": "源ノ明朝",
+    "es": "Source Han Serif",
+    "en": "Source Han Serif"
+  },
+  "fontSourceHanSerifDesc": {
+    "zh-cn": "优雅衬线",
+    "zh-hant": "優雅襯線",
+    "ja": "エレガントなセリフ",
+    "es": "Serif elegante",
+    "en": "Elegant serif"
+  },
+  "fontSarasaGothic": {
+    "zh-cn": "更纱黑体",
+    "zh-hant": "更紗黑體",
+    "ja": "Sarasa Gothic",
+    "es": "Sarasa Gothic",
+    "en": "Sarasa Gothic"
+  },
+  "fontSarasaGothicDesc": {
+    "zh-cn": "编程友好",
+    "zh-hant": "編程友好",
+    "ja": "プログラミング向け",
+    "es": "Amigable para programación",
+    "en": "Programming friendly"
+  },
+  "fontLxgwBright": {
+    "zh-cn": "霞鹜新晰黑",
+    "zh-hant": "霞鶩新晰黑",
+    "ja": "霞鹜新晰黒",
+    "es": "LXGW Bright",
+    "en": "LXGW Bright"
+  },
+  "fontLxgwBrightDesc": {
+    "zh-cn": "清晰现代",
+    "zh-hant": "清晰現代",
+    "ja": "クリアでモダン",
+    "es": "Claro y moderno",
+    "en": "Clear and modern"
+  },
+  "fontLxgwWenkaiMono": {
+    "zh-cn": "霞鹜文楷 Mono",
+    "zh-hant": "霞鶩文楷 Mono",
+    "ja": "霞鹜文楷 Mono",
+    "es": "LXGW WenKai Mono",
+    "en": "LXGW WenKai Mono"
+  },
+  "fontLxgwWenkaiMonoDesc": {
+    "zh-cn": "等宽楷体",
+    "zh-hant": "等寬楷體",
+    "ja": "等幅楷書",
+    "es": "Mono Kai",
+    "en": "Monospace Kai"
+  },
+  "fontLxgwWenkai": {
+    "zh-cn": "霞鹜文楷",
+    "zh-hant": "霞鶩文楷",
+    "ja": "霞鹜文楷",
+    "es": "LXGW WenKai",
+    "en": "LXGW WenKai"
+  },
+  "fontLxgwWenkaiDesc": {
+    "zh-cn": "手写风格",
+    "zh-hant": "手寫風格",
+    "ja": "手書きスタイル",
+    "es": "Estilo manuscrito",
+    "en": "Handwriting style"
+  },
+  "fontLxgwBrightCode": {
+    "zh-cn": "新晰黑 Code",
+    "zh-hant": "新晰黑 Code",
+    "ja": "新晰黒 Code",
+    "es": "LXGW Bright Code",
+    "en": "LXGW Bright Code"
+  },
+  "fontLxgwBrightCodeDesc": {
+    "zh-cn": "编程专用",
+    "zh-hant": "編程專用",
+    "ja": "プログラミング専用",
+    "es": "Para programación",
+    "en": "For programming"
+  },
+  "fontSmileySans": {
+    "zh-cn": "得意黑",
+    "zh-hant": "得意黑",
+    "ja": "得意黒",
+    "es": "Smiley Sans",
+    "en": "Smiley Sans"
+  },
+  "fontSmileySansDesc": {
+    "zh-cn": "圆润可爱",
+    "zh-hant": "圓潤可愛",
+    "ja": "丸くて可愛い",
+    "es": "Redondo y lindo",
+    "en": "Round and cute"
   }
 }
