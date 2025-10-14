@@ -3,104 +3,61 @@
 import { atom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 
-// 可用的字体选项
-export type FontOption = {
-  key: string;
-  value: string;
-  labelKey: string;
-  descriptionKey: string;
+// 字体基础 URL
+export const FONTS_BASE_URL = 'https://fonts.project-trans.org/';
+
+// API 返回的字体数据类型
+export type FontData = {
+  paths: string[];
   fontFamily: string;
 };
 
-// 默认字体选项
-export const fontOptions: FontOption[] = [
-  {
-    key: 'system',
-    value: 'system',
-    labelKey: 'fontSystem',
-    descriptionKey: 'fontSystemDesc',
-    fontFamily:
-      '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
-  },
-  {
-    key: 'songti',
-    value: 'songti',
-    labelKey: 'fontSongti',
-    descriptionKey: 'fontSongtiDesc',
-    fontFamily: '"Noto Serif SC", "Noto Serif TC", SimSun, "宋体", serif',
-  },
-  {
-    key: 'heiti',
-    value: 'heiti',
-    labelKey: 'fontHeiti',
-    descriptionKey: 'fontHeitiDesc',
-    fontFamily: '"Noto Sans SC", "Noto Sans TC", SimHei, "黑体", sans-serif',
-  },
-  {
-    key: 'source-han-serif',
-    value: 'source-han-serif',
-    labelKey: 'fontSourceHanSerif',
-    descriptionKey: 'fontSourceHanSerifDesc',
-    fontFamily:
-      '"Source Han Serif SC", "Source Han Serif TC", "Noto Serif SC", serif',
-  },
-  {
-    key: 'sarasa-gothic',
-    value: 'sarasa-gothic',
-    labelKey: 'fontSarasaGothic',
-    descriptionKey: 'fontSarasaGothicDesc',
-    fontFamily: '"Sarasa Gothic SC", "Sarasa Gothic TC", sans-serif',
-  },
-  {
-    key: 'lxgw-bright',
-    value: 'lxgw-bright',
-    labelKey: 'fontLxgwBright',
-    descriptionKey: 'fontLxgwBrightDesc',
-    fontFamily: '"LXGW Bright", "霞鹜新晰黑", sans-serif',
-  },
-  {
-    key: 'lxgw-wenkai-mono',
-    value: 'lxgw-wenkai-mono',
-    labelKey: 'fontLxgwWenkaiMono',
-    descriptionKey: 'fontLxgwWenkaiMonoDesc',
-    fontFamily: '"LXGW WenKai Mono", "霞鹜文楷 Mono", monospace',
-  },
-  {
-    key: 'lxgw-wenkai',
-    value: 'lxgw-wenkai',
-    labelKey: 'fontLxgwWenkai',
-    descriptionKey: 'fontLxgwWenkaiDesc',
-    fontFamily: '"LXGW WenKai", "霞鹜文楷", sans-serif',
-  },
-  {
-    key: 'lxgw-bright-code',
-    value: 'lxgw-bright-code',
-    labelKey: 'fontLxgwBrightCode',
-    descriptionKey: 'fontLxgwBrightCodeDesc',
-    fontFamily: '"LXGW Bright Code", "新晰黑 Code", monospace',
-  },
-  {
-    key: 'smiley-sans',
-    value: 'smiley-sans',
-    labelKey: 'fontSmileySans',
-    descriptionKey: 'fontSmileySansDesc',
-    fontFamily: '"Smiley Sans", "得意黑", sans-serif',
-  },
-];
+// 字体映射类型
+export type FontsMap = Record<string, FontData>;
+
+// 可用的字体选项（用于 UI 显示）
+export type FontOption = {
+  key: string;
+  value: string;
+  displayName: string;
+  fontFamily: string;
+};
 
 // 字体偏好设置 atom (存储在本地存储中)
 export const fontPreferenceAtom = atomWithStorage<string>(
-  'mtf-wiki-font-preference',
-  'system',
+  'activeFont',
+  '默认字体',
 );
 
 // 当前实际应用的字体 atom
-export const currentFontAtom = atom<string>('system');
+export const currentFontAtom = atom<string>('默认字体');
 
 // 字体菜单展开状态
 export const fontMenuOpenAtom = atom<boolean>(false);
 
-// 获取字体选项
-export function getFontOption(value: string): FontOption {
-  return fontOptions.find((option) => option.value === value) || fontOptions[0];
+// 字体数据 atom
+export const fontsMapAtom = atom<FontsMap | null>(null);
+
+// 字体选项 atom（从 fontsMap 派生）
+export const fontOptionsAtom = atom<FontOption[]>((get) => {
+  const fontsMap = get(fontsMapAtom);
+  if (!fontsMap) return [];
+
+  return Object.entries(fontsMap).map(([displayName, data]) => ({
+    key: displayName,
+    value: displayName,
+    displayName,
+    fontFamily: data.fontFamily,
+  }));
+});
+
+// 获取字体数据
+export function getFontData(
+  fontsMap: FontsMap | null,
+  fontName: string,
+): FontData | null {
+  if (!fontsMap || !fontsMap[fontName]) {
+    return null;
+  }
+  return fontsMap[fontName];
 }
