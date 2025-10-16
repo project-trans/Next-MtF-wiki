@@ -42,46 +42,8 @@ export default function RootLayout({
     // biome-ignore lint/a11y/useHtmlLang:
     <html suppressHydrationWarning>
       <head>
-        {/* 导入字体 */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link
-          rel="preconnect"
-          href="https://fonts.gstatic.com"
-          crossOrigin="anonymous"
-        />
-        <link rel="preconnect" href="https://cdn.jsdelivr.net" />
-
-        {/* Google Fonts - Noto 系列 */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-        <link
-          href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@300;400;500;600;700&family=Noto+Serif+TC:wght@300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-
-        {/* 霞鹜文楷系列 */}
-        <link
-          href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont@1.1.0/style.css"
-          rel="stylesheet"
-        />
-        <link
-          href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css"
-          rel="stylesheet"
-        />
-
-        {/* 更纱黑体 */}
-        <link
-          href="https://cdn.jsdelivr.net/npm/sarasa-gothic@1.0.5/css/sarasa-gothic-sc-regular.css"
-          rel="stylesheet"
-        />
-
-        {/* 得意黑 */}
-        <link
-          href="https://cdn.jsdelivr.net/npm/smiley-sans@1.1.1/smiley-sans.css"
-          rel="stylesheet"
-        />
+        {/* 字体服务器预连接 */}
+        <link rel="preconnect" href="https://fonts.project-trans.org" />
       </head>
       <body className={'antialiased'}>
         <JotaiProvider>
