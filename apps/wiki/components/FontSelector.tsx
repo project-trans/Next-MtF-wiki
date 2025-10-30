@@ -23,6 +23,7 @@ export default function FontSelector() {
   const [fontOptions] = useAtom(fontOptionsAtom);
   const params = useParams();
 
+  // 获取当前语言
   const currentLanguage = (params?.language as string) || 'zh-cn';
 
   // 获取字体列表
@@ -30,48 +31,55 @@ export default function FontSelector() {
     async function fetchFonts() {
       try {
         const response = await fetch(`${FONTS_BASE_URL}path_map.json`);
-        if (!response.ok) throw new Error('Failed to fetch fonts');
+        if (!response.ok) {
+          throw new Error('Failed to fetch fonts');
+        }
         const data: FontsMap = await response.json();
         setFontsMap(data);
       } catch (error) {
         console.error('Error fetching fonts:', error);
       }
     }
+
     fetchFonts();
   }, [setFontsMap]);
 
-  useEffect(() => setMounted(true), []);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  // 应用字体设置，处理无默认字体情况
+  // 应用字体设置
   useEffect(() => {
     if (!mounted || !fontsMap) return;
 
-    let resolvedFont = fontPreference;
-
-    // 没有选择字体或者 fontPreference 不存在于 fontsMap
-    if (!fontPreference || !fontsMap[fontPreference]) {
-      resolvedFont = '平方微软雅黑';
-      setCurrentFont(resolvedFont);
-    } else {
-      setCurrentFont(resolvedFont);
+    // 如果当前字体不存在于字体列表中，重置为默认字体
+    if (!fontsMap[fontPreference]) {
+      setFontPreference('默认字体');
+      return;
     }
 
     const fontData = getFontData(fontsMap, fontPreference);
-    const fontFamily = fontData ? fontData.fontFamily : resolvedFont;
+    if (fontData) {
+      document.documentElement.style.setProperty(
+        '--font-family',
+        fontData.fontFamily,
+      );
+      setCurrentFont(fontPreference);
+    }
+  }, [mounted, fontsMap, fontPreference, setCurrentFont, setFontPreference]);
 
-    document.documentElement.style.setProperty('--font-family', fontFamily);
-  }, [mounted, fontsMap, fontPreference, setCurrentFont]);
-
-  // 切换字体
   const handleFontChange = (newFont: string) => {
     setFontPreference(newFont);
     const fontData = getFontData(fontsMap, newFont);
-    const fontFamily = fontData ? fontData.fontFamily : '平方微软雅黑';
-    document.documentElement.style.setProperty('--font-family', fontFamily);
-    setCurrentFont(fontFamily);
+    if (fontData) {
+      document.documentElement.style.setProperty(
+        '--font-family',
+        fontData.fontFamily,
+      );
+    }
   };
 
-  // 避免 SSR mismatch
+  // 避免服务端渲染不匹配
   if (!mounted || !fontsMap) {
     return (
       <div className="dropdown dropdown-end">
@@ -82,7 +90,7 @@ export default function FontSelector() {
     );
   }
 
-  const currentFontData = getFontData(fontsMap, currentFont);
+  const currentFontData = getFontData(fontsMap, currentFont || fontPreference);
 
   return (
     <>
@@ -92,7 +100,7 @@ export default function FontSelector() {
           tabIndex={0}
           className="btn btn-ghost btn-circle"
           aria-label={t('fontSettings', currentLanguage)}
-          title={`${t('currentFont', currentLanguage)}: ${currentFont}`}
+          title={`${t('currentFont', currentLanguage)}: ${currentFont || fontPreference}`}
         >
           <Type className="w-5 h-5" />
         </div>
@@ -107,7 +115,9 @@ export default function FontSelector() {
                 <button
                   type="button"
                   className={`flex items-center gap-3 ${
-                    currentFont === option.value ? 'active' : ''
+                    (currentFont || fontPreference) === option.value
+                      ? 'active'
+                      : ''
                   }`}
                   onClick={() => {
                     handleFontChange(option.value);
@@ -118,7 +128,9 @@ export default function FontSelector() {
                   <div className="flex flex-col items-start flex-1">
                     <span className="font-medium">{option.displayName}</span>
                   </div>
-                  {currentFont === option.value && <Check className="w-4 h-4 ml-auto" />}
+                  {(currentFont || fontPreference) === option.value && (
+                    <Check className="w-4 h-4 ml-auto" />
+                  )}
                 </button>
               </li>
             ))}
@@ -128,7 +140,11 @@ export default function FontSelector() {
 
       {/* 动态加载字体 CSS */}
       {currentFontData?.paths.map((css) => (
-        <link key={css} rel="stylesheet" href={`${FONTS_BASE_URL}${css}/result.css`} />
+        <link
+          key={css}
+          rel="stylesheet"
+          href={`${FONTS_BASE_URL}${css}/result.css`}
+        />
       ))}
     </>
   );
