@@ -138,9 +138,25 @@
 :root {
   --background: var(--color-base-100);
   --foreground: var(--color-base-content);
+  /* 默认字体 */
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 html {
   /* 平滑的主题切换过渡 */
   transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  font-family: var(--font-family);
+}
+
+/* 确保所有文本元素都使用自定义字体 */
+body * {
+  font-family: inherit;
+}
+
+/* 为代码块保留等宽字体 */
+code, pre, kbd, samp, tt, var {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace !important;
 }

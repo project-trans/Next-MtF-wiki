@@ -1,36 +1,36 @@
-import { ThemeProvider } from "@/components/ThemeProvider";
-import type { Metadata } from "next";
+import { ThemeProvider } from '@/components/ThemeProvider';
 import {
   ProgressBar,
   ProgressProvider,
   SkeletonProvider,
-} from "@/components/progress";
-import "./globals.css";
+} from '@/components/progress';
+import type { Metadata } from 'next';
+import './globals.css';
 
-import { Provider as JotaiProvider } from "jotai";
+import { Provider as JotaiProvider } from 'jotai';
 
 export const metadata: Metadata = {
-  title: "MtF.wiki",
+  title: 'MtF.wiki',
   icons: {
     apple: {
-      url: "/favicon/apple-touch-icon.png",
-      sizes: "180x180",
-      type: "image/png",
+      url: '/favicon/apple-touch-icon.png',
+      sizes: '180x180',
+      type: 'image/png',
     },
     icon: [
       {
-        url: "/favicon/favicon-16x16.png",
-        sizes: "16x16",
-        type: "image/png",
+        url: '/favicon/favicon-16x16.png',
+        sizes: '16x16',
+        type: 'image/png',
       },
       {
-        url: "/favicon/favicon-32x32.png",
-        sizes: "32x32",
-        type: "image/png",
+        url: '/favicon/favicon-32x32.png',
+        sizes: '32x32',
+        type: 'image/png',
       },
     ],
   },
-  manifest: "/favicon/site.webmanifest",
+  manifest: '/favicon/site.webmanifest',
 };
 
 export default function RootLayout({
@@ -41,7 +41,11 @@ export default function RootLayout({
   return (
     // biome-ignore lint/a11y/useHtmlLang:
     <html suppressHydrationWarning>
-      <body className={"antialiased"}>
+      <head>
+        {/* 字体服务器预连接 */}
+        <link rel="preconnect" href="https://fonts.project-trans.org" />
+      </head>
+      <body className={'antialiased'}>
         <JotaiProvider>
           <ThemeProvider>
             <ProgressProvider>

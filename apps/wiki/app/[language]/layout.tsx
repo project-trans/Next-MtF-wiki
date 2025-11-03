@@ -1,6 +1,7 @@
 import BottomBanner from '@/components/BottomBanner';
 import BrowserUpgradeBanner from '@/components/BrowserUpgradeBanner';
 import DropdownLink from '@/components/DropdownLink';
+import FontSelector from '@/components/FontSelector';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { ObservedHeader } from '@/components/ObservedHeader';
 import ThemeToggle from '@/components/ThemeToggle';
@@ -82,6 +83,7 @@ export default async function LanguageLayout({
               />
             </div>
 
+            <FontSelector />
             <ThemeToggle />
             <LanguageSwitcher
               currentLanguage={language}

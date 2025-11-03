@@ -145,5 +145,19 @@
     "ja": "現在のテーマ",
     "es": "Tema actual",
     "en": "Current Theme"
+  },
+  "fontSettings": {
+    "zh-cn": "字体设置",
+    "zh-hant": "字體設置",
+    "ja": "フォント設定",
+    "es": "Configuración de fuente",
+    "en": "Font Settings"
+  },
+  "currentFont": {
+    "zh-cn": "当前字体",
+    "zh-hant": "當前字體",
+    "ja": "現在のフォント",
+    "es": "Fuente actual",
+    "en": "Current Font"
   }
 }
