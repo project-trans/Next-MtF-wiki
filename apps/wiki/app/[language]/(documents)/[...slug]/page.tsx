@@ -361,6 +361,9 @@ export default async function DocPage({
   };
 
   const ErrorContent = ({ error }: { error: Error }) => {
+    if (process.env.NODE_ENV !== 'development') {
+      throw error;
+    }
     console.error('⚠️ Compile Error: ', {
       displayPath: navItem.displayPath,
       error,
