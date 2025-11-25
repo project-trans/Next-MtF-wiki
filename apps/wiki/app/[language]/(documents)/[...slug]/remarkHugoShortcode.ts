@@ -1,13 +1,12 @@
 import {
   type DocItem,
+  getLocalImagePath,
   getNavigationForOriginalSlug,
 } from '@/service/directory-service';
-import { getLocalImagePath } from '@/service/directory-service';
 import { transformFilesLink } from '@/service/path-utils';
 import type {
   Code,
   Heading,
-  Html,
   Image,
   Link,
   Node,
@@ -18,17 +17,12 @@ import type {
   RootContent,
   Text,
 } from 'mdast';
-import { compact } from 'mdast-util-compact';
+import type { HugoShortcodeElement } from 'mdast-util-md-hugo-marker';
 import {
   hugoShortcodeFromMarkdown,
   hugoShortcodeToMarkdown,
 } from 'mdast-util-md-hugo-marker';
-import type {
-  HugoShortcodeArgument,
-  HugoShortcodeElement,
-} from 'mdast-util-md-hugo-marker';
 import { hugoShortcode } from 'micromark-extension-md-hugo-marker';
-import type { Plugin } from 'unified';
 import { SKIP, visit } from 'unist-util-visit';
 import { getNonSelfClosingElements } from './utils';
 
@@ -246,23 +240,21 @@ function transformNormalLink(
 export function transformHugoShortcodeLinks(tree: Root): void {
   visit(tree, (node: Node, index?: number, parent?: Parent) => {
     const hugoNode = node as any;
-    //console.log("hugoNode: ", JSON.stringify(hugoNode, null, 2));
     if (
       hugoNode.type === 'hugoShortcode-Link-Href' &&
       parent &&
       typeof index === 'number'
     ) {
-      // console.log("hugoNode: ", JSON.stringify(hugoNode, null, 2));
-
       const siblings = parent.children as unknown as Text[];
       const prevSibling = siblings[index - 1] as unknown as Text;
-      const nextSibling = siblings[index + 1] as unknown as Text;
+      const nextSibling = siblings[index + 1] as unknown as Text | undefined;
 
-      const originalNextSiblingValue = nextSibling.value;
-      const endBrackIndex = nextSibling.value?.indexOf(')') ?? -1;
+      const originalNextSiblingValue = nextSibling?.value;
+      const endBrackIndex = nextSibling?.value?.indexOf(')') ?? -1;
 
       // 检查前后邻居是否为text节点且符合特定模式
       if (
+        originalNextSiblingValue &&
         prevSibling?.type === 'text' &&
         nextSibling?.type === 'text' &&
         prevSibling.value?.endsWith('](') &&
