@@ -5,6 +5,6 @@ export {
   type Shortcode,
   type ToMarkdownOptions,
   type HugoShortcodeFromMarkdownOptions,
-  type HugoShortcodeElement
-} from './lib/index.js'
+  type HugoShortcodeElement,
+} from './lib/index.js';
 //# sourceMappingURL=index.d.ts.map

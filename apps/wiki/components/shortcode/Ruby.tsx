@@ -1,8 +1,8 @@
-import type { ShortCodeCompProps } from "./types";
+import type { ShortCodeCompProps } from './types';
 
 export default function Ruby({ attrs }: ShortCodeCompProps) {
-  const text = attrs?.[0] || "";
-  const pronunciation = attrs?.[1] || "";
+  const text = attrs?.[0] || '';
+  const pronunciation = attrs?.[1] || '';
 
   return (
     <ruby>
@@ -10,4 +10,4 @@ export default function Ruby({ attrs }: ShortCodeCompProps) {
       <rt>{pronunciation}</rt>
     </ruby>
   );
-} 
+}

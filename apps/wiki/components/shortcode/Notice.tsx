@@ -1,40 +1,40 @@
-import type { ShortCodeCompProps } from "./types";
+import type { ShortCodeCompProps } from './types';
 
 export default function Notice({ attrs, children }: ShortCodeCompProps) {
-  const type = attrs[0] || "info";
+  const type = attrs[0] || 'info';
   const title = attrs[1];
 
   // 根据类型设置不同的样式，使用DaisyUI颜色系统
   const getStyles = () => {
     switch (type) {
-      case "warning":
-        return "bg-warning/5 border-warning text-warning-content";
-      case "error":
-        return "bg-error/5 border-error text-error-content";
-      case "success":
-        return "bg-success/5 border-success text-success-content";
+      case 'warning':
+        return 'bg-warning/5 border-warning text-warning-content';
+      case 'error':
+        return 'bg-error/5 border-error text-error-content';
+      case 'success':
+        return 'bg-success/5 border-success text-success-content';
       default:
-        return "bg-info/5 border-info text-info-content";
+        return 'bg-info/5 border-info text-info-content';
     }
   };
 
   const getIconColor = () => {
     switch (type) {
-      case "warning":
-        return "text-warning";
-      case "error":
-        return "text-error";
-      case "success":
-        return "text-success";
+      case 'warning':
+        return 'text-warning';
+      case 'error':
+        return 'text-error';
+      case 'success':
+        return 'text-success';
       default:
-        return "text-info";
+        return 'text-info';
     }
   };
 
   // 获取图标，使用对应主题颜色
   const getIcon = () => {
     switch (type) {
-      case "warning":
+      case 'warning':
         return (
           <svg
             className={`w-5 h-5 flex-shrink-0 ${getIconColor()}`}
@@ -49,7 +49,7 @@ export default function Notice({ attrs, children }: ShortCodeCompProps) {
             />
           </svg>
         );
-      case "error":
+      case 'error':
         return (
           <svg
             className={`w-5 h-5 flex-shrink-0 ${getIconColor()}`}
@@ -64,7 +64,7 @@ export default function Notice({ attrs, children }: ShortCodeCompProps) {
             />
           </svg>
         );
-      case "success":
+      case 'success':
         return (
           <svg
             className={`w-5 h-5 flex-shrink-0 ${getIconColor()}`}
@@ -105,7 +105,9 @@ export default function Notice({ attrs, children }: ShortCodeCompProps) {
         {getIcon()}
         <div className="flex-1 min-w-0">
           {title && (
-            <div className={`mb-2 font-semibold text-lg flex items-center ${getIconColor()}`}>
+            <div
+              className={`mb-2 font-semibold text-lg flex items-center ${getIconColor()}`}
+            >
               {title}
             </div>
           )}

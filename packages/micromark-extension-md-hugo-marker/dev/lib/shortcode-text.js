@@ -4,7 +4,7 @@
  * @import {Construct, TokenizeContext, Tokenizer} from 'micromark-util-types'
  */
 
-import {factoryShortcode} from './factory-shortcode.js'
+import { factoryShortcode } from './factory-shortcode.js';
 
 /**
  * Parse Hugo shortcode (text).
@@ -13,7 +13,7 @@ import {factoryShortcode} from './factory-shortcode.js'
  *   Construct.
  */
 export function shortcodeText() {
-  return {name: 'hugoShortcodeText', tokenize: tokenizeShortcodeText}
+  return { name: 'hugoShortcodeText', tokenize: tokenizeShortcodeText };
 
   /**
    * Hugo shortcode (text).
@@ -47,7 +47,7 @@ export function shortcodeText() {
       'hugoShortcodeTextArgumentNamedValueUnquoted',
       'hugoShortcodeTextArgumentNamedAssignmentOperator',
       'hugoShortcodeTextContent',
-      'hugoShortcodeTextNotation'
-    )
+      'hugoShortcodeTextNotation',
+    );
   }
 }

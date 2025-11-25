@@ -15,7 +15,7 @@
  *   Name of argument.
  * @property {string} value
  *   Value of argument.
- * 
+ *
  * @typedef Shortcode
  *   Single shortcode.
  * @property {string | undefined} name
@@ -49,7 +49,7 @@
  *   arguments on separate lines when a shortcode doesn't fit on one line.
  *   The normal behavior is to print arguments with spaces between them
  *   instead of line endings.
- * 
+ *
  * @typedef HugoShortcodeFromMarkdownOptions
  *   Configuration.
  * @property {string[] | null | undefined} [noSelfClosingElements]
@@ -71,14 +71,14 @@
  *   Children of the shortcode.
  */
 
-import {ccount} from 'ccount'
-import {ok as assert} from 'devlop'
-import {parseEntities} from 'parse-entities'
-import {stringifyEntitiesLight} from 'stringify-entities'
-import {stringifyPosition} from 'unist-util-stringify-position'
-import {VFileMessage} from 'vfile-message'
+import { ccount } from 'ccount';
+import { ok as assert } from 'devlop';
+import { parseEntities } from 'parse-entities';
+import { stringifyEntitiesLight } from 'stringify-entities';
+import { stringifyPosition } from 'unist-util-stringify-position';
+import { VFileMessage } from 'vfile-message';
 
-const indent = '  '
+const indent = '  ';
 
 /**
  * Create an extension for `mdast-util-from-markdown` to enable Hugo shortcodes.
@@ -91,11 +91,13 @@ const indent = '  '
  *   `data.estree` field set to an ESTree `Program` node.
  */
 export function hugoShortcodeFromMarkdown(options) {
-  const options_ = options || {}
-  const noSelfClosingElements = options_.noSelfClosingElements || []
-  const hugoShortcodeElementOnEnterTransform = options_.hugoShortcodeElementOnEnterTransform || null
-  const hugoShortcodeElementOnExitTransform = options_.hugoShortcodeElementOnExitTransform || null
-  let inBuffer = false
+  const options_ = options || {};
+  const noSelfClosingElements = options_.noSelfClosingElements || [];
+  const hugoShortcodeElementOnEnterTransform =
+    options_.hugoShortcodeElementOnEnterTransform || null;
+  const hugoShortcodeElementOnExitTransform =
+    options_.hugoShortcodeElementOnExitTransform || null;
+  let inBuffer = false;
   /**
    * @this {CompileContext}
    * @type {FromMarkdownHandle}
@@ -105,9 +107,9 @@ export function hugoShortcodeFromMarkdown(options) {
       // throw new Error('Nested buffer calls are not allowed')
       return;
     }
-    inBuffer = true
+    inBuffer = true;
     // console.log('buffer', this.sliceSerialize(token))
-    this.buffer()
+    this.buffer();
   }
 
   function thisresume() {
@@ -115,10 +117,10 @@ export function hugoShortcodeFromMarkdown(options) {
       // throw new Error('resume() called without matching buffer()')
       return;
     }
-    inBuffer = false
+    inBuffer = false;
     // console.log('resume', this.sliceSerialize(token))
-    this.resume()
-  } 
+    this.resume();
+  }
   return {
     canContainEols: ['hugoShortcodeFlowElement'],
     enter: {
@@ -148,7 +150,7 @@ export function hugoShortcodeFromMarkdown(options) {
       // hugoShortcodeTextArgumentNamedValueQuotedValue: buffer,
       // hugoShortcodeTextArgumentNamedValueUnquoted: buffer,
       hugoShortcodeTextSelfClosingMarker: enterHugoShortcodeSelfClosingMarker,
-      hugoShortcodeTextContent: thisbuffer
+      hugoShortcodeTextContent: thisbuffer,
     },
     exit: {
       hugoShortcodeFlowClosingMarker: exitHugoShortcodeClosingMarker,
@@ -177,9 +179,9 @@ export function hugoShortcodeFromMarkdown(options) {
         exitHugoShortcodeArgumentNamedValueUnquoted,
       hugoShortcodeTextSelfClosingMarker: exitHugoShortcodeSelfClosingMarker,
       hugoShortcodeTextContent: exitHugoShortcodeContent,
-      hugoShortcodeText: exitHugoShortcode
-    }
-  }
+      hugoShortcodeText: exitHugoShortcode,
+    },
+  };
 
   /**
    * Copy a point-like value.
@@ -190,7 +192,7 @@ export function hugoShortcodeFromMarkdown(options) {
    *   unist point.
    */
   function point(d) {
-    return {line: d.line, column: d.column, offset: d.offset}
+    return { line: d.line, column: d.column, offset: d.offset };
   }
 
   /**
@@ -198,8 +200,8 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {FromMarkdownHandle}
    */
   function data(token) {
-    this.config.enter.data.call(this, token)
-    this.config.exit.data.call(this, token)
+    this.config.enter.data.call(this, token);
+    this.config.exit.data.call(this, token);
   }
 
   /**
@@ -215,10 +217,10 @@ export function hugoShortcodeFromMarkdown(options) {
       selfClosing: false,
       notation: 'standard',
       start: token.start,
-      end: token.end
-    }
-    if (!this.data.hugoShortcodeStack) this.data.hugoShortcodeStack = []
-    this.data.hugoShortcode = shortcode
+      end: token.end,
+    };
+    if (!this.data.hugoShortcodeStack) this.data.hugoShortcodeStack = [];
+    this.data.hugoShortcode = shortcode;
     //buffer.call(this)
   }
 
@@ -235,15 +237,15 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {FromMarkdownHandle}
    */
   function enterHugoShortcodeClosingMarker(token) {
-    const stack = this.data.hugoShortcodeStack
-    assert(stack, 'expected `hugoShortcodeStack`')
+    const stack = this.data.hugoShortcodeStack;
+    assert(stack, 'expected `hugoShortcodeStack`');
 
     if (stack.length === 0) {
       throw new VFileMessage(
         'Unexpected closing slash `/` in shortcode, expected an open shortcode first',
-        {start: token.start, end: token.end},
-        'mdast-util-hugo-shortcode:unexpected-closing-slash'
-      )
+        { start: token.start, end: token.end },
+        'mdast-util-hugo-shortcode:unexpected-closing-slash',
+      );
     }
   }
 
@@ -270,15 +272,15 @@ export function hugoShortcodeFromMarkdown(options) {
   function enterHugoShortcodeArgument(token) {
     // console.log('enterHugoShortcodeArgument', this.sliceSerialize(token))
 
-    const shortcode = this.data.hugoShortcode
-    assert(shortcode, 'expected `hugoShortcode`')
+    const shortcode = this.data.hugoShortcode;
+    assert(shortcode, 'expected `hugoShortcode`');
 
     if (shortcode.close) {
       throw new VFileMessage(
         'Unexpected argument in closing shortcode, expected the end of the shortcode',
-        {start: token.start, end: token.end},
-        'mdast-util-hugo-shortcode:unexpected-argument'
-      )
+        { start: token.start, end: token.end },
+        'mdast-util-hugo-shortcode:unexpected-argument',
+      );
     }
 
     shortcode.arguments.push({
@@ -287,9 +289,9 @@ export function hugoShortcodeFromMarkdown(options) {
       value: undefined,
       position: {
         start: point(token.start),
-        end: point(token.start)
-      }
-    })
+        end: point(token.start),
+      },
+    });
   }
 
   /**
@@ -297,15 +299,15 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {FromMarkdownHandle}
    */
   function enterHugoShortcodeSelfClosingMarker(token) {
-    const shortcode = this.data.hugoShortcode
-    assert(shortcode, 'expected `hugoShortcode`')
+    const shortcode = this.data.hugoShortcode;
+    assert(shortcode, 'expected `hugoShortcode`');
 
     if (shortcode.close) {
       throw new VFileMessage(
         'Unexpected self-closing slash `/` in closing shortcode, expected the end of the shortcode',
-        {start: token.start, end: token.end},
-        'mdast-util-hugo-shortcode:unexpected-self-closing-slash'
-      )
+        { start: token.start, end: token.end },
+        'mdast-util-hugo-shortcode:unexpected-self-closing-slash',
+      );
     }
   }
 
@@ -314,9 +316,9 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {FromMarkdownHandle}
    */
   function exitHugoShortcodeClosingMarker() {
-    const shortcode = this.data.hugoShortcode
-    assert(shortcode, 'expected `hugoShortcode`')
-    shortcode.close = true
+    const shortcode = this.data.hugoShortcode;
+    assert(shortcode, 'expected `hugoShortcode`');
+    shortcode.close = true;
   }
 
   /**
@@ -324,10 +326,10 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {FromMarkdownHandle}
    */
   function exitHugoShortcodeNotation(token) {
-    const shortcode = this.data.hugoShortcode
-    assert(shortcode, 'expected `hugoShortcode`')
-    const notation = this.sliceSerialize(token)
-    shortcode.notation = notation === '%' ? 'markdown' : 'standard'
+    const shortcode = this.data.hugoShortcode;
+    assert(shortcode, 'expected `hugoShortcode`');
+    const notation = this.sliceSerialize(token);
+    shortcode.notation = notation === '%' ? 'markdown' : 'standard';
   }
 
   /**
@@ -335,9 +337,9 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {FromMarkdownHandle}
    */
   function exitHugoShortcodeName(token) {
-    const shortcode = this.data.hugoShortcode
-    assert(shortcode, 'expected `hugoShortcode`')
-    shortcode.name = this.sliceSerialize(token)
+    const shortcode = this.data.hugoShortcode;
+    assert(shortcode, 'expected `hugoShortcode`');
+    shortcode.name = this.sliceSerialize(token);
   }
 
   /**
@@ -345,18 +347,18 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {FromMarkdownHandle}
    */
   function exitHugoShortcodeArgument(token) {
-    const shortcode = this.data.hugoShortcode
-    assert(shortcode, 'expected `hugoShortcode`')
-    const tail = shortcode.arguments[shortcode.arguments.length - 1]
-    assert(tail.type === 'hugoShortcodeArgument')
+    const shortcode = this.data.hugoShortcode;
+    assert(shortcode, 'expected `hugoShortcode`');
+    const tail = shortcode.arguments[shortcode.arguments.length - 1];
+    assert(tail.type === 'hugoShortcodeArgument');
 
-    assert(tail.position !== undefined)
-    tail.position.end = point(token.end)
+    assert(tail.position !== undefined);
+    tail.position.end = point(token.end);
 
     if (tail.name === '' || tail.name === undefined) {
-      tail.type = 'hugoShortcodeArgumentPositional'
+      tail.type = 'hugoShortcodeArgumentPositional';
     } else {
-      tail.type = 'hugoShortcodeArgumentNamed'
+      tail.type = 'hugoShortcodeArgumentNamed';
     }
   }
 
@@ -365,18 +367,18 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {FromMarkdownHandle}
    */
   function exitHugoShortcodeArgumentNamedKey(token) {
-    const shortcode = this.data.hugoShortcode
-    assert(shortcode, 'expected `hugoShortcode`')
-    const node = shortcode.arguments[shortcode.arguments.length - 1]
+    const shortcode = this.data.hugoShortcode;
+    assert(shortcode, 'expected `hugoShortcode`');
+    const node = shortcode.arguments[shortcode.arguments.length - 1];
     assert(
       node && node.type === 'hugoShortcodeArgument',
-      'expected hugoShortcodeArgument'
-    )
+      'expected hugoShortcodeArgument',
+    );
     // console.log('exitHugoShortcodeArgumentNamedKey', this.sliceSerialize(token))
-    node.name = this.sliceSerialize(token)
+    node.name = this.sliceSerialize(token);
 
     // Resume buffer to balance the buffer() call in enter
-    thisresume.call(this)
+    thisresume.call(this);
   }
 
   /**
@@ -384,14 +386,14 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {FromMarkdownHandle}
    */
   function exitHugoShortcodeArgumentNamedValueQuotedValue(token) {
-    const shortcode = this.data.hugoShortcode
-    assert(shortcode, 'expected `hugoShortcode`')
-    const node = shortcode.arguments[shortcode.arguments.length - 1]
-    assert(node.type === 'hugoShortcodeArgument')
-    node.value = this.sliceSerialize(token)
+    const shortcode = this.data.hugoShortcode;
+    assert(shortcode, 'expected `hugoShortcode`');
+    const node = shortcode.arguments[shortcode.arguments.length - 1];
+    assert(node.type === 'hugoShortcodeArgument');
+    node.value = this.sliceSerialize(token);
 
     // Resume buffer to balance the buffer() call in enter
-    thisresume.call(this)
+    thisresume.call(this);
   }
 
   /**
@@ -399,14 +401,14 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {FromMarkdownHandle}
    */
   function exitHugoShortcodeArgumentNamedValueUnquoted(token) {
-    const shortcode = this.data.hugoShortcode
-    assert(shortcode, 'expected `hugoShortcode`')
-    const node = shortcode.arguments[shortcode.arguments.length - 1]
-    assert(node.type === 'hugoShortcodeArgument')
-    node.value = this.sliceSerialize(token)
+    const shortcode = this.data.hugoShortcode;
+    assert(shortcode, 'expected `hugoShortcode`');
+    const node = shortcode.arguments[shortcode.arguments.length - 1];
+    assert(node.type === 'hugoShortcodeArgument');
+    node.value = this.sliceSerialize(token);
 
     // Resume buffer to balance the buffer() call in enter
-    thisresume.call(this)
+    thisresume.call(this);
   }
 
   /**
@@ -414,9 +416,9 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {FromMarkdownHandle}
    */
   function exitHugoShortcodeSelfClosingMarker() {
-    const shortcode = this.data.hugoShortcode
-    assert(shortcode, 'expected `hugoShortcode`')
-    shortcode.selfClosing = true
+    const shortcode = this.data.hugoShortcode;
+    assert(shortcode, 'expected `hugoShortcode`');
+    shortcode.selfClosing = true;
   }
 
   /**
@@ -424,8 +426,8 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {FromMarkdownHandle}
    */
   function exitHugoShortcodeContent(token) {
-    const shortcode = this.data.hugoShortcode
-    assert(shortcode, 'expected `hugoShortcode`')
+    const shortcode = this.data.hugoShortcode;
+    assert(shortcode, 'expected `hugoShortcode`');
     // Content is handled by the children
 
     // Resume buffer to balance the buffer() call in enter
@@ -437,27 +439,27 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {FromMarkdownHandle}
    */
   function exitHugoShortcode(token) {
-    const shortcode = this.data.hugoShortcode
-    assert(shortcode, 'expected `hugoShortcode`')
-    const stack = this.data.hugoShortcodeStack
-    assert(stack, 'expected `hugoShortcodeStack`')
-    const tail = stack[stack.length - 1]
+    const shortcode = this.data.hugoShortcode;
+    assert(shortcode, 'expected `hugoShortcode`');
+    const stack = this.data.hugoShortcodeStack;
+    assert(stack, 'expected `hugoShortcodeStack`');
+    const tail = stack[stack.length - 1];
 
     if (shortcode.close && tail && tail.name !== shortcode.name) {
       throw new VFileMessage(
         `Unexpected closing shortcode \`${serializeAbbreviatedShortcode(shortcode)}\`, expected corresponding closing shortcode for \`${serializeAbbreviatedShortcode(tail)}\` (${stringifyPosition(tail)})`,
-        {start: token.start, end: token.end},
-        'mdast-util-hugo-shortcode:end-shortcode-mismatch'
-      )
+        { start: token.start, end: token.end },
+        'mdast-util-hugo-shortcode:end-shortcode-mismatch',
+      );
     }
 
     // End of a shortcode, so drop the buffer.
     // resume.call(this)
 
     if (shortcode.close) {
-      const node = stack.pop()
-      if(hugoShortcodeElementOnExitTransform)
-        hugoShortcodeElementOnExitTransform(node)
+      const node = stack.pop();
+      if (hugoShortcodeElementOnExitTransform)
+        hugoShortcodeElementOnExitTransform(node);
     } else {
       // console.log('exitHugoShortcode', JSON.stringify(shortcode, null, 2))
 
@@ -471,13 +473,15 @@ export function hugoShortcodeFromMarkdown(options) {
         name: shortcode.name || null,
         arguments: shortcode.arguments,
         notation: shortcode.notation,
-        children: []
-      }
+        children: [],
+      };
       this.enter(
-        hugoShortcodeElementOnEnterTransform ? hugoShortcodeElementOnEnterTransform(node) : node,
+        hugoShortcodeElementOnEnterTransform
+          ? hugoShortcodeElementOnEnterTransform(node)
+          : node,
         token,
-        onErrorRightIsShortcode
-      )
+        onErrorRightIsShortcode,
+      );
     }
 
     if (
@@ -485,9 +489,9 @@ export function hugoShortcodeFromMarkdown(options) {
       shortcode.close ||
       noSelfClosingElements.includes(shortcode.name)
     ) {
-      this.exit(token, onErrorLeftIsShortcode)
+      this.exit(token, onErrorLeftIsShortcode);
     } else {
-      stack.push(shortcode)
+      stack.push(shortcode);
     }
   }
 
@@ -496,20 +500,20 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {OnEnterError}
    */
   function onErrorRightIsShortcode(closing, open) {
-    const stack = this.data.hugoShortcodeStack
-    assert(stack, 'expected `hugoShortcodeStack`')
-    const shortcode = stack[stack.length - 1]
-    assert(shortcode, 'expected `hugoShortcode`')
-    const place = closing ? ` before the end of \`${closing.type}\`` : ''
+    const stack = this.data.hugoShortcodeStack;
+    assert(stack, 'expected `hugoShortcodeStack`');
+    const shortcode = stack[stack.length - 1];
+    assert(shortcode, 'expected `hugoShortcode`');
+    const place = closing ? ` before the end of \`${closing.type}\`` : '';
     const position = closing
-      ? {start: closing.start, end: closing.end}
-      : undefined
+      ? { start: closing.start, end: closing.end }
+      : undefined;
 
     throw new VFileMessage(
-      `Expected a closing shortcode for \`${serializeAbbreviatedShortcode(shortcode)}\` (${stringifyPosition({start: open.start, end: open.end})})${place}`,
+      `Expected a closing shortcode for \`${serializeAbbreviatedShortcode(shortcode)}\` (${stringifyPosition({ start: open.start, end: open.end })})${place}`,
       position,
-      'mdast-util-hugo-shortcode:end-shortcode-mismatch'
-    )
+      'mdast-util-hugo-shortcode:end-shortcode-mismatch',
+    );
   }
 
   /**
@@ -517,14 +521,14 @@ export function hugoShortcodeFromMarkdown(options) {
    * @type {OnExitError}
    */
   function onErrorLeftIsShortcode(a, b) {
-    const shortcode = this.data.hugoShortcode
-    assert(shortcode, 'expected `hugoShortcode`')
+    const shortcode = this.data.hugoShortcode;
+    assert(shortcode, 'expected `hugoShortcode`');
 
     throw new VFileMessage(
       `Expected the closing shortcode \`${serializeAbbreviatedShortcode(shortcode)}\` either after the end of \`${b.type}\` (${stringifyPosition(b.end)}) or another opening shortcode after the start of \`${b.type}\` (${stringifyPosition(b.start)})`,
-      {start: a.start, end: a.end},
-      'mdast-util-hugo-shortcode:end-shortcode-mismatch'
-    )
+      { start: a.start, end: a.end },
+      'mdast-util-hugo-shortcode:end-shortcode-mismatch',
+    );
   }
 
   /**
@@ -535,9 +539,9 @@ export function hugoShortcodeFromMarkdown(options) {
    * @returns {string}
    */
   function serializeAbbreviatedShortcode(shortcode) {
-    const notation = shortcode.notation === 'markdown' ? '%' : '<'
-    const closingNotation = shortcode.notation === 'markdown' ? '%' : '>'
-    return `{{${notation}${shortcode.close ? '/' : ''}${shortcode.name || ''}${closingNotation}}}`
+    const notation = shortcode.notation === 'markdown' ? '%' : '<';
+    const closingNotation = shortcode.notation === 'markdown' ? '%' : '>';
+    return `{{${notation}${shortcode.close ? '/' : ''}${shortcode.name || ''}${closingNotation}}}`;
   }
 }
 
@@ -554,35 +558,35 @@ export function hugoShortcodeFromMarkdown(options) {
  *   Extension for `mdast-util-to-markdown` to enable Hugo shortcodes.
  */
 export function hugoShortcodeToMarkdown(options) {
-  const options_ = options || {}
-  const quote = options_.quote || '"'
-  const quoteSmart = options_.quoteSmart || false
-  const tightSelfClosing = options_.tightSelfClosing || false
-  const printWidth = options_.printWidth || Number.POSITIVE_INFINITY
-  const alternative = quote === '"' ? "'" : '"'
+  const options_ = options || {};
+  const quote = options_.quote || '"';
+  const quoteSmart = options_.quoteSmart || false;
+  const tightSelfClosing = options_.tightSelfClosing || false;
+  const printWidth = options_.printWidth || Number.POSITIVE_INFINITY;
+  const alternative = quote === '"' ? "'" : '"';
 
   if (quote !== '"' && quote !== "'") {
     throw new Error(
-      `Cannot serialize argument values with \`${quote}\` for \`options.quote\`, expected \`"\`, or \`'\``
-    )
+      `Cannot serialize argument values with \`${quote}\` for \`options.quote\`, expected \`"\`, or \`'\``,
+    );
   }
 
-  hugoShortcodeElement.peek = peekElement
+  hugoShortcodeElement.peek = peekElement;
 
   return {
     handlers: {
       hugoShortcodeFlowElement: hugoShortcodeElement,
-      hugoShortcodeTextElement: hugoShortcodeElement
+      hugoShortcodeTextElement: hugoShortcodeElement,
     },
     unsafe: [
-      {character: '{', inConstruct: ['phrasing']},
-      {atBreak: true, character: '{'}
+      { character: '{', inConstruct: ['phrasing'] },
+      { atBreak: true, character: '{' },
     ],
     // Always generate fenced code (never indented code).
     fences: true,
     // Always generate links with resources (never autolinks).
-    resourceLink: true
-  }
+    resourceLink: true,
+  };
 
   /**
    * @type {ToMarkdownHandle}
@@ -590,47 +594,47 @@ export function hugoShortcodeToMarkdown(options) {
    */
   // eslint-disable-next-line complexity
   function hugoShortcodeElement(node, _, state, info) {
-    const flow = node.type === 'hugoShortcodeFlowElement'
+    const flow = node.type === 'hugoShortcodeFlowElement';
     const selfClosing = node.name
       ? !node.children || node.children.length === 0
-      : false
-    const depth = inferDepth(state)
-    const currentIndent = createIndent(depth)
-    const trackerOneLine = state.createTracker(info)
-    const trackerMultiLine = state.createTracker(info)
+      : false;
+    const depth = inferDepth(state);
+    const currentIndent = createIndent(depth);
+    const trackerOneLine = state.createTracker(info);
+    const trackerMultiLine = state.createTracker(info);
     /** @type {Array<string>} */
-    const serializedArguments = []
-    const notation = node.notation === 'markdown' ? '%' : '<'
-    const closingNotation = node.notation === 'markdown' ? '%' : '>'
-    const prefix = `${flow ? currentIndent : ''}{{${notation}${node.name || ''}`
-    const exit = state.enter(node.type)
+    const serializedArguments = [];
+    const notation = node.notation === 'markdown' ? '%' : '<';
+    const closingNotation = node.notation === 'markdown' ? '%' : '>';
+    const prefix = `${flow ? currentIndent : ''}{{${notation}${node.name || ''}`;
+    const exit = state.enter(node.type);
 
-    trackerOneLine.move(prefix)
-    trackerMultiLine.move(prefix)
+    trackerOneLine.move(prefix);
+    trackerMultiLine.move(prefix);
 
     // None.
     if (node.arguments && node.arguments.length > 0) {
       if (!node.name) {
-        throw new Error('Cannot serialize fragment w/ arguments')
+        throw new Error('Cannot serialize fragment w/ arguments');
       }
 
-      let index = -1
+      let index = -1;
       while (++index < node.arguments.length) {
-        const argument = node.arguments[index]
+        const argument = node.arguments[index];
         /** @type {string} */
-        let result
+        let result;
 
         if (argument.type === 'hugoShortcodeArgumentPositional') {
-          result = argument.value || ''
+          result = argument.value || '';
         } else {
           if (!argument.name) {
-            throw new Error('Cannot serialize argument w/o name')
+            throw new Error('Cannot serialize argument w/o name');
           }
 
-          const value = argument.value
-          const left = argument.name
+          const value = argument.value;
+          const left = argument.name;
           /** @type {string} */
-          let right = ''
+          let right = '';
 
           if (value === null || value === undefined) {
             // Empty.
@@ -639,22 +643,22 @@ export function hugoShortcodeToMarkdown(options) {
             const appliedQuote =
               quoteSmart && ccount(value, quote) > ccount(value, alternative)
                 ? alternative
-                : quote
+                : quote;
             right =
               appliedQuote +
-              stringifyEntitiesLight(value, {subset: [appliedQuote]}) +
-              appliedQuote
+              stringifyEntitiesLight(value, { subset: [appliedQuote] }) +
+              appliedQuote;
           }
 
-          result = left + (right ? '=' : '') + right
+          result = left + (right ? '=' : '') + right;
         }
 
-        serializedArguments.push(result)
+        serializedArguments.push(result);
       }
     }
 
-    let argumentsOnTheirOwnLine = false
-    const argumentsOnOneLine = serializedArguments.join(' ')
+    let argumentsOnTheirOwnLine = false;
+    const argumentsOnOneLine = serializedArguments.join(' ');
 
     if (
       // Block:
@@ -670,38 +674,38 @@ export function hugoShortcodeToMarkdown(options) {
           (selfClosing ? (tightSelfClosing ? 2 : 3) : 1) >
           printWidth)
     ) {
-      argumentsOnTheirOwnLine = true
+      argumentsOnTheirOwnLine = true;
     }
 
-    let tracker = trackerOneLine
-    let value = prefix
+    let tracker = trackerOneLine;
+    let value = prefix;
 
     if (argumentsOnTheirOwnLine) {
-      tracker = trackerMultiLine
+      tracker = trackerMultiLine;
 
-      let index = -1
+      let index = -1;
 
       while (++index < serializedArguments.length) {
         // Only indent first line of of arguments, we can't indent argument
         // values.
         serializedArguments[index] =
-          currentIndent + indent + serializedArguments[index]
+          currentIndent + indent + serializedArguments[index];
       }
 
       value += tracker.move(
-        `\n${serializedArguments.join('\n')}\n${currentIndent}`
-      )
+        `\n${serializedArguments.join('\n')}\n${currentIndent}`,
+      );
     } else if (argumentsOnOneLine) {
-      value += tracker.move(` ${argumentsOnOneLine}`)
+      value += tracker.move(` ${argumentsOnOneLine}`);
     }
 
     if (selfClosing) {
       value += tracker.move(
-        `${tightSelfClosing || argumentsOnTheirOwnLine ? '' : ' '}/`
-      )
+        `${tightSelfClosing || argumentsOnTheirOwnLine ? '' : ' '}/`,
+      );
     }
 
-    value += tracker.move(`${closingNotation}}}`)
+    value += tracker.move(`${closingNotation}}}`);
 
     if (node.children && node.children.length > 0) {
       if (node.type === 'hugoShortcodeTextElement') {
@@ -709,25 +713,25 @@ export function hugoShortcodeToMarkdown(options) {
           state.containerPhrasing(node, {
             ...tracker.current(),
             before: '}',
-            after: '{'
-          })
-        )
+            after: '{',
+          }),
+        );
       } else {
-        tracker.shift(2)
-        value += tracker.move('\n')
-        value += tracker.move(containerFlow(node, state, tracker.current()))
-        value += tracker.move('\n')
+        tracker.shift(2);
+        value += tracker.move('\n');
+        value += tracker.move(containerFlow(node, state, tracker.current()));
+        value += tracker.move('\n');
       }
     }
 
     if (!selfClosing) {
       value += tracker.move(
-        `${flow ? currentIndent : ''}{{${notation}/${node.name || ''}${closingNotation}}}`
-      )
+        `${flow ? currentIndent : ''}{{${notation}/${node.name || ''}${closingNotation}}}`,
+      );
     }
 
-    exit()
-    return value
+    exit();
+    return value;
   }
 }
 
@@ -748,46 +752,46 @@ export function hugoShortcodeToMarkdown(options) {
  *   Serialized children, joined by (blank) lines.
  */
 function containerFlow(parent, state, info) {
-  const indexStack = state.indexStack
-  const children = parent.children
-  const tracker = state.createTracker(info)
-  const currentIndent = createIndent(inferDepth(state))
+  const indexStack = state.indexStack;
+  const children = parent.children;
+  const tracker = state.createTracker(info);
+  const currentIndent = createIndent(inferDepth(state));
   /** @type {Array<string>} */
-  const results = []
-  let index = -1
+  const results = [];
+  let index = -1;
 
-  indexStack.push(-1)
+  indexStack.push(-1);
 
   while (++index < children.length) {
-    const child = children[index]
+    const child = children[index];
 
-    indexStack[indexStack.length - 1] = index
+    indexStack[indexStack.length - 1] = index;
 
-    const childInfo = {before: '\n', after: '\n', ...tracker.current()}
+    const childInfo = { before: '\n', after: '\n', ...tracker.current() };
 
-    const result = state.handle(child, parent, state, childInfo)
+    const result = state.handle(child, parent, state, childInfo);
 
     const serializedChild =
       child.type === 'hugoShortcodeFlowElement'
         ? result
         : state.indentLines(result, (line, _, blank) => {
-            return (blank ? '' : currentIndent) + line
-          })
+            return (blank ? '' : currentIndent) + line;
+          });
 
-    results.push(tracker.move(serializedChild))
+    results.push(tracker.move(serializedChild));
 
     if (child.type !== 'list') {
-      state.bulletLastUsed = undefined
+      state.bulletLastUsed = undefined;
     }
 
     if (index < children.length - 1) {
-      results.push(tracker.move('\n\n'))
+      results.push(tracker.move('\n\n'));
     }
   }
 
-  indexStack.pop()
+  indexStack.pop();
 
-  return results.join('')
+  return results.join('');
 }
 
 /**
@@ -795,17 +799,17 @@ function containerFlow(parent, state, info) {
  * @returns {number}
  */
 function inferDepth(state) {
-  let depth = 0
-  let index = state.stack.length
+  let depth = 0;
+  let index = state.stack.length;
 
   while (--index > -1) {
-    const name = state.stack[index]
+    const name = state.stack[index];
 
-    if (name === 'blockquote' || name === 'listItem') break
-    if (name === 'hugoShortcodeFlowElement') depth++
+    if (name === 'blockquote' || name === 'listItem') break;
+    if (name === 'hugoShortcodeFlowElement') depth++;
   }
 
-  return depth
+  return depth;
 }
 
 /**
@@ -813,14 +817,14 @@ function inferDepth(state) {
  * @returns {string}
  */
 function createIndent(depth) {
-  return indent.repeat(depth)
+  return indent.repeat(depth);
 }
 
 /**
  * @type {ToMarkdownHandle}
  */
 function peekElement() {
-  return '{'
+  return '{';
 }
 
 /**
@@ -834,68 +838,68 @@ function peekElement() {
  */
 export async function parseMarkdownWithLenientShortcodes(
   markdown,
-  options = {}
+  options = {},
 ) {
   try {
     // Try normal parsing first
-    const {fromMarkdown} = await import('mdast-util-from-markdown')
+    const { fromMarkdown } = await import('mdast-util-from-markdown');
     return fromMarkdown(markdown, {
       ...options,
       mdastExtensions: [
         hugoShortcodeFromMarkdown(),
-        ...(options.mdastExtensions || [])
-      ]
-    })
+        ...(options.mdastExtensions || []),
+      ],
+    });
   } catch (error) {
     // If parsing failed due to unclosed shortcodes, try to fix them
     if (error.message?.includes('Expected a closing shortcode')) {
       // Extract shortcode name from error message
       const match = error.message.match(
-        /Expected a closing shortcode for `\{\{[<%]([^}]*)[>%]\}\}`/
-      )
+        /Expected a closing shortcode for `\{\{[<%]([^}]*)[>%]\}\}`/,
+      );
       if (match) {
         // Try to make unclosed shortcodes self-closing
-        let fixedMarkdown = markdown
+        let fixedMarkdown = markdown;
 
         // Simple regex to find unclosed shortcodes and make them self-closing
         // This is a basic implementation - a more sophisticated version would parse properly
-        const shortcodePattern = /\{\{([<%])\s*([^}]*?)\s*([>%])\}\}/g
+        const shortcodePattern = /\{\{([<%])\s*([^}]*?)\s*([>%])\}\}/g;
         fixedMarkdown = fixedMarkdown.replace(
           shortcodePattern,
           (match, opener, content, closer) => {
             // If this shortcode doesn't have a corresponding closing tag, make it self-closing
-            const name = content.split(/\s+/)[0]
+            const name = content.split(/\s+/)[0];
             if (name) {
               const closingPattern = new RegExp(
-                `\\{\\{${opener}\\s*/\\s*${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*${closer}\\}\\}`
-              )
+                `\\{\\{${opener}\\s*/\\s*${name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\s*${closer}\\}\\}`,
+              );
               if (!closingPattern.test(markdown)) {
                 // Make it self-closing
-                return `{{${opener} ${content} /${closer}}}`
+                return `{{${opener} ${content} /${closer}}}`;
               }
             }
-            return match
-          }
-        )
+            return match;
+          },
+        );
 
         // Try parsing again with fixed markdown
         try {
-          const {fromMarkdown} = await import('mdast-util-from-markdown')
+          const { fromMarkdown } = await import('mdast-util-from-markdown');
           return fromMarkdown(fixedMarkdown, {
             ...options,
             mdastExtensions: [
               hugoShortcodeFromMarkdown(),
-              ...(options.mdastExtensions || [])
-            ]
-          })
+              ...(options.mdastExtensions || []),
+            ],
+          });
         } catch (secondError) {
           // If it still fails, throw the original error
-          throw error
+          throw error;
         }
       }
     }
 
     // If it's not a shortcode error or we couldn't fix it, rethrow
-    throw error
+    throw error;
   }
 }

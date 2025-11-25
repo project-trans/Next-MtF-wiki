@@ -38,12 +38,7 @@
   "exports": {
     "default": "./index.js"
   },
-  "files": [
-    "dev/",
-    "index.d.ts",
-    "index.js",
-    "lib/"
-  ],
+  "files": ["dev/", "index.d.ts", "index.js", "lib/"],
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/unified"
@@ -70,10 +65,7 @@
     "plugins": [
       "remark-preset-wooorm",
       "./script/grammar.js",
-      [
-        "remark-lint-fenced-code-flag",
-        false
-      ]
+      ["remark-lint-fenced-code-flag", false]
     ]
   },
   "scripts": {
@@ -96,9 +88,7 @@
   "xo": {
     "overrides": [
       {
-        "files": [
-          "**/*.d.ts"
-        ],
+        "files": ["**/*.d.ts"],
         "rules": {
           "@typescript-eslint/array-type": [
             "error",

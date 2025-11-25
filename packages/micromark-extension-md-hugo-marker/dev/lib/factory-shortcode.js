@@ -3,16 +3,16 @@
  * @import {Code, Effects, State, TokenType, TokenizeContext} from 'micromark-util-types'
  */
 
-import {ok as assert} from 'devlop'
+import { ok as assert } from 'devlop';
 import {
-  markdownLineEndingOrSpace,
   markdownLineEnding,
-  markdownSpace
-} from 'micromark-util-character'
-import {codes, types} from 'micromark-util-symbol'
-import {VFileMessage} from 'vfile-message'
+  markdownLineEndingOrSpace,
+  markdownSpace,
+} from 'micromark-util-character';
+import { codes, types } from 'micromark-util-symbol';
+import { VFileMessage } from 'vfile-message';
 
-const trouble = 'https://gohugo.io/content-management/shortcodes/'
+const trouble = 'https://gohugo.io/content-management/shortcodes/';
 
 /**
  * @this {TokenizeContext}
@@ -56,18 +56,18 @@ export function factoryShortcode(
   argumentNamedValueUnquotedType,
   argumentNamedAssignmentOperatorType,
   contentType,
-  notationType
+  notationType,
 ) {
   /** @type {State} */
-  let returnState
+  let returnState;
   /** @type {'standard' | 'markdown'} */
-  let notation
+  let notation;
   /** @type {NonNullable<Code> | undefined} */
-  let marker
+  let marker;
   /** @type {string | undefined} */
-  let shortcodeName
+  let shortcodeName;
 
-  return start
+  return start;
 
   /**
    * Start of Hugo shortcode.
@@ -80,11 +80,11 @@ export function factoryShortcode(
    * @type {State}
    */
   function start(code) {
-    assert(code === codes.leftCurlyBrace, 'expected `{`')
-    effects.enter(shortcodeType)
-    effects.enter(markerType)
-    effects.consume(code)
-    return afterFirstBrace
+    assert(code === codes.leftCurlyBrace, 'expected `{`');
+    effects.enter(shortcodeType);
+    effects.enter(markerType);
+    effects.consume(code);
+    return afterFirstBrace;
   }
 
   /**
@@ -99,10 +99,10 @@ export function factoryShortcode(
    */
   function afterFirstBrace(code) {
     if (code === codes.leftCurlyBrace) {
-      effects.consume(code)
-      return afterSecondBrace
+      effects.consume(code);
+      return afterSecondBrace;
     }
-    return nok(code)
+    return nok(code);
   }
 
   /**
@@ -117,24 +117,24 @@ export function factoryShortcode(
    */
   function afterSecondBrace(code) {
     if (code === codes.lessThan) {
-      notation = 'standard'
-      effects.exit(markerType)
-      effects.enter(notationType)
-      effects.consume(code)
-      effects.exit(notationType)
-      return beforeName
-    }
-    
-    if (code === codes.percentSign) {
-      notation = 'markdown'
-      effects.exit(markerType)
-      effects.enter(notationType)
-      effects.consume(code)
-      effects.exit(notationType)
-      return beforeName
+      notation = 'standard';
+      effects.exit(markerType);
+      effects.enter(notationType);
+      effects.consume(code);
+      effects.exit(notationType);
+      return beforeName;
     }
 
-    return nok(code)
+    if (code === codes.percentSign) {
+      notation = 'markdown';
+      effects.exit(markerType);
+      effects.enter(notationType);
+      effects.consume(code);
+      effects.exit(notationType);
+      return beforeName;
+    }
+
+    return nok(code);
   }
 
   /**
@@ -149,18 +149,18 @@ export function factoryShortcode(
    */
   function beforeName(code) {
     if (markdownSpace(code)) {
-      effects.enter(types.whitespace)
-      return beforeNameSpace(code)
+      effects.enter(types.whitespace);
+      return beforeNameSpace(code);
     }
 
     if (code === codes.slash) {
-      effects.enter(closingMarkerType)
-      effects.consume(code)
-      effects.exit(closingMarkerType)
-      return beforeClosingName
+      effects.enter(closingMarkerType);
+      effects.consume(code);
+      effects.exit(closingMarkerType);
+      return beforeClosingName;
     }
 
-    return name(code)
+    return name(code);
   }
 
   /**
@@ -175,11 +175,11 @@ export function factoryShortcode(
    */
   function beforeNameSpace(code) {
     if (markdownSpace(code)) {
-      effects.consume(code)
-      return beforeNameSpace
+      effects.consume(code);
+      return beforeNameSpace;
     }
-    effects.exit(types.whitespace)
-    return beforeName(code)
+    effects.exit(types.whitespace);
+    return beforeName(code);
   }
 
   /**
@@ -194,10 +194,10 @@ export function factoryShortcode(
    */
   function beforeClosingName(code) {
     if (markdownSpace(code)) {
-      effects.enter(types.whitespace)
-      return beforeClosingNameSpace(code)
+      effects.enter(types.whitespace);
+      return beforeClosingNameSpace(code);
     }
-    return name(code)
+    return name(code);
   }
 
   /**
@@ -212,11 +212,11 @@ export function factoryShortcode(
    */
   function beforeClosingNameSpace(code) {
     if (markdownSpace(code)) {
-      effects.consume(code)
-      return beforeClosingNameSpace
+      effects.consume(code);
+      return beforeClosingNameSpace;
     }
-    effects.exit(types.whitespace)
-    return name(code)
+    effects.exit(types.whitespace);
+    return name(code);
   }
 
   /**
@@ -232,19 +232,19 @@ export function factoryShortcode(
   function name(code) {
     if (code !== codes.eof && code >= 0 && isValidShortcodeNameChar(code)) {
       if (!shortcodeName) {
-        effects.enter(nameType)
-        shortcodeName = ''
+        effects.enter(nameType);
+        shortcodeName = '';
       }
-      shortcodeName += String.fromCharCode(code)
-      effects.consume(code)
-      return name
+      shortcodeName += String.fromCharCode(code);
+      effects.consume(code);
+      return name;
     }
 
     if (shortcodeName) {
-      effects.exit(nameType)
+      effects.exit(nameType);
     }
 
-    return afterName(code)
+    return afterName(code);
   }
 
   /**
@@ -259,18 +259,18 @@ export function factoryShortcode(
    */
   function afterName(code) {
     if (markdownSpace(code)) {
-      effects.enter(types.whitespace)
-      return afterNameSpace(code)
+      effects.enter(types.whitespace);
+      return afterNameSpace(code);
     }
 
     if (code === codes.slash) {
-      effects.enter(selfClosingMarkerType)
-      effects.consume(code)
-      effects.exit(selfClosingMarkerType)
-      return afterSelfClosing
+      effects.enter(selfClosingMarkerType);
+      effects.consume(code);
+      effects.exit(selfClosingMarkerType);
+      return afterSelfClosing;
     }
 
-    return beforeEndMarker(code)
+    return beforeEndMarker(code);
   }
 
   /**
@@ -285,11 +285,11 @@ export function factoryShortcode(
    */
   function afterNameSpace(code) {
     if (markdownSpace(code)) {
-      effects.consume(code)
-      return afterNameSpace
+      effects.consume(code);
+      return afterNameSpace;
     }
-    effects.exit(types.whitespace)
-    return parseArguments(code)
+    effects.exit(types.whitespace);
+    return parseArguments(code);
   }
 
   /**
@@ -305,32 +305,32 @@ export function factoryShortcode(
   function parseArguments(code) {
     // Check for end of shortcode
     if (code === codes.slash) {
-      effects.enter(selfClosingMarkerType)
-      effects.consume(code)
-      effects.exit(selfClosingMarkerType)
-      return afterSelfClosing
+      effects.enter(selfClosingMarkerType);
+      effects.consume(code);
+      effects.exit(selfClosingMarkerType);
+      return afterSelfClosing;
     }
 
     if (
       (notation === 'standard' && code === codes.greaterThan) ||
       (notation === 'markdown' && code === codes.percentSign)
     ) {
-      return beforeEndMarker(code)
+      return beforeEndMarker(code);
     }
 
     // Start of an argument
     if (code !== codes.eof && code >= 0 && !markdownSpace(code)) {
-      effects.enter(argumentType)
-      return argumentValue(code)
+      effects.enter(argumentType);
+      return argumentValue(code);
     }
 
     // Skip spaces
     if (markdownSpace(code)) {
-      effects.enter(types.whitespace)
-      return argumentSpace(code)
+      effects.enter(types.whitespace);
+      return argumentSpace(code);
     }
 
-    return nok(code)
+    return nok(code);
   }
 
   /**
@@ -345,11 +345,11 @@ export function factoryShortcode(
    */
   function argumentSpace(code) {
     if (markdownSpace(code)) {
-      effects.consume(code)
-      return argumentSpace
+      effects.consume(code);
+      return argumentSpace;
     }
-    effects.exit(types.whitespace)
-    return parseArguments(code)
+    effects.exit(types.whitespace);
+    return parseArguments(code);
   }
 
   /**
@@ -364,15 +364,19 @@ export function factoryShortcode(
    */
   function argumentValue(code) {
     // Check if this is a quoted value
-    if (code === codes.quotationMark || code === codes.apostrophe || code === codes.graveAccent) {
-      marker = code
-      effects.enter(argumentNamedValueType)
-      effects.enter(argumentNamedValueQuotedType)
-      effects.enter(argumentNamedValueQuotedMarkerType)
-      effects.consume(code)
-      effects.exit(argumentNamedValueQuotedMarkerType)
-      effects.enter(argumentNamedValueQuotedValueType)
-      return quotedValue
+    if (
+      code === codes.quotationMark ||
+      code === codes.apostrophe ||
+      code === codes.graveAccent
+    ) {
+      marker = code;
+      effects.enter(argumentNamedValueType);
+      effects.enter(argumentNamedValueQuotedType);
+      effects.enter(argumentNamedValueQuotedMarkerType);
+      effects.consume(code);
+      effects.exit(argumentNamedValueQuotedMarkerType);
+      effects.enter(argumentNamedValueQuotedValueType);
+      return quotedValue;
     }
 
     // Start reading key/value
@@ -383,14 +387,14 @@ export function factoryShortcode(
       !(notation === 'standard' && code === codes.greaterThan) &&
       !(notation === 'markdown' && code === codes.percentSign)
     ) {
-      effects.enter(argumentNamedKeyType)
-      effects.consume(code)
-      return argumentKeyOrValue
+      effects.enter(argumentNamedKeyType);
+      effects.consume(code);
+      return argumentKeyOrValue;
     }
 
     // End of argument
-    effects.exit(argumentType)
-    return parseArguments(code)
+    effects.exit(argumentType);
+    return parseArguments(code);
   }
 
   /**
@@ -406,12 +410,12 @@ export function factoryShortcode(
   function argumentKeyOrValue(code) {
     // Check for assignment operator (this was a key)
     if (code === codes.equalsTo) {
-      effects.exit(argumentNamedKeyType)
-      effects.enter(argumentNamedAssignmentOperatorType)
-      effects.consume(code)
-      effects.exit(argumentNamedAssignmentOperatorType)
-      effects.enter(argumentNamedValueType)
-      return afterAssignment
+      effects.exit(argumentNamedKeyType);
+      effects.enter(argumentNamedAssignmentOperatorType);
+      effects.consume(code);
+      effects.exit(argumentNamedAssignmentOperatorType);
+      effects.enter(argumentNamedValueType);
+      return afterAssignment;
     }
 
     // Continue with key/value characters
@@ -422,14 +426,14 @@ export function factoryShortcode(
       !(notation === 'standard' && code === codes.greaterThan) &&
       !(notation === 'markdown' && code === codes.percentSign)
     ) {
-      effects.consume(code)
-      return argumentKeyOrValue
+      effects.consume(code);
+      return argumentKeyOrValue;
     }
 
     // End of positional argument (no assignment operator found)
-    effects.exit(argumentNamedKeyType)
-    effects.exit(argumentType)
-    return parseArguments(code)
+    effects.exit(argumentNamedKeyType);
+    effects.exit(argumentType);
+    return parseArguments(code);
   }
 
   /**
@@ -444,19 +448,23 @@ export function factoryShortcode(
    */
   function afterAssignment(code) {
     // Check if value is quoted
-    if (code === codes.quotationMark || code === codes.apostrophe || code === codes.graveAccent) {
-      marker = code
-      effects.enter(argumentNamedValueQuotedType)
-      effects.enter(argumentNamedValueQuotedMarkerType)
-      effects.consume(code)
-      effects.exit(argumentNamedValueQuotedMarkerType)
-      effects.enter(argumentNamedValueQuotedValueType)
-      return quotedValue
+    if (
+      code === codes.quotationMark ||
+      code === codes.apostrophe ||
+      code === codes.graveAccent
+    ) {
+      marker = code;
+      effects.enter(argumentNamedValueQuotedType);
+      effects.enter(argumentNamedValueQuotedMarkerType);
+      effects.consume(code);
+      effects.exit(argumentNamedValueQuotedMarkerType);
+      effects.enter(argumentNamedValueQuotedValueType);
+      return quotedValue;
     }
 
     // Unquoted value
-    effects.enter(argumentNamedValueUnquotedType)
-    return unquotedValue(code)
+    effects.enter(argumentNamedValueUnquotedType);
+    return unquotedValue(code);
   }
 
   /**
@@ -471,26 +479,26 @@ export function factoryShortcode(
    */
   function quotedValue(code) {
     if (code === marker) {
-      effects.exit(argumentNamedValueQuotedValueType)
-      effects.enter(argumentNamedValueQuotedMarkerType)
-      effects.consume(code)
-      effects.exit(argumentNamedValueQuotedMarkerType)
-      effects.exit(argumentNamedValueQuotedType)
-      effects.exit(argumentNamedValueType)
-      effects.exit(argumentType)
-      return afterArgument
+      effects.exit(argumentNamedValueQuotedValueType);
+      effects.enter(argumentNamedValueQuotedMarkerType);
+      effects.consume(code);
+      effects.exit(argumentNamedValueQuotedMarkerType);
+      effects.exit(argumentNamedValueQuotedType);
+      effects.exit(argumentNamedValueType);
+      effects.exit(argumentType);
+      return afterArgument;
     }
 
     if (code === codes.eof) {
-      return nok(code)
+      return nok(code);
     }
 
-    if(markdownLineEnding(code) && marker !== codes.graveAccent) {
-      return nok(code)
+    if (markdownLineEnding(code) && marker !== codes.graveAccent) {
+      return nok(code);
     }
 
-    effects.consume(code)
-    return quotedValue
+    effects.consume(code);
+    return quotedValue;
   }
 
   /**
@@ -511,14 +519,14 @@ export function factoryShortcode(
       (notation === 'markdown' && code === codes.percentSign) ||
       code === codes.eof
     ) {
-      effects.exit(argumentNamedValueUnquotedType)
-      effects.exit(argumentNamedValueType)
-      effects.exit(argumentType)
-      return parseArguments(code)
+      effects.exit(argumentNamedValueUnquotedType);
+      effects.exit(argumentNamedValueType);
+      effects.exit(argumentType);
+      return parseArguments(code);
     }
 
-    effects.consume(code)
-    return unquotedValue
+    effects.consume(code);
+    return unquotedValue;
   }
 
   /**
@@ -533,11 +541,11 @@ export function factoryShortcode(
    */
   function afterArgument(code) {
     if (markdownSpace(code)) {
-      effects.enter(types.whitespace)
-      effects.consume(code)
-      return afterArgumentSpace
+      effects.enter(types.whitespace);
+      effects.consume(code);
+      return afterArgumentSpace;
     }
-    return parseArguments(code)
+    return parseArguments(code);
   }
 
   /**
@@ -552,11 +560,11 @@ export function factoryShortcode(
    */
   function afterArgumentSpace(code) {
     if (markdownSpace(code)) {
-      effects.consume(code)
-      return afterArgumentSpace
+      effects.consume(code);
+      return afterArgumentSpace;
     }
-    effects.exit(types.whitespace)
-    return parseArguments(code)
+    effects.exit(types.whitespace);
+    return parseArguments(code);
   }
 
   /**
@@ -571,10 +579,10 @@ export function factoryShortcode(
    */
   function afterSelfClosing(code) {
     if (markdownSpace(code)) {
-      effects.enter(types.whitespace)
-      return afterSelfClosingSpace(code)
+      effects.enter(types.whitespace);
+      return afterSelfClosingSpace(code);
     }
-    return beforeEndMarker(code)
+    return beforeEndMarker(code);
   }
 
   /**
@@ -589,11 +597,11 @@ export function factoryShortcode(
    */
   function afterSelfClosingSpace(code) {
     if (markdownSpace(code)) {
-      effects.consume(code)
-      return afterSelfClosingSpace
+      effects.consume(code);
+      return afterSelfClosingSpace;
     }
-    effects.exit(types.whitespace)
-    return beforeEndMarker(code)
+    effects.exit(types.whitespace);
+    return beforeEndMarker(code);
   }
 
   /**
@@ -608,22 +616,22 @@ export function factoryShortcode(
    */
   function beforeEndMarker(code) {
     if (notation === 'standard' && code === codes.greaterThan) {
-      effects.enter(notationType)
-      effects.consume(code)
-      effects.exit(notationType)
-      effects.enter(markerType)
-      return endFirstBrace
+      effects.enter(notationType);
+      effects.consume(code);
+      effects.exit(notationType);
+      effects.enter(markerType);
+      return endFirstBrace;
     }
 
     if (notation === 'markdown' && code === codes.percentSign) {
-      effects.enter(notationType)
-      effects.consume(code)
-      effects.exit(notationType)
-      effects.enter(markerType)
-      return endFirstBrace
+      effects.enter(notationType);
+      effects.consume(code);
+      effects.exit(notationType);
+      effects.enter(markerType);
+      return endFirstBrace;
     }
 
-    return nok(code)
+    return nok(code);
   }
 
   /**
@@ -638,10 +646,10 @@ export function factoryShortcode(
    */
   function endFirstBrace(code) {
     if (code === codes.rightCurlyBrace) {
-      effects.consume(code)
-      return endSecondBrace
+      effects.consume(code);
+      return endSecondBrace;
     }
-    return nok(code)
+    return nok(code);
   }
 
   /**
@@ -656,12 +664,12 @@ export function factoryShortcode(
    */
   function endSecondBrace(code) {
     if (code === codes.rightCurlyBrace) {
-      effects.consume(code)
-      effects.exit(markerType)
-      effects.exit(shortcodeType)
-      return ok
+      effects.consume(code);
+      effects.exit(markerType);
+      effects.exit(shortcodeType);
+      return ok;
     }
-    return nok(code)
+    return nok(code);
   }
 
   /**
@@ -674,12 +682,12 @@ export function factoryShortcode(
     return (
       code !== null &&
       ((code >= codes.digit0 && code <= codes.digit9) ||
-      (code >= codes.uppercaseA && code <= codes.uppercaseZ) ||
-      (code >= codes.lowercaseA && code <= codes.lowercaseZ) ||
-      code === codes.dash ||
-      code === codes.underscore ||
-      code === codes.dot ||
-      code === codes.slash)
-    )
+        (code >= codes.uppercaseA && code <= codes.uppercaseZ) ||
+        (code >= codes.lowercaseA && code <= codes.lowercaseZ) ||
+        code === codes.dash ||
+        code === codes.underscore ||
+        code === codes.dot ||
+        code === codes.slash)
+    );
   }
-} 
+}

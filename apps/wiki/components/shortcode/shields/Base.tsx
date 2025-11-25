@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import type { ReactNode } from 'react';
 
 interface ShieldsBaseProps {
   label: string;
@@ -26,7 +26,13 @@ export default function ShieldsBase({
   if (!href) {
     return (
       <span className="inline-flex items-center not-prose">
-        <img loading="lazy" decoding="async" alt={altText} src={imgSrc} className="h-5" />
+        <img
+          loading="lazy"
+          decoding="async"
+          alt={altText}
+          src={imgSrc}
+          className="h-5"
+        />
         {children}
       </span>
     );
@@ -39,7 +45,13 @@ export default function ShieldsBase({
       target="_blank"
       rel="noopener noreferrer"
     >
-      <img loading="lazy" decoding="async" alt={altText} src={imgSrc} className="h-5" />
+      <img
+        loading="lazy"
+        decoding="async"
+        alt={altText}
+        src={imgSrc}
+        className="h-5"
+      />
       {children}
     </a>
   );

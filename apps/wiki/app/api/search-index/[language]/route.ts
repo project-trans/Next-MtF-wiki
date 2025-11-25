@@ -1,16 +1,16 @@
-import { getDocsNavigationRoot } from '@/service/directory-service';
-import { getLanguageConfig } from '@/lib/site-config';
-import { getFrontmatter } from 'next-mdx-remote-client/utils';
 import fs from 'node:fs/promises';
-import type { DocItem } from '@/service/directory-service-client';
 import type { Frontmatter } from '@/app/[language]/(documents)/[...slug]/types';
-import { visit } from 'unist-util-visit';
-import { hugoShortcode } from 'micromark-extension-md-hugo-marker';
-import { hugoShortcodeFromMarkdown } from 'mdast-util-md-hugo-marker';
-import MiniSearch from 'minisearch';
 import { getNonSelfClosingElements } from '@/app/[language]/(documents)/[...slug]/utils';
+import { getLanguageConfig } from '@/lib/site-config';
+import { getDocsNavigationRoot } from '@/service/directory-service';
+import type { DocItem } from '@/service/directory-service-client';
 import { fromMarkdown } from 'mdast-util-from-markdown';
+import { hugoShortcodeFromMarkdown } from 'mdast-util-md-hugo-marker';
 import type { HugoShortcodeFromMarkdownOptions } from 'mdast-util-md-hugo-marker';
+import { hugoShortcode } from 'micromark-extension-md-hugo-marker';
+import MiniSearch from 'minisearch';
+import { getFrontmatter } from 'next-mdx-remote-client/utils';
+import { visit } from 'unist-util-visit';
 export const dynamic = 'force-static';
 
 // 生成静态参数
@@ -37,8 +37,8 @@ interface SearchDocument {
 function extractPlainText(strippedSource: string): string {
   try {
     const options: HugoShortcodeFromMarkdownOptions = {
-      noSelfClosingElements: getNonSelfClosingElements()
-    }
+      noSelfClosingElements: getNonSelfClosingElements(),
+    };
 
     const tree = fromMarkdown(strippedSource, {
       extensions: [hugoShortcode()],
@@ -93,13 +93,14 @@ async function buildSearchIndex(
   items: DocItem[],
   language: string,
   subfolder: string,
-  miniSearch: MiniSearch
+  miniSearch: MiniSearch,
 ): Promise<void> {
   for (const item of items) {
     if (item.realPath && item.slug) {
       try {
         const fileContent = await fs.readFile(item.realPath, 'utf-8');
-        const { frontmatter, strippedSource } = getFrontmatter<Frontmatter>(fileContent);
+        const { frontmatter, strippedSource } =
+          getFrontmatter<Frontmatter>(fileContent);
 
         // 跳过草稿文档
         if (frontmatter?.draft) {
@@ -113,7 +114,9 @@ async function buildSearchIndex(
           title: item.metadata.title,
           content: plainContent,
           url: `/${language}/${item.displayPath}`,
-          description: frontmatter?.description ? String(frontmatter.description) : undefined,
+          description: frontmatter?.description
+            ? String(frontmatter.description)
+            : undefined,
           section: subfolder,
         };
 
@@ -136,13 +139,14 @@ async function collectDocuments(
   items: DocItem[],
   language: string,
   subfolder: string,
-  documents: SearchDocument[] = []
+  documents: SearchDocument[] = [],
 ): Promise<SearchDocument[]> {
   for (const item of items) {
     if (item.realPath && item.slug) {
       try {
         const fileContent = await fs.readFile(item.realPath, 'utf-8');
-        const { frontmatter, strippedSource } = getFrontmatter<Frontmatter>(fileContent);
+        const { frontmatter, strippedSource } =
+          getFrontmatter<Frontmatter>(fileContent);
 
         // 跳过草稿文档
         if (frontmatter?.draft) {
@@ -156,7 +160,9 @@ async function collectDocuments(
           title: item.metadata.title,
           content: plainContent,
           url: `/${language}/${item.displayPath}`,
-          description: frontmatter?.description ? String(frontmatter.description) : undefined,
+          description: frontmatter?.description
+            ? String(frontmatter.description)
+            : undefined,
           section: subfolder,
         };
 
@@ -177,7 +183,7 @@ async function collectDocuments(
 
 export async function GET(
   _request: Request,
-  { params }: { params: Promise<{ language: string }> }
+  { params }: { params: Promise<{ language: string }> },
 ) {
   try {
     const { language } = await params;
@@ -187,7 +193,8 @@ export async function GET(
     const subfolders = languageConfig?.subfolders || ['docs'];
 
     // 检查是否在服务端构建索引
-    const serverBuildIndex = process.env.NEXT_PUBLIC_SERVER_BUILD_INDEX === 'true';
+    const serverBuildIndex =
+      process.env.NEXT_PUBLIC_SERVER_BUILD_INDEX === 'true';
 
     if (serverBuildIndex) {
       // 服务端构建索引
@@ -199,7 +206,7 @@ export async function GET(
           fuzzy: 0.2, // 模糊搜索
           prefix: true, // 前缀匹配
           combineWith: 'AND', // 组合方式
-        }
+        },
       });
 
       let totalDocuments = 0;
@@ -210,11 +217,19 @@ export async function GET(
           const rootItem = await getDocsNavigationRoot(language, subfolder);
           if (rootItem.children) {
             const beforeCount = miniSearch.documentCount;
-            await buildSearchIndex(rootItem.children, language, subfolder, miniSearch);
+            await buildSearchIndex(
+              rootItem.children,
+              language,
+              subfolder,
+              miniSearch,
+            );
             totalDocuments += miniSearch.documentCount - beforeCount;
           }
         } catch (error) {
-          console.error(`Error processing subfolder ${subfolder} for language ${language}:`, error);
+          console.error(
+            `Error processing subfolder ${subfolder} for language ${language}:`,
+            error,
+          );
         }
       }
 
@@ -224,11 +239,14 @@ export async function GET(
       const response = Response.json({
         index: serializedIndex,
         language,
-        totalCount: totalDocuments
+        totalCount: totalDocuments,
       });
 
       // 设置缓存头
-      response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+      response.headers.set(
+        'Cache-Control',
+        'public, max-age=31536000, immutable',
+      );
 
       return response;
     } else {
@@ -240,37 +258,52 @@ export async function GET(
         try {
           const rootItem = await getDocsNavigationRoot(language, subfolder);
           if (rootItem.children) {
-            const documents = await collectDocuments(rootItem.children, language, subfolder);
+            const documents = await collectDocuments(
+              rootItem.children,
+              language,
+              subfolder,
+            );
             allDocuments.push(...documents);
           }
         } catch (error) {
-          console.error(`Error processing subfolder ${subfolder} for language ${language}:`, error);
+          console.error(
+            `Error processing subfolder ${subfolder} for language ${language}:`,
+            error,
+          );
         }
       }
 
       const response = Response.json({
         documents: allDocuments,
         language,
-        totalCount: allDocuments.length
+        totalCount: allDocuments.length,
       });
 
       // 设置缓存头
-      response.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+      response.headers.set(
+        'Cache-Control',
+        'public, max-age=31536000, immutable',
+      );
 
       return response;
     }
-
   } catch (error) {
     console.error('Error generating search index:', error);
-    const errorResponse = Response.json({
-      error: 'Failed to generate search index',
-      index: null,
-      documents: [],
-      language: '',
-      totalCount: 0
-    }, { status: 500 });
+    const errorResponse = Response.json(
+      {
+        error: 'Failed to generate search index',
+        index: null,
+        documents: [],
+        language: '',
+        totalCount: 0,
+      },
+      { status: 500 },
+    );
 
-    errorResponse.headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+    errorResponse.headers.set(
+      'Cache-Control',
+      'public, max-age=31536000, immutable',
+    );
 
     return errorResponse;
   }

@@ -1,13 +1,13 @@
-"use client";
+'use client';
 
-import { useAtom } from "jotai";
-import { useEffect, useRef } from "react";
-import { Link } from "@/components/progress/next";
+import { Link } from '@/components/progress/next';
+import { useAtom } from 'jotai';
+import { useEffect, useRef } from 'react';
 import {
+  bannerHeightAtom,
   bannerVisibilityAtom,
   closeBannerAtom,
-  bannerHeightAtom,
-} from "../lib/banner-atoms";
+} from '../lib/banner-atoms';
 
 interface BottomBannerProps {
   language: string;
@@ -48,7 +48,7 @@ export default function BottomBanner({
 
     // 监听窗口大小变化，可能会影响 banner 高度
     window.addEventListener('resize', updateHeight);
-    
+
     return () => {
       window.removeEventListener('resize', updateHeight);
       setBannerHeight(0);
@@ -60,7 +60,7 @@ export default function BottomBanner({
     <div
       ref={bannerRef}
       className={`
-        ${isVisible ? "sticky" : "block"}
+        ${isVisible ? 'sticky' : 'block'}
           bottom-0 left-0 right-0 z-40 
         bg-[#444] text-white shadow-lg
       `}

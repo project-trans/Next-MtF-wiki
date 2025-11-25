@@ -1,12 +1,12 @@
 'use client';
 
-import { motion, AnimatePresence } from 'motion/react';
 import { useAtom } from 'jotai';
-import { X, Clock, Trash2, Copy, Check } from 'lucide-react';
+import { Check, Clock, Copy, Trash2, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
-import { historyAtom, clearHistoryAtom, showHistoryAtom } from '../lib/atoms';
-import { formatTimestamp } from '../lib/utils';
+import { clearHistoryAtom, historyAtom, showHistoryAtom } from '../lib/atoms';
 import type { HistoryRecord } from '../lib/types';
+import { formatTimestamp } from '../lib/utils';
 
 export function HistoryPanel() {
   const [history] = useAtom(historyAtom);
@@ -16,7 +16,7 @@ export function HistoryPanel() {
 
   const handleCopy = async (record: HistoryRecord) => {
     if (!record.result.fullSize) return;
-    
+
     try {
       await navigator.clipboard.writeText(record.result.fullSize);
       setCopiedId(record.id);
@@ -47,7 +47,7 @@ export function HistoryPanel() {
           initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.9, y: 20 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
           className="bg-base-100 rounded-xl shadow-2xl w-full max-w-4xl max-h-[80vh] overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
@@ -57,7 +57,9 @@ export function HistoryPanel() {
               <div className="flex items-center gap-3">
                 <Clock className="w-6 h-6 text-pink-500" />
                 <div>
-                  <h2 className="text-xl font-semibold text-base-content">测量历史</h2>
+                  <h2 className="text-xl font-semibold text-base-content">
+                    测量历史
+                  </h2>
                   <p className="text-sm text-base-content/60">
                     共 {history.length} 条记录，数据仅存储在浏览器本地
                   </p>
@@ -90,7 +92,9 @@ export function HistoryPanel() {
             {history.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <Clock className="w-16 h-16 text-base-content/30 mb-4" />
-                <h3 className="text-lg font-medium text-base-content/60 mb-2">暂无历史记录</h3>
+                <h3 className="text-lg font-medium text-base-content/60 mb-2">
+                  暂无历史记录
+                </h3>
                 <p className="text-sm text-base-content/40">
                   完成测量后，结果会自动保存到这里
                 </p>
@@ -142,19 +146,24 @@ export function HistoryPanel() {
                       <div className="bg-white/50 dark:bg-black/20 rounded p-2">
                         <div className="text-base-content/60">胸下围(放松)</div>
                         <div className="font-mono">
-                          {record.measurements.underBustRelaxed?.toFixed(1) || '—'} cm
+                          {record.measurements.underBustRelaxed?.toFixed(1) ||
+                            '—'}{' '}
+                          cm
                         </div>
                       </div>
                       <div className="bg-white/50 dark:bg-black/20 rounded p-2">
                         <div className="text-base-content/60">胸下围(呼气)</div>
                         <div className="font-mono">
-                          {record.measurements.underBustExhale?.toFixed(1) || '—'} cm
+                          {record.measurements.underBustExhale?.toFixed(1) ||
+                            '—'}{' '}
+                          cm
                         </div>
                       </div>
                       <div className="bg-white/50 dark:bg-black/20 rounded p-2">
                         <div className="text-base-content/60">胸围(放松)</div>
                         <div className="font-mono">
-                          {record.measurements.bustRelaxed?.toFixed(1) || '—'} cm
+                          {record.measurements.bustRelaxed?.toFixed(1) || '—'}{' '}
+                          cm
                         </div>
                       </div>
                       <div className="bg-white/50 dark:bg-black/20 rounded p-2">
@@ -176,20 +185,26 @@ export function HistoryPanel() {
                       <div className="mt-3 pt-3 border-t border-base-300/30">
                         <div className="grid grid-cols-3 gap-2 text-xs">
                           <div>
-                            <span className="text-base-content/60">胸下围：</span>
+                            <span className="text-base-content/60">
+                              胸下围：
+                            </span>
                             <span className="font-mono">
                               {record.result.underBust?.toFixed(1)} cm
                             </span>
                           </div>
                           <div>
-                            <span className="text-base-content/60">罩杯差值：</span>
+                            <span className="text-base-content/60">
+                              罩杯差值：
+                            </span>
                             <span className="font-mono">
                               {record.result.cupDifference?.toFixed(1)} cm
                             </span>
                           </div>
                           <div>
                             <span className="text-base-content/60">罩杯：</span>
-                            <span className="font-mono">{record.result.cupSize}</span>
+                            <span className="font-mono">
+                              {record.result.cupSize}
+                            </span>
                           </div>
                         </div>
                       </div>

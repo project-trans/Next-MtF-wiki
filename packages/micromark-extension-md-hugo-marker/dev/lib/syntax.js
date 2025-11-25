@@ -2,12 +2,12 @@
  * @import {Extension, Options} from 'micromark-util-types'
  */
 
-import {codes} from 'micromark-util-symbol'
-import {shortcodeText} from './shortcode-text.js'
-import {shortcodeFlow} from './shortcode-flow.js'
+import { codes } from 'micromark-util-symbol';
+import { shortcodeFlow } from './shortcode-flow.js';
+import { shortcodeText } from './shortcode-text.js';
 
 // Also export the HTML extension
-export {hugoShortcodeHtml} from './html.js'
+export { hugoShortcodeHtml } from './html.js';
 
 /**
  * Create an extension for `micromark` to enable Hugo shortcode syntax.
@@ -19,15 +19,14 @@ export {hugoShortcodeHtml} from './html.js'
  *   shortcode syntax.
  */
 export function hugoShortcode(options) {
-  const settings = options || {}
-
+  const settings = options || {};
 
   return {
     flow: {
-      [codes.leftCurlyBrace]: shortcodeFlow()
+      [codes.leftCurlyBrace]: shortcodeFlow(),
     },
     text: {
-      [codes.leftCurlyBrace]: shortcodeText()
-    }
-  }
+      [codes.leftCurlyBrace]: shortcodeText(),
+    },
+  };
 }

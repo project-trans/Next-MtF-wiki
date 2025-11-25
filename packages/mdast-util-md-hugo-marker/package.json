@@ -20,12 +20,7 @@
   "sideEffects": false,
   "type": "module",
   "exports": "./index.js",
-  "files": [
-    "lib/",
-    "index.d.ts.map",
-    "index.d.ts",
-    "index.js"
-  ],
+  "files": ["lib/", "index.d.ts.map", "index.d.ts", "index.js"],
   "dependencies": {
     "@types/estree-jsx": "^1.0.0",
     "@types/hast": "^3.0.0",
@@ -73,9 +68,7 @@
     "useTabs": false
   },
   "remarkConfig": {
-    "plugins": [
-      "remark-preset-wooorm"
-    ]
+    "plugins": ["remark-preset-wooorm"]
   },
   "typeCoverage": {
     "atLeast": 100,
@@ -86,9 +79,7 @@
   "xo": {
     "overrides": [
       {
-        "files": [
-          "**/*.ts"
-        ],
+        "files": ["**/*.ts"],
         "rules": {
           "@typescript-eslint/ban-types": "off",
           "@typescript-eslint/consistent-type-definitions": "off"

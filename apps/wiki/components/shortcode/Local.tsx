@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import type { ShortCodeCompProps } from "./types";
-import { useParams } from "next/navigation";
+import { useParams } from 'next/navigation';
+import type { ShortCodeCompProps } from './types';
 
 /**
  * Local组件用于根据当前语言环境显示内容
@@ -9,8 +9,8 @@ import { useParams } from "next/navigation";
  */
 export default function Local({ attrs, children }: ShortCodeCompProps) {
   const params = useParams();
-  const targetLocale = attrs[0] || "";
-  const currentLocale = (params.language as string) || "zh-cn";
+  const targetLocale = attrs[0] || '';
+  const currentLocale = (params.language as string) || 'zh-cn';
 
   // 如果当前语言环境与目标语言环境匹配，则显示内容
   if (currentLocale === targetLocale) {

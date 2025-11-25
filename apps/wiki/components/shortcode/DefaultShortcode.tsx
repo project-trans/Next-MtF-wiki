@@ -1,4 +1,4 @@
-import type { ShortCodeProps } from "./types";
+import type { ShortCodeProps } from './types';
 
 /**
  * 默认的Shortcode组件，用于处理未知的shortcode类型

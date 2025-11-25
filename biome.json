@@ -16,7 +16,10 @@
       "**/.vercel/**/*",
       "**/.next/**/*",
       "**/.turbo/**/*",
-      "apps/wiki/app/globals.css"
+      "apps/wiki/app/globals.css",
+      "**/out/**/*",
+      "source",
+      "packages/micromark-extension-md-hugo-marker/lib/**/*"
     ]
   },
   "formatter": {

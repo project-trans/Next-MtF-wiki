@@ -1,4 +1,4 @@
-import { SkeletonWrapper } from "@/components/progress";
+import { SkeletonWrapper } from '@/components/progress';
 
 interface DocContentProps {
   children: React.ReactNode;

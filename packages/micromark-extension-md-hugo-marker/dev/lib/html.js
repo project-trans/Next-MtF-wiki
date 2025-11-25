@@ -14,9 +14,9 @@ export function hugoShortcodeHtml() {
     enter: {},
     exit: {
       hugoShortcodeFlow: exitShortcodeFlow,
-      hugoShortcodeText: exitShortcodeText
-    }
-  }
+      hugoShortcodeText: exitShortcodeText,
+    },
+  };
 }
 
 /**
@@ -25,7 +25,7 @@ export function hugoShortcodeHtml() {
  */
 function exitShortcodeFlow() {
   // Render flow shortcode as a block comment
-  this.tag(`<!-- Hugo shortcode (flow) -->`)
+  this.tag('<!-- Hugo shortcode (flow) -->');
 }
 
 /**
@@ -34,5 +34,5 @@ function exitShortcodeFlow() {
  */
 function exitShortcodeText() {
   // Render text shortcode as an inline comment
-  this.tag('<!-- Hugo shortcode (text) -->')
-} 
+  this.tag('<!-- Hugo shortcode (text) -->');
+}

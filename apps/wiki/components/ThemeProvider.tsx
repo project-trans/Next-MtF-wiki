@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { ThemeProvider as NextThemeProvider, useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import { ThemeProvider as NextThemeProvider, useTheme } from 'next-themes';
+import { useEffect, useState } from 'react';
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   return (
@@ -9,8 +9,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       attribute="data-theme"
       defaultTheme="system"
       enableSystem={true}
-      themes={["system", "light", "dark"]}
-      value={{ dark: "sunset", light: "cupcake" }}
+      themes={['system', 'light', 'dark']}
+      value={{ dark: 'sunset', light: 'cupcake' }}
     >
       <SyncThemeColor />
       {children}
@@ -20,7 +20,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 
 function getBgColor() {
   return getComputedStyle(document.documentElement)
-    .getPropertyValue("--background")
+    .getPropertyValue('--background')
     .trim();
 }
 
@@ -32,11 +32,11 @@ function SyncThemeColor() {
     requestAnimationFrame(() => {
       if (!resolvedTheme) return;
 
-      let tag = document.getElementById("theme-color") as HTMLMetaElement;
+      let tag = document.getElementById('theme-color') as HTMLMetaElement;
       if (!tag) {
-        tag = document.createElement("meta");
-        tag.name = "theme-color";
-        tag.id = "theme-color";
+        tag = document.createElement('meta');
+        tag.name = 'theme-color';
+        tag.id = 'theme-color';
         document.head.appendChild(tag);
       }
       tag.content = getBgColor();

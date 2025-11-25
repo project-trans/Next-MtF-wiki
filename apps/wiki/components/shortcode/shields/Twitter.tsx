@@ -1,10 +1,10 @@
-import type { ShortCodeCompProps } from "../types";
-import ShieldsBase from "./Base";
+import type { ShortCodeCompProps } from '../types';
+import ShieldsBase from './Base';
 
 export default function Twitter({ attrs }: ShortCodeCompProps) {
-  const message = attrs[0] || "";
+  const message = attrs[0] || '';
   const href = `https://twitter.com/${message}`;
-  
+
   return (
     <ShieldsBase
       label="Twitter"

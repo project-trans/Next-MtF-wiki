@@ -1,5 +1,5 @@
-import {micromark} from 'micromark'
-import {hugoShortcode, hugoShortcodeHtml} from './dev/lib/syntax.js'
+import { micromark } from 'micromark';
+import { hugoShortcode, hugoShortcodeHtml } from './dev/lib/syntax.js';
 
 // Test standard notation
 const testStandard = `
@@ -20,7 +20,7 @@ function hello() {
 {{< /highlight >}}
 {
 Self-closing: {{< qr text="https://gohugo.io" />}}
-`
+`;
 
 // Test markdown notation
 const testMarkdown = `
@@ -33,16 +33,20 @@ function hello() {
 {{% /highlight %}}
 
 Self-closing: {{% qr text="https://gohugo.io" /%}}
-`
+`;
 
-console.log('Testing standard notation:')
-console.log(micromark(testStandard, {
-  extensions: [hugoShortcode()],
-  htmlExtensions: [hugoShortcodeHtml()]
-}))
+console.log('Testing standard notation:');
+console.log(
+  micromark(testStandard, {
+    extensions: [hugoShortcode()],
+    htmlExtensions: [hugoShortcodeHtml()],
+  }),
+);
 
-console.log('\n\nTesting markdown notation:')
-console.log(micromark(testMarkdown, {
-  extensions: [hugoShortcode()],
-  htmlExtensions: [hugoShortcodeHtml()]
-})) 
+console.log('\n\nTesting markdown notation:');
+console.log(
+  micromark(testMarkdown, {
+    extensions: [hugoShortcode()],
+    htmlExtensions: [hugoShortcodeHtml()],
+  }),
+);
