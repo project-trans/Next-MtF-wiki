@@ -123,7 +123,7 @@ export function CupCalculator() {
             <div className="flex-1">
               <span className="text-base-content">
                 请直立，放松，用软尺贴合乳房下缘
-                <span className="mx-1 text-pink-500 font-bold underline">
+                <span className="mx-1 text-pink-500 font-bold underline" aria-hidden="true">
                   ⊙⊙
                 </span>
                 ，水平绕身体一圈：
@@ -177,7 +177,7 @@ export function CupCalculator() {
             <div className="flex-1">
               <span className="text-base-content">
                 请直立，放松，用软尺经过乳头
-                <span className="mx-1 text-pink-500 font-bold line-through">
+                <span className="mx-1 text-pink-500 font-bold line-through" aria-hidden="true">
                   ⊙⊙
                 </span>
                 ，绕身体一圈：
