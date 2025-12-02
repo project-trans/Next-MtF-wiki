@@ -69,12 +69,40 @@
     "es": "Página anterior",
     "en": "Previous Page"
   },
+  "previousPageSibling": {
+    "zh-cn": "上一页（同级）",
+    "zh-hant": "上一頁（同級）",
+    "ja": "前のページ（同階層）",
+    "es": "Página anterior (mismo nivel)",
+    "en": "Previous (Same Level)"
+  },
+  "previousPageSequence": {
+    "zh-cn": "上一页（顺序）",
+    "zh-hant": "上一頁（順序）",
+    "ja": "前のページ（連続）",
+    "es": "Página anterior (secuencia)",
+    "en": "Previous (Sequential)"
+  },
   "nextPage": {
     "zh-cn": "下一页",
     "zh-hant": "下一頁",
     "ja": "次のページ",
     "es": "Página siguiente",
     "en": "Next Page"
+  },
+  "nextPageSibling": {
+    "zh-cn": "下一页（同级）",
+    "zh-hant": "下一頁（同級）",
+    "ja": "次のページ（同階層）",
+    "es": "Página siguiente (mismo nivel)",
+    "en": "Next (Same Level)"
+  },
+  "nextPageSequence": {
+    "zh-cn": "下一页（顺序）",
+    "zh-hant": "下一頁（順序）",
+    "ja": "次のページ（連続）",
+    "es": "Página siguiente (secuencia)",
+    "en": "Next (Sequential)"
   },
   "childPages": {
     "zh-cn": "子页面",
