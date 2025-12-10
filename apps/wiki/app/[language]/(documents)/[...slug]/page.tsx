@@ -11,7 +11,7 @@ import { ShortCodeComp } from '@/components/shortcode';
 import { cache } from '@/lib/cache';
 import { t } from '@/lib/i18n/client';
 import { sT } from '@/lib/i18n/server';
-import { getLanguageConfigs } from '@/lib/site-config';
+import { getLanguageConfig, getLanguageConfigs } from '@/lib/site-config';
 import {
   type DocItem,
   checkSubFolderExists,
@@ -285,9 +285,24 @@ export default async function DocPage({
     ? path.relative(`${getContentDir()}/${language}`, navItem.realPath)
     : slugPath;
 
+  // 获取所有导航项以支持跨板块引用
+  const languageConfig = getLanguageConfig(language);
+  const allNavigationItems: DocItem[] = [];
+  if (languageConfig) {
+    for (const subfolder of languageConfig.subfolders) {
+      const { root } = await getDocsNavigationMap(language, subfolder);
+      // 确保根节点有 originalSlug，以便可以被引用
+      const rootWithSlug = {
+        ...root,
+        originalSlug: root.originalSlug || subfolder,
+      };
+      allNavigationItems.push(rootWithSlug);
+    }
+  }
+
   const hugoRemarkOptions = {
     currentLanguage: language,
-    navigationItems: navigationItemRoot.children ?? [],
+    navigationItems: allNavigationItems,
     currentSlug: slugPath,
     realCurrentSlug,
     isCurrentSlugIndex: isIndexPage,

@@ -128,7 +128,7 @@ export const siteConfig: SiteConfig = {
     },
     {
       code: 'zh-hant',
-      subfolders: ['docs', 'about'],
+      subfolders: ['docs', 'converter', 'about'],
       noMarkdown: getGlobalNoMarkdown(),
     },
     {
