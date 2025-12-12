@@ -6,7 +6,7 @@
     "Anna <131662099+AnnaBeiyan@users.noreply.github.com> (https://github.com/AnnaBeiyan)"
   ],
   "dependencies": {
-    "@types/estree": "^1.0.0",
+    "@types/estree": "^1.0.8",
     "devlop": "^1.0.0",
     "estree-util-is-identifier-name": "^3.0.0",
     "micromark-factory-mdx-expression": "^2.0.0",
@@ -15,30 +15,35 @@
     "micromark-util-events-to-acorn": "^2.0.0",
     "micromark-util-symbol": "^2.0.0",
     "micromark-util-types": "^2.0.0",
-    "vfile-message": "^4.0.0"
+    "vfile-message": "^4.0.3"
   },
   "description": "micromark extension to support Hugo shortcodes",
   "devDependencies": {
     "@types/estree": "^1.0.0",
     "@types/estree-jsx": "^1.0.0",
     "@types/mdast": "^4.0.0",
-    "@types/node": "^22.0.0",
+    "@types/node": "^25.0.1",
     "c8": "^10.0.0",
     "estree-util-visit": "^2.0.0",
     "mdast-zone": "^6.0.0",
     "micromark": "^4.0.0",
     "micromark-build": "^2.0.0",
-    "prettier": "^3.0.0",
+    "prettier": "^3.7.4",
     "remark-cli": "^12.0.0",
     "remark-preset-wooorm": "^11.0.0",
     "type-coverage": "^2.0.0",
-    "typescript": "^5.0.0",
-    "xo": "^0.60.0"
+    "typescript": "^5.9.3",
+    "xo": "^1.2.3"
   },
   "exports": {
     "default": "./index.js"
   },
-  "files": ["dev/", "index.d.ts", "index.js", "lib/"],
+  "files": [
+    "dev/",
+    "index.d.ts",
+    "index.js",
+    "lib/"
+  ],
   "funding": {
     "type": "opencollective",
     "url": "https://opencollective.com/unified"
@@ -65,7 +70,10 @@
     "plugins": [
       "remark-preset-wooorm",
       "./script/grammar.js",
-      ["remark-lint-fenced-code-flag", false]
+      [
+        "remark-lint-fenced-code-flag",
+        false
+      ]
     ]
   },
   "scripts": {
@@ -88,7 +96,9 @@
   "xo": {
     "overrides": [
       {
-        "files": ["**/*.d.ts"],
+        "files": [
+          "**/*.d.ts"
+        ],
         "rules": {
           "@typescript-eslint/array-type": [
             "error",

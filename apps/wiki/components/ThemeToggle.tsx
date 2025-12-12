@@ -2,8 +2,8 @@
 
 import { useAtom } from 'jotai';
 import { Check, Moon, Palette, Sun, SunMoon } from 'lucide-react';
-import { useTheme } from 'next-themes';
 import { useParams } from 'next/navigation';
+import { useTheme } from 'next-themes';
 import { useEffect, useRef, useState } from 'react';
 import { t } from '../lib/i18n/client';
 import { getThemeOptions } from '../lib/site-config';
@@ -13,7 +13,10 @@ import { themeMenuOpenAtom, themePreferenceAtom } from '../lib/theme-atoms';
 const ThemeIcon = ({
   icon,
   className = 'w-5 h-5',
-}: { icon: string; className?: string }) => {
+}: {
+  icon: string;
+  className?: string;
+}) => {
   switch (icon) {
     case 'sun':
       return <Sun className={className} />;
