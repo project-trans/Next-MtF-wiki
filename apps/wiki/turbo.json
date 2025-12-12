@@ -1,7 +1,6 @@
 {
   "$schema": "https://turborepo.com/schema.json",
   "extends": ["//"],
-  "globalPassThroughEnv": ["GITHUB_TOKEN"],
   "tasks": {
     "build": {
       "dependsOn": ["^build"],

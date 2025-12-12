@@ -1,5 +1,5 @@
 {
-  "$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
   "vcs": {
     "enabled": false,
     "clientKind": "git",
@@ -8,18 +8,24 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "include": ["apps/**/*", "packages/**/*"],
-    "ignore": [
-      "**/node_modules/**/*",
-      "**/dist/**/*",
-      "**/build/**/*",
-      "**/.vercel/**/*",
-      "**/.next/**/*",
-      "**/.turbo/**/*",
-      "apps/wiki/app/globals.css",
-      "**/out/**/*",
-      "source",
-      "packages/micromark-extension-md-hugo-marker/lib/**/*"
+    "includes": [
+      "**/apps/**/*",
+      "**/packages/**/*",
+      "!**/node_modules/**/*",
+      "!**/dist/**/*",
+      "!**/build/**/*",
+      "!**/.vercel/**/*",
+      "!**/.next/**/*",
+      "!**/.turbo/**/*",
+      "!**/apps/wiki/app/globals.css",
+      "!**/out/**/*",
+      "!**/source",
+      "!**/packages/micromark-extension-md-hugo-marker/lib/**/*",
+      "!**/packages/micromark-extension-md-hugo-marker/**/*.d.ts",
+      "packages/micromark-extension-md-hugo-marker/dev/lib/index.d.ts",
+      "!packages/mdast-util-md-hugo-marker/**/*.d.ts",
+      "packages/mdast-util-md-hugo-marker/index.d.ts",
+      "!packages/micromark-extension-md-hugo-marker/index.js"
     ]
   },
   "formatter": {
@@ -27,8 +33,12 @@
     "indentStyle": "space",
     "indentWidth": 2
   },
-  "organizeImports": {
-    "enabled": true
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
   },
   "linter": {
     "enabled": true,

@@ -16,10 +16,10 @@
   },
   "packageManager": "pnpm@10.18.2+sha512.9fb969fa749b3ade6035e0f109f0b8a60b5d08a1a87fdf72e337da90dcc93336e2280ca4e44f2358a649b83c17959e9993e777c2080879f3801e6f0d999ad3dd",
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "lint-staged": "^16.1.1",
-    "simple-git-hooks": "^2.13.0",
-    "turbo": "^2.5.4"
+    "@biomejs/biome": "2.3.8",
+    "lint-staged": "^16.2.7",
+    "simple-git-hooks": "^2.13.1",
+    "turbo": "^2.6.3"
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged"
