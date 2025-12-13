@@ -58,7 +58,7 @@ export const siteConfig: SiteConfig = {
       key: 'converter',
       href: '/converter',
       translationKey: 'converter',
-      locale: ['zh-cn'],
+      locale: ['zh-cn', 'zh-hant'],
       weight: 2,
     },
     {
