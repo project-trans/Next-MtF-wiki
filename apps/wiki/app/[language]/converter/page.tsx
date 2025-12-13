@@ -65,5 +65,5 @@ export default function ConverterPage() {
 }
 
 export async function generateStaticParams() {
-  return [{ language: 'zh-cn' }];
+  return [{ language: 'zh-cn' }, { language: 'zh-hant' }];
 }
