@@ -7,12 +7,14 @@ interface EmbedPageClientProps {
   children: React.ReactNode;
   displaySlug: string;
   url: string;
+  viewSourceText: string;
 }
 
 export default function EmbedPageClient({
   children,
   displaySlug,
   url,
+  viewSourceText,
 }: EmbedPageClientProps) {
   const [isOpen, setIsOpen] = useState(true);
 
@@ -50,7 +52,7 @@ export default function EmbedPageClient({
           rel="noreferrer"
           onClick={(e) => e.stopPropagation()}
         >
-          View Source
+          {viewSourceText}
           <ArrowUpRight className="w-3 h-3" />
         </a>
       </div>

@@ -11,6 +11,7 @@ import remarkQrCode, {
   remarkHugoShortcode,
 } from '@/app/[language]/(documents)/[...slug]/remarkHugoShortcode';
 import { getContentDir } from '@/app/[language]/(documents)/[...slug]/utils';
+import { sT } from '@/lib/i18n/server';
 import { getLanguageConfig } from '@/lib/site-config';
 import {
   type DocItem,
@@ -166,10 +167,13 @@ export default async function EmbedPage({
     isCurrentSlugIndex: isIndex,
   };
 
+  const viewSourceText = sT('embed-page-view-source', language);
+
   return (
     <EmbedPageClient
       displaySlug={displaySlug}
       url={`/${language}/${displaySlug}`}
+      viewSourceText={viewSourceText}
     >
       <MDXRemote
         source={slicedContent}
