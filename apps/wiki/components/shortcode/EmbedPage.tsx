@@ -16,6 +16,7 @@ import {
   type DocItem,
   getDocsNavigationMap,
 } from '@/service/directory-service';
+import EmbedPageClient from './EmbedPageClient';
 import { ShortCodeComp } from './index';
 import type { ShortCodeCompProps } from './types';
 
@@ -166,40 +167,27 @@ export default async function EmbedPage({
   };
 
   return (
-    <div className="my-4 border rounded-lg overflow-hidden bg-base-100 shadow-sm">
-      <div className="bg-base-200 px-4 py-2 flex items-center justify-between text-sm">
-        <span className="font-semibold text-base-content/70">
-          Embedded Content
-        </span>
-        <a
-          href={`/${language}/${displaySlug}`}
-          className="flex items-center gap-1 text-primary hover:underline"
-          target="_blank"
-          rel="noreferrer"
-        >
-          View Source
-          <ArrowUpRight className="w-4 h-4" />
-        </a>
-      </div>
-      <div className="p-4 prose max-w-none">
-        <MDXRemote
-          source={slicedContent}
-          components={{ ShortCodeComp } as any}
-          options={{
-            mdxOptions: {
-              remarkPlugins: [
-                [remarkHeadingId, { defaults: true }],
-                [remarkCsvToTable, hugoRemarkOptions],
-                [remarkHugoShortcode, hugoRemarkOptions],
-                remarkGfm,
-                remarkMath,
-                remarkHtmlContent,
-                remarkQrCode,
-              ],
-            },
-          }}
-        />
-      </div>
-    </div>
+    <EmbedPageClient
+      displaySlug={displaySlug}
+      url={`/${language}/${displaySlug}`}
+    >
+      <MDXRemote
+        source={slicedContent}
+        components={{ ShortCodeComp } as any}
+        options={{
+          mdxOptions: {
+            remarkPlugins: [
+              [remarkHeadingId, { defaults: true }],
+              [remarkCsvToTable, hugoRemarkOptions],
+              [remarkHugoShortcode, hugoRemarkOptions],
+              remarkGfm,
+              remarkMath,
+              remarkHtmlContent,
+              remarkQrCode,
+            ],
+          },
+        }}
+      />
+    </EmbedPageClient>
   );
 }
