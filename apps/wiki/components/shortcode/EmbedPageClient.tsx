@@ -64,7 +64,7 @@ export default function EmbedPageClient({
         }`}
       >
         <div className="overflow-hidden min-h-0">
-          <div className="p-4 pt-0 prose max-w-none text-sm border-t border-base-200/50 mt-2">
+          <div className="p-4 pt-2 prose max-w-none text-sm border-t border-base-200/50 mt-2 max-h-[400px] overflow-y-auto overscroll-contain">
             {children}
           </div>
         </div>
