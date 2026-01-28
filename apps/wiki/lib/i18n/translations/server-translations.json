@@ -69,6 +69,20 @@
     "es": "Editar en GitHub",
     "en": "Edit on GitHub"
   },
+  "embed-page-embedded-content": {
+    "zh-cn": "嵌入内容",
+    "zh-hant": "嵌入內容",
+    "ja": "埋め込みコンテンツ",
+    "es": "Contenido incrustado",
+    "en": "Embedded Content"
+  },
+  "embed-page-view-source": {
+    "zh-cn": "查看来源",
+    "zh-hant": "查看來源",
+    "ja": "ソースを表示",
+    "es": "Ver fuente",
+    "en": "View Source"
+  },
   "home-page-title": {
     "zh-cn": "MtF.wiki",
     "zh-hant": "MtF.wiki",

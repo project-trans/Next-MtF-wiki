@@ -8,6 +8,7 @@ import type {
 } from './types';
 
 const compsMap: ShortCodeCompRecord = {
+  'embed-page': dynamic(() => import('./EmbedPage')),
   notice: dynamic(() => import('./Notice')),
   telephone: dynamic(() => import('./Telephone')),
   wiki: dynamic(() => import('./Wiki')),
@@ -81,6 +82,9 @@ export function ShortCodeComp({
     });
   }
 
+  const useRawAttrs = ['embed-page'].includes(rawCompName);
+  const finalAttrs = useRawAttrs ? attrs : realattrs;
+
   // 解析shortcode名称，从compsMap中找到对应的组件
   const nameParts = rawCompName.split('/');
   let comp: ShortCodeCompType | ShortCodeCompRecord | undefined = compsMap;
@@ -102,14 +106,14 @@ export function ShortCodeComp({
     if ('$$typeof' in comp || 'prototype' in comp) {
       const Component = comp as React.ComponentType<ShortCodeCompProps>;
       return (
-        <Component attrs={realattrs} mdContext={mdContext}>
+        <Component attrs={finalAttrs} mdContext={mdContext}>
           {children}
         </Component>
       );
     }
     // 普通函数调用
     return (comp as (props: ShortCodeCompProps) => React.ReactNode)({
-      attrs: realattrs,
+      attrs: finalAttrs,
       children,
       mdContext,
     });
