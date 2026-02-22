@@ -10,8 +10,6 @@ import type {
   Delete,
   Emphasis,
   Html,
-  Image,
-  Link,
   Node as MdastNode,
   Parent,
   PhrasingContent,
@@ -22,6 +20,26 @@ import type {
 } from 'mdast';
 import { SKIP, visit } from 'unist-util-visit';
 
+interface MdxJsxAttribute {
+  type: 'mdxJsxAttribute';
+  name: string;
+  value: string | null;
+}
+
+interface MdxJsxTextElement {
+  type: 'mdxJsxTextElement';
+  name: string;
+  attributes: MdxJsxAttribute[];
+  children: MdastNode[];
+}
+
+interface MdxJsxFlowElement {
+  type: 'mdxJsxFlowElement';
+  name: string;
+  attributes: MdxJsxAttribute[];
+  children: MdastNode[];
+}
+
 interface RemarkHtmlContentConfig {
   tags: {
     strong: boolean; // <b>, <strong>
@@ -30,6 +48,8 @@ interface RemarkHtmlContentConfig {
     link: boolean; // <a>
     image: boolean; // <img>
     break: boolean; // <br>
+    sup_or_sub: boolean; // <sup>, <sub>
+    details_or_summary: boolean; // <details>, <summary>
   };
 }
 
@@ -38,22 +58,50 @@ const defaultConfig: RemarkHtmlContentConfig = {
     strong: true,
     emphasis: true,
     delete: true,
-    link: false,
-    image: false,
+    link: true,
+    image: true,
     break: true,
+    sup_or_sub: true,
+    details_or_summary: true,
   },
 };
 
 type TagsConfig = RemarkHtmlContentConfig['tags'];
 
+function createMdxJsxElement(
+  tagName: string,
+  properties: Element['properties'],
+  children: MdastNode[],
+  isInline: boolean,
+): MdxJsxTextElement | MdxJsxFlowElement {
+  const attrs: MdxJsxAttribute[] = Object.entries(properties ?? {}).map(
+    ([name, value]) => ({
+      type: 'mdxJsxAttribute' as const,
+      name,
+      value: Array.isArray(value)
+        ? value.join(' ')
+        : value != null
+          ? String(value)
+          : null,
+    }),
+  );
+  return {
+    type: isInline ? 'mdxJsxTextElement' : 'mdxJsxFlowElement',
+    name: tagName,
+    attributes: attrs,
+    children,
+  } as MdxJsxTextElement | MdxJsxFlowElement;
+}
+
 // Helper to convert a HAST (HTML AST) to MDAST (Markdown AST)
 function hastToMdast(
   node: HastNode,
   config: TagsConfig,
+  isInline: boolean,
 ): MdastNode | MdastNode[] | null {
   if (node.type === 'root') {
     return (node as HastRoot).children
-      .flatMap((child) => hastToMdast(child, config))
+      .flatMap((child) => hastToMdast(child, config, isInline))
       .filter(Boolean) as MdastNode[];
   }
 
@@ -64,7 +112,7 @@ function hastToMdast(
   if (node.type === 'element') {
     const element = node as Element;
     const children = element.children
-      .flatMap((child) => hastToMdast(child, config))
+      .flatMap((child) => hastToMdast(child, config, isInline))
       .filter(Boolean) as PhrasingContent[];
 
     const tagName = element.tagName.toLowerCase();
@@ -79,28 +127,40 @@ function hastToMdast(
       return { type: 'delete', children } as Delete;
     }
     if (config.link && tagName === 'a') {
-      return {
-        type: 'link',
-        url: String(element.properties?.href ?? ''),
-        title: element.properties?.title
-          ? String(element.properties.title)
-          : null,
+      return createMdxJsxElement(
+        tagName,
+        element.properties,
         children,
-      } as Link;
+        isInline,
+      );
     }
     if (config.image && tagName === 'img') {
-      return {
-        type: 'image',
-        url: String(element.properties?.src ?? ''),
-        title: element.properties?.title
-          ? String(element.properties.title)
-          : null,
-        alt: String(element.properties?.alt ?? ''),
-      } as Image;
+      return createMdxJsxElement(tagName, element.properties, [], isInline);
     }
     if (config.break && tagName === 'br') {
       return { type: 'break' } as Break;
     }
+    if (config.sup_or_sub && (tagName === 'sup' || tagName === 'sub')) {
+      return createMdxJsxElement(
+        tagName,
+        element.properties,
+        children,
+        isInline,
+      );
+    }
+    if (
+      config.details_or_summary &&
+      (tagName === 'details' || tagName === 'summary')
+    ) {
+      return createMdxJsxElement(
+        tagName,
+        element.properties,
+        children,
+        isInline,
+      );
+    }
+
+    // console.warn("unknown tagname or tag not enabled in config:", tagName);
 
     return children.length > 0 ? children : null;
   }
@@ -115,8 +175,10 @@ function transform(tree: Parent | Root, config: TagsConfig): void {
       return;
     }
 
-    // --- Case 1: Handle split tag pairs like `<s>...</s>` ---
-    const startTagMatch = node.value.trim().match(/^<([a-zA-Z0-9]+)\s*>$/i);
+    // --- Case 1: Handle split tag pairs like `<s>...</s>` or `<a href="...">...</a>` ---
+    const startTagMatch = node.value
+      .trim()
+      .match(/^<([a-zA-Z0-9]+)(\s[^>]*)?>$/i);
     if (startTagMatch) {
       const tagName = startTagMatch[1].toLowerCase();
 
@@ -148,8 +210,23 @@ function transform(tree: Parent | Root, config: TagsConfig): void {
         const tempRoot: Root = { type: 'root', children: innerContent };
         transform(tempRoot, config);
 
-        let newNode: Strong | Delete | Emphasis | undefined;
+        let newNode:
+          | Strong
+          | Delete
+          | Emphasis
+          | MdxJsxTextElement
+          | MdxJsxFlowElement
+          | undefined;
         const processedChildren = tempRoot.children as PhrasingContent[];
+        const isInline = parent.type === 'paragraph';
+
+        // Extract properties from the opening tag by parsing it as a self-closing element
+        const openTagHtml = node.value.trim().replace(/>$/, '/>');
+        const openTagHast = fromHtml(openTagHtml, { fragment: true });
+        const openTagElement = (openTagHast as HastRoot).children.find(
+          (c) => c.type === 'element',
+        ) as Element | undefined;
+        const openTagProperties = openTagElement?.properties ?? {};
 
         if (config.strong && ['b', 'strong'].includes(tagName)) {
           newNode = { type: 'strong', children: processedChildren };
@@ -157,18 +234,49 @@ function transform(tree: Parent | Root, config: TagsConfig): void {
           newNode = { type: 'delete', children: processedChildren };
         } else if (config.emphasis && ['i', 'em'].includes(tagName)) {
           newNode = { type: 'emphasis', children: processedChildren };
+        } else if (config.link && tagName === 'a') {
+          newNode = createMdxJsxElement(
+            tagName,
+            openTagProperties,
+            processedChildren,
+            isInline,
+          );
+        } else if (config.sup_or_sub && ['sup', 'sub'].includes(tagName)) {
+          newNode = createMdxJsxElement(
+            tagName,
+            openTagProperties,
+            processedChildren,
+            isInline,
+          );
+        } else if (
+          config.details_or_summary &&
+          ['details', 'summary'].includes(tagName)
+        ) {
+          newNode = createMdxJsxElement(
+            tagName,
+            openTagProperties,
+            processedChildren,
+            isInline,
+          );
+        } else {
+          // console.warn("unknown tagname or tag not enabled in config:", tagName);
         }
 
         if (newNode) {
-          parent.children.splice(index, endIndex - index + 1, newNode);
+          parent.children.splice(
+            index,
+            endIndex - index + 1,
+            newNode as RootContent,
+          );
           return [SKIP, index];
         }
       }
     }
 
     // --- Case 2: Handle self-contained HTML like `<img>` or `<b>text</b>` ---
+    const isInline = parent.type === 'paragraph';
     const hastTree = fromHtml(node.value, { fragment: true });
-    const mdastNodes = hastToMdast(hastTree, config);
+    const mdastNodes = hastToMdast(hastTree, config, isInline);
 
     if (mdastNodes) {
       const nodesToInsert = (
