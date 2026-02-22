@@ -9,8 +9,7 @@ export interface MdContextType {
 
 export interface ShortCodeProps {
   compName: string;
-  // biome-ignore lint/suspicious/noExplicitAny: attrs can be array of strings or array of arrays
-  attrs: any[];
+  attrs: string[];
   children?: React.ReactNode;
   mdContext?: MdContextType;
 }
