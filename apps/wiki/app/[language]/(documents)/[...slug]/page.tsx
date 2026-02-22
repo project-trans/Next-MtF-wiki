@@ -1,25 +1,5 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
-import {
-  ControlledElement,
-  ControlledLink,
-} from '@/components/ControlledElement';
-import { LanguageAlternate } from '@/components/LanguageAlternate';
-import { LocalImage } from '@/components/LocalImage';
-import { Link } from '@/components/progress';
-import { ShortCodeComp } from '@/components/shortcode';
-import { cache } from '@/lib/cache';
-import { t } from '@/lib/i18n/client';
-import { sT } from '@/lib/i18n/server';
-import { getLanguageConfig, getLanguageConfigs } from '@/lib/site-config';
-import {
-  type DocItem,
-  checkSubFolderExists,
-  generateAllStaticParams,
-  getDocItemByNavigationMap,
-  getDocsNavigationMap,
-} from '@/service/directory-service';
-import { getFileLastModifiedTime } from '@/service/path-utils';
 import { ChevronLeft, ChevronRight, Edit } from 'lucide-react';
 import { type MDXComponents, MDXRemote } from 'next-mdx-remote-client/rsc';
 import { getFrontmatter } from 'next-mdx-remote-client/utils';
@@ -27,12 +7,32 @@ import type { DetailedHTMLProps, ImgHTMLAttributes } from 'react';
 import remarkGfm from 'remark-gfm';
 import remarkHeadingId from 'remark-heading-id';
 import remarkMath from 'remark-math';
+import {
+  ControlledElement,
+  ControlledLink,
+} from '@/components/ControlledElement';
+import { LanguageAlternate } from '@/components/LanguageAlternate';
+import { LocalImage } from '@/components/LocalImage';
+import { MarkdownCopyInterceptor } from '@/components/MarkdownCopyInterceptor';
+import { Link } from '@/components/progress';
+import { ShortCodeComp } from '@/components/shortcode';
+import { cache } from '@/lib/cache';
+import { t } from '@/lib/i18n/client';
+import { sT } from '@/lib/i18n/server';
+import { getLanguageConfig, getLanguageConfigs } from '@/lib/site-config';
+import {
+  checkSubFolderExists,
+  type DocItem,
+  generateAllStaticParams,
+  getDocItemByNavigationMap,
+  getDocsNavigationMap,
+} from '@/service/directory-service';
+import { getFileLastModifiedTime } from '@/service/path-utils';
 import RedirectClient from '../components/RedirectClient';
 import SingleChildRedirect from '../components/SingleChildRedirect';
 import remarkCsvToTable from './remarkCsvToTable';
 import remarkHtmlContent from './remarkHtmlContent';
-import { remarkHugoShortcode } from './remarkHugoShortcode';
-import remarkQrCode from './remarkHugoShortcode';
+import remarkQrCode, { remarkHugoShortcode } from './remarkHugoShortcode';
 import type { Frontmatter } from './types';
 import {
   getAvailableLanguages,
@@ -455,21 +455,23 @@ export default async function DocPage({
             {/* 你可以在这里添加其他 frontmatter 信息的渲染, e.g., date, author */}
           </header>
 
-          <MDXRemote
-            source={mdxRawContent}
-            components={components}
-            onError={ErrorContent}
-            options={{
-              mdxOptions: {
-                remarkPlugins: remarkPlugins,
-                remarkRehypeOptions: {
-                  footnoteLabel: t('footnoteLabel', language),
-                  footnoteLabelProperties: {},
+          <MarkdownCopyInterceptor>
+            <MDXRemote
+              source={mdxRawContent}
+              components={components}
+              onError={ErrorContent}
+              options={{
+                mdxOptions: {
+                  remarkPlugins: remarkPlugins,
+                  remarkRehypeOptions: {
+                    footnoteLabel: t('footnoteLabel', language),
+                    footnoteLabelProperties: {},
+                  },
+                  format: 'md',
                 },
-                format: 'md',
-              },
-            }}
-          />
+              }}
+            />
+          </MarkdownCopyInterceptor>
 
           {/* 编辑链接和最近更新时间 */}
           {(editLink || lastModifiedTime) && (
