@@ -1,6 +1,7 @@
 import dynamic from 'next/dynamic';
 import { default as DefaultShortcode } from './DefaultShortcode';
 import type {
+  ShortCodeCompInfo,
   ShortCodeCompProps,
   ShortCodeCompRecord,
   ShortCodeCompType,
@@ -22,7 +23,10 @@ const compsMap: ShortCodeCompRecord = {
   currency: dynamic(() => import('./Currency')),
   'doctor-image': dynamic(() => import('./DoctorImage')),
   'current-year': dynamic(() => import('./CurrentYear')),
-  figure: dynamic(() => import('./Figure')),
+  figure: {
+    type: dynamic(() => import('./Figure')),
+    allowAttrType: 'original' as const,
+  },
   expand: dynamic(() => import('./Expand')),
   lang: dynamic(() => import('./Lang')),
   'project-trans': dynamic(() => import('./ProjectTrans')),
@@ -52,70 +56,97 @@ const compsMap: ShortCodeCompRecord = {
   },
 };
 
+function isShortCodeCompInfo(
+  comp: ShortCodeCompType | ShortCodeCompInfo | ShortCodeCompRecord,
+): comp is ShortCodeCompInfo {
+  return (
+    typeof comp === 'object' &&
+    comp !== null &&
+    'type' in comp &&
+    'allowAttrType' in comp
+  );
+}
+
 export function ShortCodeComp({
   compName: rawCompName,
   attrs,
   children,
   mdContext,
 }: ShortCodeProps) {
-  // console.log("mdContext: ", JSON.stringify(mdContext, null, 2));
   const DefaultComp = (
     <DefaultShortcode compName={rawCompName} attrs={attrs}>
       {children}
     </DefaultShortcode>
   );
 
-  // console.log("attrs: ", JSON.stringify(attrs, null, 2));
-  let realattrs = attrs;
+  // 解析shortcode名称，从compsMap中找到对应的组件
+  const nameParts = rawCompName.split('/');
+  let resolved:
+    | ShortCodeCompType
+    | ShortCodeCompInfo
+    | ShortCodeCompRecord
+    | undefined = compsMap;
 
+  for (const part of nameParts) {
+    if (
+      resolved === undefined ||
+      typeof resolved === 'function' ||
+      isShortCodeCompInfo(resolved)
+    ) {
+      return DefaultComp;
+    }
+    const record = resolved as ShortCodeCompRecord;
+    if (record[part] === undefined) {
+      return DefaultComp;
+    }
+    resolved = record[part];
+  }
+
+  // 提取组件和属性类型
+  let Component: ShortCodeCompType;
+  let attrType: 'original' | 'positional' = 'positional';
+
+  if (typeof resolved === 'function') {
+    Component = resolved;
+  } else if (isShortCodeCompInfo(resolved)) {
+    Component = resolved.type;
+    attrType = resolved.allowAttrType;
+  } else {
+    console.error(`Shortcode route error: ${rawCompName}`);
+    return DefaultComp;
+  }
+
+  // 处理属性
+  let realattrs = attrs;
   if (
     realattrs?.length >= 1 &&
     Array.isArray(realattrs[0]) &&
     realattrs[0].length >= 1
   ) {
-    realattrs = realattrs.map((attr) => {
-      if (Array.isArray(attr) && attr.length >= 1) {
-        return attr[1] || attr[0];
-      }
-      return attr;
-    });
-  }
-
-  // 解析shortcode名称，从compsMap中找到对应的组件
-  const nameParts = rawCompName.split('/');
-  let comp: ShortCodeCompType | ShortCodeCompRecord | undefined = compsMap;
-
-  for (const part of nameParts) {
-    if (
-      typeof comp === 'function' ||
-      comp === undefined ||
-      comp[part] === undefined
-    ) {
-      return DefaultComp;
+    if (attrType === 'original') {
+      // 保留原始 [key, value] 数组格式，直接透传给组件
+    } else {
+      // 位置参数
+      realattrs = realattrs.map((attr) => {
+        if (Array.isArray(attr) && attr.length >= 1) {
+          return attr[1] || attr[0];
+        }
+        return attr;
+      });
     }
-    comp = comp[part];
   }
 
-  // 检查最终的comp是否是一个函数（ShortCodeCompFunction）
-  if (typeof comp === 'function') {
-    // 检查是否为 React 组件
-    if ('$$typeof' in comp || 'prototype' in comp) {
-      const Component = comp as React.ComponentType<ShortCodeCompProps>;
-      return (
-        <Component attrs={realattrs} mdContext={mdContext}>
-          {children}
-        </Component>
-      );
-    }
-    // 普通函数调用
-    return (comp as (props: ShortCodeCompProps) => React.ReactNode)({
-      attrs: realattrs,
-      children,
-      mdContext,
-    });
+  // 渲染组件
+  if ('$$typeof' in Component || 'prototype' in Component) {
+    return (
+      <Component attrs={realattrs} mdContext={mdContext}>
+        {children}
+      </Component>
+    );
   }
-
-  // 如果组件不存在或不是函数，则返回默认组件
-  console.error(`Shortcode route error: ${rawCompName}`);
-  return DefaultComp;
+  return (Component as (props: ShortCodeCompProps) => React.ReactNode)({
+    attrs: realattrs,
+    children,
+    mdContext,
+  });
 }

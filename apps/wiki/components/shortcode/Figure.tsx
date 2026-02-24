@@ -5,8 +5,8 @@ import { getLocalImagePathFromMdContext } from './utils';
 interface FigureProps {
   src?: string;
   alt?: string;
-  width?: number;
-  height?: number;
+  width?: string;
+  height?: string;
   loading?: string;
   class?: string;
   link?: string;
@@ -19,66 +19,65 @@ interface FigureProps {
 }
 
 export default function Figure({ attrs, mdContext }: ShortCodeCompProps) {
-  // 解析命名参数
+  // 解析属性：attrs 格式为 [key | null, value][] 数组
   const parseAttrs = (attrs: unknown[]): FigureProps => {
     const props: FigureProps = {};
 
-    if (!attrs) return props;
+    if (!attrs || attrs.length === 0) return props;
 
-    // 如果是位置参数，第一个参数通常是src
-    if (typeof attrs[0] === 'string' && !attrs[0].includes('=')) {
-      props.src = attrs[0];
+    // 位置参数：第一个元素是 [null, value]
+    const first = attrs[0];
+    if (Array.isArray(first) && first[0] === null) {
+      props.src = first[1] || '';
       return props;
     }
 
-    // 解析命名参数
+    // 命名参数：每个元素是 [key, value]
     for (const attr of attrs) {
-      if (typeof attr === 'string' && attr.includes('=')) {
-        const [key, value] = attr.split('=', 2);
-        const cleanKey = key.trim();
-        const cleanValue = value.replace(/['"]/g, '').trim();
+      if (!Array.isArray(attr) || attr.length < 2) continue;
+      const key = attr[0] as string;
+      const value = (attr[1] || '') as string;
 
-        switch (cleanKey) {
-          case 'src':
-            props.src = cleanValue;
-            break;
-          case 'alt':
-            props.alt = cleanValue;
-            break;
-          case 'width':
-            props.width = Number.parseInt(cleanValue);
-            break;
-          case 'height':
-            props.height = Number.parseInt(cleanValue);
-            break;
-          case 'loading':
-            props.loading = cleanValue as 'eager' | 'lazy';
-            break;
-          case 'class':
-            props.class = cleanValue;
-            break;
-          case 'link':
-            props.link = cleanValue;
-            break;
-          case 'target':
-            props.target = cleanValue;
-            break;
-          case 'rel':
-            props.rel = cleanValue;
-            break;
-          case 'title':
-            props.title = cleanValue;
-            break;
-          case 'caption':
-            props.caption = cleanValue;
-            break;
-          case 'attr':
-            props.attr = cleanValue;
-            break;
-          case 'attrlink':
-            props.attrlink = cleanValue;
-            break;
-        }
+      switch (key) {
+        case 'src':
+          props.src = value;
+          break;
+        case 'alt':
+          props.alt = value;
+          break;
+        case 'width':
+          props.width = value;
+          break;
+        case 'height':
+          props.height = value;
+          break;
+        case 'loading':
+          props.loading = value;
+          break;
+        case 'class':
+          props.class = value;
+          break;
+        case 'link':
+          props.link = value;
+          break;
+        case 'target':
+          props.target = value;
+          break;
+        case 'rel':
+          props.rel = value;
+          break;
+        case 'title':
+          props.title = value;
+          break;
+        case 'caption':
+          props.caption = value;
+          break;
+        case 'attr':
+          props.attr = value;
+          break;
+        case 'attrlink':
+          props.attrlink = value;
+          break;
       }
     }
 
@@ -87,19 +86,34 @@ export default function Figure({ attrs, mdContext }: ShortCodeCompProps) {
 
   const figureProps = parseAttrs(attrs || []);
 
+  // width 和 height 同时为纯数字时，size 传给 LocalImage
+  // 否则都走 CSS style
+  const isNumeric = (v?: string) => v != null && /^\d+$/.test(v);
+  const bothNumeric =
+    isNumeric(figureProps.width) && isNumeric(figureProps.height);
+
+  const figureStyle: React.CSSProperties = {};
+  if (!bothNumeric) {
+    if (figureProps.width) figureStyle.width = figureProps.width;
+    if (figureProps.height) figureStyle.height = figureProps.height;
+  }
+
   const imageElement = (
     <LocalImage
       src={getLocalImagePathFromMdContext(figureProps.src, mdContext)}
       alt={figureProps.alt || figureProps.caption}
-      width={figureProps.width}
-      height={figureProps.height}
+      width={bothNumeric ? Number(figureProps.width) : undefined}
+      height={bothNumeric ? Number(figureProps.height) : undefined}
       loading={figureProps.loading as 'eager' | 'lazy' | undefined}
       language={mdContext?.currentLanguage || undefined}
     />
   );
 
   return (
-    <figure className={`my-4 text-center ${figureProps.class || ''}`}>
+    <figure
+      className={`my-4 text-center ${figureProps.class || ''}`}
+      style={Object.keys(figureStyle).length > 0 ? figureStyle : undefined}
+    >
       {figureProps.link ? (
         <a
           href={figureProps.link}
