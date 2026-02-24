@@ -1,11 +1,12 @@
-import { ThemeProvider } from '@/components/ThemeProvider';
+import type { Metadata } from 'next';
 import {
   ProgressBar,
   ProgressProvider,
   SkeletonProvider,
 } from '@/components/progress';
-import type { Metadata } from 'next';
+import { ThemeProvider } from '@/components/ThemeProvider';
 import './globals.css';
+import { GoogleAnalytics } from '@next/third-parties/google';
 
 import { Provider as JotaiProvider } from 'jotai';
 
@@ -39,7 +40,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    // biome-ignore lint/a11y/useHtmlLang:
+    // biome-ignore lint/a11y/useHtmlLang: no reason
     <html suppressHydrationWarning>
       <head>
         {/* 字体服务器预连接 */}
@@ -56,6 +57,9 @@ export default function RootLayout({
             </ProgressProvider>
           </ThemeProvider>
         </JotaiProvider>
+        {process.env.NEXT_PUBLIC_GA_ID && (
+          <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+        )}
       </body>
     </html>
   );
