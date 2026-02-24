@@ -45,6 +45,13 @@ interface DocParams {
   slug: string[];
 }
 
+type NavigationLinkRelation = 'sibling' | 'sequence';
+
+interface NavigationLinkInfo {
+  item: DocItem;
+  relation: NavigationLinkRelation;
+}
+
 export async function generateStaticParams() {
   // 获取语言配置
   const languageConfigs = getLanguageConfigs();
@@ -251,6 +258,7 @@ export default async function DocPage({
     root: navigationItemRoot,
     map: navigationItemMap,
     redirectMap,
+    orderMap: navigationOrderMap,
   } = await getDocsNavigationMap(language, slugArray[0]);
 
   const navItem = getDocItemByNavigationMap(navigationItemMap, slugPath);
@@ -417,6 +425,37 @@ export default async function DocPage({
   const nextPage =
     currentIndex < siblings.length - 1 ? siblings[currentIndex + 1] : null;
 
+  const navigationOrderEntry =
+    navigationOrderMap.get(navItem.displayPath) ?? null;
+  const sequentialPreviousPath = navigationOrderEntry?.previous ?? null;
+  const sequentialNextPath = navigationOrderEntry?.next ?? null;
+  const sequentialPreviousItem = sequentialPreviousPath
+    ? getDocItemByNavigationMap(navigationItemMap, sequentialPreviousPath)
+    : null;
+  const sequentialNextItem = sequentialNextPath
+    ? getDocItemByNavigationMap(navigationItemMap, sequentialNextPath)
+    : null;
+  const previousNav: NavigationLinkInfo | null = previousPage
+    ? { item: previousPage, relation: 'sibling' }
+    : sequentialPreviousItem
+      ? { item: sequentialPreviousItem, relation: 'sequence' }
+      : null;
+  const nextNav: NavigationLinkInfo | null = nextPage
+    ? { item: nextPage, relation: 'sibling' }
+    : sequentialNextItem
+      ? { item: sequentialNextItem, relation: 'sequence' }
+      : null;
+  const previousLabelKey = previousNav
+    ? previousNav.relation === 'sequence'
+      ? 'previousPageSequence'
+      : 'previousPageSibling'
+    : null;
+  const nextLabelKey = nextNav
+    ? nextNav.relation === 'sequence'
+      ? 'nextPageSequence'
+      : 'nextPageSibling'
+    : null;
+
   const showEditAndLastModifiedTime = strippedSource.trim().length > 0;
 
   // 获取文件的最近修改时间
@@ -540,39 +579,43 @@ export default async function DocPage({
         </section>
       )}
       {/* 上一页/下一页导航 */}
-      {(previousPage || nextPage) && (
+      {(previousNav || nextNav) && (
         <nav className="mt-8 flex justify-between items-center p-4 bg-base-100/30 rounded-lg border border-base-300/30 shadow-sm">
-          {previousPage ? (
+          {previousNav ? (
             <Link
-              href={`/${language}/${previousPage.displayPath}`}
+              href={`/${language}/${previousNav.item.displayPath}`}
               className="inline-flex items-center text-sm text-base-content/70 hover:text-primary transition-colors"
+              aria-label={`${t(previousLabelKey ?? 'previousPage', language)}: ${previousNav.item.metadata.title}`}
             >
               <ChevronLeft className="w-4 h-4 mr-2" />
               <div>
                 <div className="text-xs text-base-content/50">
-                  {t('previousPage', language)}
+                  {t(previousLabelKey ?? 'previousPage', language)}
                 </div>
-                <div className="font-medium">{previousPage.metadata.title}</div>
+                <div className="font-medium">
+                  {previousNav.item.metadata.title}
+                </div>
               </div>
             </Link>
           ) : (
             <span />
           )}
 
-          {nextPage && (
+          {nextNav ? (
             <Link
-              href={`/${language}/${nextPage.displayPath}`}
+              href={`/${language}/${nextNav.item.displayPath}`}
               className="inline-flex items-center text-sm text-base-content/70 hover:text-primary transition-colors"
+              aria-label={`${t(nextLabelKey ?? 'nextPage', language)}: ${nextNav.item.metadata.title}`}
             >
               <div>
                 <div className="text-xs text-base-content/50">
-                  {t('nextPage', language)}
+                  {t(nextLabelKey ?? 'nextPage', language)}
                 </div>
-                <div className="font-medium">{nextPage.metadata.title}</div>
+                <div className="font-medium">{nextNav.item.metadata.title}</div>
               </div>
               <ChevronRight className="w-4 h-4 ml-2" />
             </Link>
-          )}
+          ) : null}
         </nav>
       )}
     </div>
