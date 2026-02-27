@@ -25,10 +25,13 @@ export default function Figure({ attrs, mdContext }: ShortCodeCompProps) {
 
     if (!attrs || attrs.length === 0) return props;
 
-    // 位置参数：第一个元素是 [null, value]
-    const first = attrs[0];
-    if (Array.isArray(first) && first[0] === null) {
-      props.src = first[1] || '';
+    // 如果是位置参数，第一个参数通常是src（ShortCodeComp 将 [["src","x"],["width","400"]] 转为 ["x","400","319"]）
+    if (typeof attrs[0] === 'string' && !attrs[0].includes('=')) {
+      props.src = attrs[0];
+      if (attrs[1] !== undefined)
+        props.width = Number.parseInt(String(attrs[1]));
+      if (attrs[2] !== undefined)
+        props.height = Number.parseInt(String(attrs[2]));
       return props;
     }
 
