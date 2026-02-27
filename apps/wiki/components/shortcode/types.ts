@@ -19,8 +19,13 @@ export type ShortCodeCompProps = Pick<
   'attrs' | 'children' | 'mdContext'
 >;
 
+export interface ShortCodeCompInfo {
+  type: ComponentType<ShortCodeCompProps>;
+  allowAttrType: 'original' | 'positional';
+}
+
 export type ShortCodeCompType = ComponentType<ShortCodeCompProps>;
 
 export interface ShortCodeCompRecord {
-  [key: string]: ShortCodeCompType | ShortCodeCompRecord;
+  [key: string]: ShortCodeCompType | ShortCodeCompInfo | ShortCodeCompRecord;
 }
