@@ -3,8 +3,9 @@
 import { useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { ChevronDown, Languages } from 'lucide-react';
-import DropdownLink from './DropdownLink';
+import { useRef } from 'react';
 import { languageAlternateAtom } from './LanguageAlternate';
+import { Link } from './progress';
 
 interface LanguageOption {
   code: string;
@@ -20,11 +21,10 @@ export default function LanguageSwitcher({
   currentLanguage,
   availableLanguages,
 }: LanguageSwitcherProps) {
-  const [globalLanguageAlternate, setGlobalLanguageAlternate] = useAtom(
-    languageAlternateAtom,
-  );
+  const detailsRef = useRef<HTMLDetailsElement>(null);
+  const [globalLanguageAlternate] = useAtom(languageAlternateAtom);
 
-  const [language, setLanguage] = useAtom(languageAtom);
+  const [, setLanguage] = useAtom(languageAtom);
 
   // 判断语言是否在可用的替代语言中
   const isLanguageAvailable = (langCode: string) => {
@@ -60,35 +60,38 @@ export default function LanguageSwitcher({
     return baseClassNameForNonCurrentLanguage;
   };
 
+  const handleLanguageClick = (langCode: string) => {
+    setLanguage(langCode);
+    window.setTimeout(() => {
+      detailsRef.current?.removeAttribute('open');
+    }, 0);
+  };
+
   return (
-    <div className="dropdown dropdown-end">
-      <div
-        role="button"
-        tabIndex={0}
+    <details ref={detailsRef} className="dropdown dropdown-end">
+      <summary
         className="flex items-center gap-1 btn btn-ghost btn-sm group"
         aria-label="Language Switcher"
       >
         <Languages className="w-5 h-5" />
         <ChevronDown className="w-4 h-4 transition-transform group-focus:rotate-180" />
-      </div>
+      </summary>
       <div className="dropdown-content right-0 z-1 w-48 mt-2 rounded-md shadow-lg bg-base-100">
         <ul className="py-1">
           {availableLanguages.map((lang) => (
             <li key={lang.code}>
-              <DropdownLink
+              <Link
                 href={getLanguageHref(lang.code)}
                 className={getLanguageClassName(lang)}
-                onClick={() => {
-                  setLanguage(lang.code);
-                }}
+                onClick={() => handleLanguageClick(lang.code)}
               >
                 {lang.name}
-              </DropdownLink>
+              </Link>
             </li>
           ))}
         </ul>
       </div>
-    </div>
+    </details>
   );
 }
 
