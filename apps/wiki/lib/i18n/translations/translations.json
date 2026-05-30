@@ -9,7 +9,7 @@
   "about": {
     "zh-cn": "关于",
     "zh-hant": "關於",
-    "ja": "について",
+    "ja": "サイト概要",
     "es": "Acerca de",
     "en": "About"
   },
@@ -159,5 +159,40 @@
     "ja": "現在のフォント",
     "es": "Fuente actual",
     "en": "Current Font"
+  },
+  "close": {
+    "zh-cn": "关闭",
+    "zh-hant": "關閉",
+    "ja": "閉じる",
+    "es": "Cerrar",
+    "en": "Close"
+  },
+  "expand": {
+    "zh-cn": "展开",
+    "zh-hant": "展開",
+    "ja": "展開する",
+    "es": "Expandir",
+    "en": "Expand"
+  },
+  "collapse": {
+    "zh-cn": "收起",
+    "zh-hant": "收合",
+    "ja": "折りたたむ",
+    "es": "Contraer",
+    "en": "Collapse"
+  },
+  "closeToc": {
+    "zh-cn": "关闭目录",
+    "zh-hant": "關閉目錄",
+    "ja": "目次を閉じる",
+    "es": "Cerrar índice",
+    "en": "Close table of contents"
+  },
+  "suggestionBoxRequiresJavaScript": {
+    "zh-cn": "提问箱需要运行 JavaScript 以加载。",
+    "zh-hant": "提問箱需要執行 JavaScript 才能載入。",
+    "ja": "質問箱の読み込みには JavaScript が必要です。",
+    "es": "El buzón de sugerencias requiere JavaScript para cargarse.",
+    "en": "Suggestion Box requires JavaScript to load."
   }
 }

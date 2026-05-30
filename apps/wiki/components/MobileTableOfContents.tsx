@@ -143,7 +143,7 @@ export default function MobileTableOfContents({
               }}
               role="button"
               tabIndex={0}
-              aria-label="关闭目录"
+              aria-label={t('closeToc', language)}
             />
 
             {/* 弹窗内容 */}
@@ -164,7 +164,7 @@ export default function MobileTableOfContents({
                   type="button"
                   onClick={() => setIsOpen(false)}
                   className="p-2 rounded-lg hover:bg-base-300/50 transition-colors"
-                  aria-label="close"
+                  aria-label={t('close', language)}
                 >
                   <X className="w-5 h-5" />
                 </button>

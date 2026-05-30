@@ -12,6 +12,8 @@ interface SearchBoxProps {
   serverBuildIndex: boolean;
   notFoundText?: string;
   tryDifferentKeywordsText?: string;
+  startSearchText?: string;
+  enterKeywordsText?: string;
   compact?: boolean;
 }
 
@@ -88,6 +90,8 @@ export default function SearchBoxClient({
   serverBuildIndex,
   notFoundText,
   tryDifferentKeywordsText,
+  startSearchText,
+  enterKeywordsText,
   compact = false,
 }: SearchBoxProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -380,8 +384,8 @@ export default function SearchBoxClient({
               {!query && (
                 <div className="p-8 text-center text-base-content/60">
                   <Search className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p className="text-lg mb-2">开始搜索</p>
-                  <p className="text-sm">输入关键词来搜索文档</p>
+                  <p className="text-lg mb-2">{startSearchText}</p>
+                  <p className="text-sm">{enterKeywordsText}</p>
                 </div>
               )}
             </div>

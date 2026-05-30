@@ -20,31 +20,59 @@
     "es": "Intenta con diferentes palabras clave",
     "en": "Try different keywords"
   },
+  "search-documents-start": {
+    "zh-cn": "开始搜索",
+    "zh-hant": "開始搜尋",
+    "ja": "検索を開始",
+    "es": "Comenzar búsqueda",
+    "en": "Start searching"
+  },
+  "search-documents-enter-keywords": {
+    "zh-cn": "输入关键词来搜索文档",
+    "zh-hant": "輸入關鍵詞來搜尋文檔",
+    "ja": "キーワードを入力してドキュメントを検索します",
+    "es": "Introduce palabras clave para buscar documentos",
+    "en": "Enter keywords to search documents"
+  },
+  "browser-upgrade-title": {
+    "zh-cn": "⚠️ 浏览器版本过旧",
+    "zh-hant": "⚠️ 瀏覽器版本過舊",
+    "ja": "⚠️ ブラウザが古い可能性があります",
+    "es": "⚠️ Navegador obsoleto",
+    "en": "⚠️ Browser Version Too Old"
+  },
+  "browser-upgrade-description": {
+    "zh-cn": "您的浏览器版本过旧，可能无法正常显示本网站。请使用更新版本的浏览器或操作系统。",
+    "zh-hant": "您的瀏覽器版本過舊，可能無法正常顯示本網站。請使用更新版本的瀏覽器或作業系統。",
+    "ja": "お使いのブラウザは古いため、このサイトが正しく表示されない可能性があります。新しいブラウザまたは OS をご利用ください。",
+    "es": "Tu navegador está obsoleto y puede que no muestre este sitio correctamente. Usa una versión más reciente del navegador o del sistema operativo.",
+    "en": "Your browser is outdated and may not display this website correctly. Please use a newer browser or operating system."
+  },
   "banner-text-disclaimer": {
     "zh-cn": "MtF.wiki 的内容仅供参考，可能存在过时或不准确的信息，请谨慎甄别。",
     "zh-hant": "MtF.wiki 的內容僅供參考，可能存在過時或不準確的信息，請謹慎甄別。",
-    "ja": "MtF.wiki の内容は参考になりますが、過去の情報や不正確な情報が含まれている可能性があります。ご注意ください。",
+    "ja": "MtF.wiki の内容は参考情報であり、古い情報や不正確な情報が含まれる可能性があります。ご自身で慎重にご確認ください。",
     "es": "El contenido de MtF.wiki es solo para referencia y puede contener información obsoleta o incorrecta. Por favor, ten cuidado.",
     "en": "The content of MtF.wiki is for reference only and may contain outdated or inaccurate information. Please be cautious."
   },
   "banner-text-disclaimer-preview": {
     "zh-cn": "MtF.wiki 的内容仅供参考，可能存在过时或不准确的信息，请谨慎甄别。（您当前访问的是技术测试版本站点，仅供技术测试相关需求使用）",
     "zh-hant": "MtF.wiki 的內容僅供參考，可能存在過時或不準確的信息，請謹慎甄別。（您當前訪問的是技術測試版本站點，僅供技術測試相關需求使用）",
-    "ja": "MtF.wiki の内容は参考になりますが、過去の情報や不正確な情報が含まれている可能性があります。ご注意ください。（あなたは現在技術テストバージョンのサイトにアクセスしています。技術テストのみに使用してください。）",
+    "ja": "MtF.wiki の内容は参考情報であり、古い情報や不正確な情報が含まれる可能性があります。ご自身で慎重にご確認ください。（現在、技術テスト版のサイトを表示しています。技術テスト目的でのみご利用ください。）",
     "es": "El contenido de MtF.wiki es solo para referencia y puede contener información obsoleta o incorrecta. Por favor, ten cuidado. (Actualmente estás visitando un sitio web de versión de prueba técnica. Solo para uso técnico.)",
     "en": "The content of MtF.wiki is for reference only and may contain outdated or inaccurate information. Please be cautious. (You are currently visiting a technical test version site. Only for technical test.)"
   },
   "banner-button-text-disclaimer": {
     "zh-cn": "免责声明",
     "zh-hant": "免責聲明",
-    "ja": "免責聲明",
+    "ja": "免責事項",
     "es": "Aviso de免责",
     "en": "Disclaimer"
   },
   "banner-button-link-disclaimer": {
     "zh-cn": "/zh-cn/about/disclaimer",
     "zh-hant": "/en/about/disclaimer",
-    "ja": "/en/about/disclaimer",
+    "ja": "/ja/about/disclaimer",
     "es": "/en/about/disclaimer",
     "en": "/en/about/disclaimer"
   },
@@ -58,7 +86,7 @@
   "last-modified-time": {
     "zh-cn": "最近更新于",
     "zh-hant": "最近更新於",
-    "ja": "最近更新於",
+    "ja": "最終更新日",
     "es": "Última modificación ",
     "en": "Last Modified "
   },
@@ -79,7 +107,7 @@
   "home-page-description": {
     "zh-cn": "欢迎来到 MtF.wiki．我们试图整理汇总女性倾向跨性别的相关资料，为大家提供更好的帮助~",
     "zh-hant": "歡迎來到 MtF.wiki．我們試圖整理匯總女性傾向跨性別的相關資料，為大家提供更好的幫助~",
-    "ja": "MtF.wiki へようこそ。 吾輩は、女性的なトランスジェンダーに関する情報を整理して要約し、より良い支援を提供するよう努めています〜",
+    "ja": "MtF.wikiへようこそ。吾輩らは、トランス女性やトランスフェミニンの方に関する情報を整理し、より良い支援につなげることを目指している。",
     "es": "Bienvenida a MtF.wiki. Tratamos de organizar la información relevante de transfeminidad para daros mejor ayuda ^_^",
     "en": "Welcome to the MtF.wiki. We are trying to organize the relevant information of transfeminine to provide you with better help ^_^"
   },
@@ -107,14 +135,14 @@
   "content-source": {
     "zh-cn": "文档内容源码",
     "zh-hant": "文檔內容源碼",
-    "ja": "ドキュメントコンテンツソースコード",
+    "ja": "ドキュメント本文のソースコード",
     "es": "Código fuente del contenido del documento",
     "en": "Document Content Source Code"
   },
   "website-source": {
     "zh-cn": "网站框架源码",
     "zh-hant": "網站框架源碼",
-    "ja": "ウェブサイトフレームワークソースコード",
+    "ja": "ウェブサイト基盤のソースコード",
     "es": "Código fuente del sitio web",
     "en": "Website Framework Source Code"
   },
@@ -177,7 +205,7 @@
   "all-rights-reserved": {
     "zh-cn": "All rights reserved. Maintained by",
     "zh-hant": "All rights reserved. Maintained by",
-    "ja": "All rights reserved. Maintained by",
+    "ja": "All rights reserved. 運営：",
     "es": "Todos los derechos reservados. Mantenido por",
     "en": "All rights reserved. Maintained by"
   },
@@ -219,14 +247,14 @@
   "header-navigation": {
     "zh-cn": "板块",
     "zh-hant": "板塊",
-    "ja": "板塊",
+    "ja": "ナビゲーション",
     "es": "División",
     "en": "Division"
   },
   "redirect-client-text": {
     "zh-cn": "如果您的浏览器没有自动跳转，请点击此处",
     "zh-hant": "如果您的瀏覽器沒有自動跳轉，請點擊此處",
-    "ja": "ブラウザーが自動的にリダイレクトされない場合は、ここをクリックしてください",
+    "ja": "ブラウザが自動的にリダイレクトしない場合は、ここをクリックしてください",
     "es": "Si el navegador no redirige automáticamente, haga clic aquí",
     "en": "If the browser does not redirect automatically, click here"
   }

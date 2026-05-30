@@ -49,7 +49,7 @@ export default function LayoutComponent({
         <main className="flex-1 min-w-0">
           <DocContent>{children}</DocContent>
           <div className="mt-8">
-            <SuggestionBox />
+            <SuggestionBox language={language} />
           </div>
         </main>
 

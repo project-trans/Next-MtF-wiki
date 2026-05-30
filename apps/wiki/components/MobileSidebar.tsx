@@ -73,7 +73,7 @@ const MobileNavItem = ({
               type="button"
               onClick={() => setIsOpen(!isOpen)}
               className="p-2 ml-1 rounded-lg hover:bg-base-200 transition-colors"
-              aria-label={isOpen ? '收起' : '展开'}
+              aria-label={t(isOpen ? 'collapse' : 'expand', language)}
             >
               <ChevronDown
                 className={`w-4 h-4 transition-transform ${isOpen ? '' : '-rotate-90'}`}
@@ -262,7 +262,7 @@ export default function MobileSidebar({
                   type="button"
                   onClick={() => setIsOpen(false)}
                   className="p-2 rounded-lg hover:bg-base-300/50 transition-colors"
-                  aria-label="close"
+                  aria-label={t('close', language)}
                 >
                   <X className="w-5 h-5" />
                 </button>

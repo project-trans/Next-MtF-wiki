@@ -13,7 +13,13 @@ export async function generateMetadata({
   };
 }
 
-export default function CupCalculatorPage() {
+export default async function CupCalculatorPage({
+  params,
+}: {
+  params: Promise<{ language: string }>;
+}) {
+  const { language } = await params;
+
   return (
     <div className="container mx-auto px-4 py-6 md:py-8">
       <div className="max-w-4xl mx-auto">
@@ -95,7 +101,7 @@ export default function CupCalculatorPage() {
           </div>
         </footer>
         <div className="mt-8">
-          <SuggestionBox />
+          <SuggestionBox language={language} />
         </div>
       </div>
     </div>

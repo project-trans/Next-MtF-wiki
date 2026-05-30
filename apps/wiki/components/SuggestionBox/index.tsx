@@ -1,28 +1,31 @@
 'use client';
+import { t } from '@/lib/i18n/client';
 import { useIsClient } from 'foxact/use-is-client';
 import { type FC, Suspense, lazy, memo } from 'react';
 import type { SuggestionBoxProps } from './types';
 
-const SuggestionBoxSkeleton = () => (
+const SuggestionBoxSkeleton = ({ language }: { language: string }) => (
   <div className="skeleton h-45 text-center flex items-center justify-center">
     <noscript>
-      <p>提问箱需要运行 JavaScript 以加载。</p>
-      <p>Suggestion Box requires JavaScript to load.</p>
+      <p>{t('suggestionBoxRequiresJavaScript', language)}</p>
     </noscript>
   </div>
 );
 
 const SuggestionBoxInner = lazy(() => import('./box'));
 
-const SuggestionBox_: FC<SuggestionBoxProps> = (props) => {
+const SuggestionBox_: FC<SuggestionBoxProps & { language: string }> = ({
+  language,
+  ...props
+}) => {
   const isClient = useIsClient();
 
   if (!isClient) {
-    return <SuggestionBoxSkeleton />;
+    return <SuggestionBoxSkeleton language={language} />;
   }
 
   return (
-    <Suspense fallback={<SuggestionBoxSkeleton />}>
+    <Suspense fallback={<SuggestionBoxSkeleton language={language} />}>
       <SuggestionBoxInner {...props} />
     </Suspense>
   );

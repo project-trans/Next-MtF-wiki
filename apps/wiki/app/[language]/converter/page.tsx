@@ -13,7 +13,13 @@ export async function generateMetadata({
     title: '激素换算器 - MtF.wiki',
   };
 }
-export default function ConverterPage() {
+export default async function ConverterPage({
+  params,
+}: {
+  params: Promise<{ language: string }>;
+}) {
+  const { language } = await params;
+
   return (
     <div className="container mx-auto px-4 py-6 md:py-8">
       <div className="max-w-6xl mx-auto">
@@ -57,7 +63,7 @@ export default function ConverterPage() {
           </div>
         </footer>
         <div className="mt-8">
-          <SuggestionBox />
+          <SuggestionBox language={language} />
         </div>
       </div>
     </div>

@@ -38,7 +38,10 @@ export default async function LanguageLayout({
   return (
     <div className="flex flex-col min-h-screen" lang={language}>
       {/* 浏览器升级横幅 - 只在不支持 :where() 的浏览器中显示 */}
-      <BrowserUpgradeBanner />
+      <BrowserUpgradeBanner
+        title={sT('browser-upgrade-title', language)}
+        description={sT('browser-upgrade-description', language)}
+      />
 
       {/* 顶部导航栏 */}
       <ObservedHeader className="lg:sticky lg:top-0 z-49 border-b bg-base-100/80 backdrop-blur-xl border-base-300/50 shadow-sm">

@@ -21,6 +21,8 @@ export default function SearchBox({
         'search-documents-try-different-keywords',
         language,
       )}
+      startSearchText={sT('search-documents-start', language)}
+      enterKeywordsText={sT('search-documents-enter-keywords', language)}
       compact={compact}
     />
   );
