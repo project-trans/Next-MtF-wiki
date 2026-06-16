@@ -4,16 +4,13 @@ import { useAtom } from 'jotai';
 import { ArrowUpDown, Calculator, Check, Copy, Info, X } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useEffect, useRef, useState } from 'react';
+import { type TranslationKey, t } from '@/lib/i18n/client';
 import { addHistoryRecordAtom, conversionStateAtom } from '../lib/atoms';
 import type { HormoneType } from '../lib/types';
-import { formatValue, performConversion } from '../lib/utils';
-import { isIUStandard } from '../lib/utils';
+import { formatValue, isIUStandard, performConversion } from '../lib/utils';
 import { RangeIndicator } from './RangeIndicator';
 import { UnitSelector } from './UnitSelector';
 
-/**
- * 判断是否为IU和质量单位之间的换算
- */
 function isIUToMassConversion(fromUnit: string, toUnit: string): boolean {
   const fromIsIU = isIUStandard(fromUnit);
   const toIsIU = isIUStandard(toUnit);
@@ -23,9 +20,10 @@ function isIUToMassConversion(fromUnit: string, toUnit: string): boolean {
 
 interface HormoneCardProps {
   hormone: HormoneType;
+  language: string;
 }
 
-export function HormoneCard({ hormone }: HormoneCardProps) {
+export function HormoneCard({ hormone, language }: HormoneCardProps) {
   const [state, setState] = useAtom(conversionStateAtom);
   const [, addHistoryRecord] = useAtom(addHistoryRecordAtom);
   const [isConverting, setIsConverting] = useState(false);
@@ -36,7 +34,6 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
 
   const pendingResult = useRef<any>(null);
 
-  // 当激素类型改变时，重置单位选择
   useEffect(() => {
     if (isSelected && state.fromUnit && state.toUnit) {
       const fromUnitExists = hormone.units.some(
@@ -55,7 +52,6 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
     }
   }, [hormone, isSelected, state.fromUnit, state.toUnit, setState]);
 
-  // 当激素类型、单位或输入值改变时重新计算结果
   useEffect(() => {
     if (pendingResult.current) {
       clearTimeout(pendingResult.current);
@@ -67,7 +63,6 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
     const trimmedInput = state.inputValue.trim();
 
     function setErrorState() {
-      // 输入不为空但无效（包含汉字等），设置无效结果
       setState((prev) => ({
         ...prev,
         result: {
@@ -81,10 +76,8 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
     if (trimmedInput && !inputRef.current?.checkValidity()) {
       setErrorState();
     } else if (trimmedInput && !Number.isNaN(Number.parseFloat(trimmedInput))) {
-      // 输入有效，进行转换
       setIsConverting(true);
 
-      // 添加轻微延迟以显示动画效果
       pendingResult.current = setTimeout(() => {
         const result = performConversion(
           state.inputValue,
@@ -99,7 +92,6 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
     } else if (trimmedInput) {
       setErrorState();
     } else {
-      // 输入为空，清除结果
       setState((prev) => ({ ...prev, result: null }));
       setIsConverting(false);
     }
@@ -114,7 +106,6 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
 
   const handleInputChange = (value: string) => {
     setState((prev) => ({ ...prev, inputValue: value }));
-    // 转换计算现在由useEffect处理，避免重复计算
   };
 
   const handleUnitChange = (type: 'from' | 'to', unit: string) => {
@@ -122,7 +113,6 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
       ...prev,
       [type === 'from' ? 'fromUnit' : 'toUnit']: unit,
     }));
-    // 转换计算现在由useEffect处理，避免重复计算
   };
 
   const swapUnits = () => {
@@ -140,7 +130,6 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
       result: null,
     }));
 
-    // 如果交换后有输入值，立即计算结果
     if (newInputValue && !Number.isNaN(Number.parseFloat(newInputValue))) {
       setIsConverting(true);
       clearTimeout(pendingResult.current);
@@ -206,22 +195,16 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
     >
       <div className="bg-gradient-to-r from-primary/10 to-secondary/10 p-4 md:p-6 border-b border-base-300/30">
         <h3 className="text-xl font-semibold text-base-content">
-          {hormone.name}
+          {t(hormone.name as TranslationKey, language)}
         </h3>
-        {/* {hormone.description && (
-          <p className="text-sm text-base-content/60 mt-1">
-            {hormone.description}
-          </p>
-        )} */}
       </div>
 
       <div className="p-4 md:p-6">
         <div className="space-y-4 md:space-y-6">
-          {/* 输入部分 */}
           <div className="space-y-3 md:space-y-4">
             {/* biome-ignore lint/a11y/noLabelWithoutControl: <explanation> */}
             <label className="block text-sm font-medium text-base-content">
-              输入数值
+              {t('conv-input-value', language)}
             </label>
             <div className="flex gap-2">
               <div className="relative flex-1">
@@ -232,7 +215,7 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
                   pattern="[0-9.]*"
                   value={state.inputValue}
                   onChange={(e) => handleInputChange(e.target.value)}
-                  placeholder="请输入数值"
+                  placeholder={t('conv-input-placeholder', language) as string}
                   className="input input-bordered w-full pr-10 text-base"
                   min="0"
                 />
@@ -242,7 +225,7 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
                     className="absolute right-2 top-1/2 -translate-y-1/2 btn btn-ghost btn-xs btn-circle"
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}
-                    title="清空输入"
+                    title={t('conv-clear-input', language) as string}
                   >
                     <X className="w-3 h-3" />
                   </motion.button>
@@ -252,29 +235,28 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
                 value={state.fromUnit}
                 onChange={(unit) => handleUnitChange('from', unit)}
                 units={hormone.units}
+                language={language}
                 className="w-fit"
               />
             </div>
           </div>
 
-          {/* 转换箭头和交换按钮 */}
           <div className="flex items-center justify-center mb-0">
             <motion.button
               onClick={swapUnits}
               className="btn btn-circle btn-ghost"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
-              title="交换单位"
+              title={t('conv-swap-units', language) as string}
             >
               <ArrowUpDown className="w-5 h-5" />
             </motion.button>
           </div>
 
-          {/* 输出部分 */}
           <div className="space-y-4">
             {/* biome-ignore lint/a11y/noLabelWithoutControl: <explanation> */}
             <label className="block text-sm font-medium text-base-content">
-              转换结果
+              {t('conv-result-label', language)}
             </label>
             <div className="flex items-center gap-3 flex-wrap">
               <div className="flex-1 p-4 bg-base-200/50 rounded-lg border border-base-300/30 min-h-[60px] flex items-center max-w-full">
@@ -302,7 +284,7 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
                   className="btn btn-ghost btn-square"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  title="复制结果"
+                  title={t('conv-copy-result', language) as string}
                 >
                   {isCopied ? (
                     <Check className="w-4 h-4 text-success" />
@@ -315,22 +297,21 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
                 value={state.toUnit}
                 onChange={(unit) => handleUnitChange('to', unit)}
                 units={hormone.units}
+                language={language}
                 className="w-fit"
               />
             </div>
 
-            {/* IU和质量单位换算提示 */}
             {isIUToMassConversion(state.fromUnit, state.toUnit) && (
               <div className="alert alert-info alert-soft">
                 <Info className="w-6 h-6" />
                 <span className="text-sm">
-                  IU 和质量单位之间的换算结果仅供参考。
+                  {t('conv-iu-mass-warning', language)}
                 </span>
               </div>
             )}
           </div>
 
-          {/* 操作按钮 */}
           <div className="flex justify-center">
             <motion.button
               disabled={!state.result?.isValid || isConverting}
@@ -340,15 +321,15 @@ export function HormoneCard({ hormone }: HormoneCardProps) {
               whileTap={{ scale: 0.98 }}
             >
               <Calculator className="w-4 h-4" />
-              转换
+              {t('conv-convert', language)}
             </motion.button>
           </div>
         </div>
 
-        {/* 范围指示器 */}
         <RangeIndicator
           ranges={state.result?.ranges}
           isVisible={state.result?.isValid === true}
+          language={language}
         />
       </div>
     </motion.div>

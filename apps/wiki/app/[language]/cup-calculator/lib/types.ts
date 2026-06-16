@@ -8,12 +8,12 @@ export interface MeasurementData {
 
 export interface CupResult {
   isValid: boolean;
-  underBust: number | null; // 计算得出的胸下围
-  cupDifference: number | null; // 罩杯差值
-  cupSize: string | null; // 罩杯大小
-  bandSize: number | null; // 胸围尺寸
-  fullSize: string | null; // 完整尺寸 (如 "75B")
-  message: string; // 结果消息
+  underBust: number | null;
+  cupDifference: number | null;
+  cupSize: string | null;
+  bandSize: number | null;
+  fullSize: string | null;
+  messageKey: string;
 }
 
 export interface HistoryRecord {
@@ -32,7 +32,7 @@ export interface CalculatorState {
 export interface CupSizeInfo {
   threshold: number;
   size: string;
-  message: string;
+  messageKey: string;
 }
 
 export interface InternationalBraSize {

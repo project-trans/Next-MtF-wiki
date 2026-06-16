@@ -4,6 +4,7 @@ import { useAtom } from 'jotai';
 import { Calculator, Clock, RotateCcw } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useEffect, useState } from 'react';
+import { t } from '@/lib/i18n/client';
 import {
   addHistoryRecordAtom,
   historyAtom,
@@ -19,7 +20,11 @@ import {
 } from '../lib/utils';
 import { HistoryPanel } from './HistoryPanel';
 
-export function CupCalculator() {
+interface CupCalculatorProps {
+  language: string;
+}
+
+export function CupCalculator({ language }: CupCalculatorProps) {
   const [measurements, setMeasurements] = useAtom(measurementsAtom);
   const [result, setResult] = useAtom(resultAtom);
   const [, addHistoryRecord] = useAtom(addHistoryRecordAtom);
@@ -27,12 +32,10 @@ export function CupCalculator() {
   const [history] = useAtom(historyAtom);
   const [isCalculating, setIsCalculating] = useState(false);
 
-  // 当所有测量完成时自动计算结果
   useEffect(() => {
     if (isAllMeasurementsComplete(measurements)) {
       setIsCalculating(true);
 
-      // 添加计算动画延迟
       setTimeout(() => {
         const calculatedResult = calculateCupSize(measurements);
         setResult(calculatedResult);
@@ -55,7 +58,7 @@ export function CupCalculator() {
   };
 
   const handleReset = () => {
-    if (confirm('确定要重新开始测量吗？当前数据将被清除。')) {
+    if (confirm(t('cup-restart-confirm', language))) {
       setMeasurements({
         underBustRelaxed: null,
         underBustExhale: null,
@@ -79,18 +82,16 @@ export function CupCalculator() {
     }
   };
 
-  const handleSaveToHistory = () => {
-    if (result && measurements) {
-      addHistoryRecord({
-        measurements,
-        result,
-      });
+  const formatMessage = (res: ReturnType<typeof calculateCupSize>): string => {
+    const raw = t(res.messageKey as never, language) as string;
+    if (res.messageKey === 'cup-msg-result' && res.fullSize) {
+      return raw.replace('{size}', res.fullSize);
     }
+    return raw;
   };
 
   return (
     <div className="space-y-8">
-      {/* 说明文字 */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -98,17 +99,18 @@ export function CupCalculator() {
       >
         <div className="flex items-center gap-3 mb-4">
           <Calculator className="w-5 h-5 text-pink-500" />
-          <h2 className="text-lg font-semibold">测量说明</h2>
+          <h2 className="text-lg font-semibold">
+            {t('cup-instructions-title', language)}
+          </h2>
         </div>
         <p className="text-base-content/80 mb-4">
-          <strong>运算都在您的本地完成，不收集任何数据</strong>
+          <strong>{t('cup-local-only', language)}</strong>
         </p>
         <p className="text-sm text-base-content/70">
-          请准备一根软尺并面对镜子，看得到胸部。按照下面的步骤依次测量并填入数值。
+          {t('cup-prepare', language)}
         </p>
       </motion.div>
 
-      {/* 测量步骤列表 */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -122,14 +124,14 @@ export function CupCalculator() {
             </span>
             <div className="flex-1">
               <span className="text-base-content">
-                请直立，放松，用软尺贴合乳房下缘
+                {t('cup-step1', language)}
                 <span
                   className="mx-1 text-pink-500 font-bold underline"
                   aria-hidden="true"
                 >
                   ⊙⊙
                 </span>
-                ，水平绕身体一圈：
+                {t('cup-step1-suffix', language)}
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -154,7 +156,9 @@ export function CupCalculator() {
               2.
             </span>
             <div className="flex-1">
-              <span className="text-base-content">请呼气：</span>
+              <span className="text-base-content">
+                {t('cup-step2', language)}
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <input
@@ -179,14 +183,14 @@ export function CupCalculator() {
             </span>
             <div className="flex-1">
               <span className="text-base-content">
-                请直立，放松，用软尺经过乳头
+                {t('cup-step3', language)}
                 <span
                   className="mx-1 text-pink-500 font-bold line-through"
                   aria-hidden="true"
                 >
                   ⊙⊙
                 </span>
-                ，绕身体一圈：
+                {t('cup-step3-suffix', language)}
               </span>
             </div>
             <div className="flex items-center gap-2">
@@ -211,7 +215,9 @@ export function CupCalculator() {
               4.
             </span>
             <div className="flex-1">
-              <span className="text-base-content">请俯身 45 度：</span>
+              <span className="text-base-content">
+                {t('cup-step4', language)}
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <input
@@ -235,7 +241,9 @@ export function CupCalculator() {
               5.
             </span>
             <div className="flex-1">
-              <span className="text-base-content">请鞠躬 90 度：</span>
+              <span className="text-base-content">
+                {t('cup-step5', language)}
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <input
@@ -255,7 +263,6 @@ export function CupCalculator() {
           </li>
         </ol>
 
-        {/* 计算按钮 */}
         <div className="mt-4 md:mt-6 flex justify-center">
           <button
             type="button"
@@ -264,12 +271,11 @@ export function CupCalculator() {
             disabled={!isAllMeasurementsComplete(measurements)}
           >
             <Calculator className="w-4 h-4" />
-            计算罩杯尺寸
+            {t('cup-calculate', language)}
           </button>
         </div>
       </motion.div>
 
-      {/* 结果显示 */}
       {result && (
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -281,7 +287,9 @@ export function CupCalculator() {
           }`}
         >
           <div className="text-center">
-            <h3 className="text-xl font-semibold mb-3 md:mb-4">计算结果</h3>
+            <h3 className="text-xl font-semibold mb-3 md:mb-4">
+              {t('cup-result-title', language)}
+            </h3>
             <div
               className={`text-2xl font-bold ${
                 result.isValid
@@ -289,17 +297,19 @@ export function CupCalculator() {
                   : 'text-yellow-600 dark:text-yellow-400'
               }`}
             >
-              {result.message}
+              {formatMessage(result)}
             </div>
 
             {result.isValid && result.fullSize && (
               <div className="mt-4 text-sm text-base-content/70">
-                胸下围：{result.underBust?.toFixed(1)} cm | 罩杯差值：
-                {result.cupDifference?.toFixed(1)} cm | 罩杯：{result.cupSize}
+                {t('cup-result-underbust', language)}：
+                {result.underBust?.toFixed(1)} cm |{' '}
+                {t('cup-result-cup-difference', language)}：
+                {result.cupDifference?.toFixed(1)} cm |{' '}
+                {t('cup-result-cup', language)}：{result.cupSize}
               </div>
             )}
 
-            {/* 欧洲尺码标准 */}
             {result.isValid &&
               result.underBust &&
               result.cupDifference &&
@@ -307,12 +317,13 @@ export function CupCalculator() {
                 const internationalSizes = calculateInternationalSizes(
                   result.underBust,
                   result.cupDifference,
+                  t('cup-eu-below-aa', language) as string,
                 );
                 return (
                   internationalSizes && (
                     <div className="mt-6 pt-4 border-t border-base-300/30">
                       <h4 className="text-sm font-medium text-base-content/80 mb-3 text-center">
-                        欧洲尺码标准
+                        {t('cup-eu-standard', language)}
                       </h4>
                       <div className="text-center text-sm text-base-content/70">
                         <span className="font-mono text-base font-semibold">
@@ -327,7 +338,6 @@ export function CupCalculator() {
         </motion.div>
       )}
 
-      {/* 功能按钮 */}
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -340,7 +350,7 @@ export function CupCalculator() {
           className="btn btn-outline gap-2"
         >
           <Clock className="w-4 h-4" />
-          查看历史记录
+          {t('cup-history', language)}
           {history.length > 0 && (
             <span className="badge badge-primary badge-sm">
               {history.length}
@@ -353,12 +363,11 @@ export function CupCalculator() {
           className="btn btn-outline gap-2 text-warning hover:bg-warning/10"
         >
           <RotateCcw className="w-4 h-4" />
-          重新开始
+          {t('cup-restart', language)}
         </button>
       </motion.div>
 
-      {/* 历史记录面板 */}
-      <HistoryPanel />
+      <HistoryPanel language={language} />
     </div>
   );
 }

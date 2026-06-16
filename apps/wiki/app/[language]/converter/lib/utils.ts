@@ -1,4 +1,5 @@
 import { format } from 'd3-format';
+import { t } from '@/lib/i18n/client';
 import { HORMONES } from './constants';
 import type {
   ConversionResult,
@@ -203,10 +204,15 @@ export function formatRangeText(
   }
 }
 
-/**
- * 格式化时间戳
- */
-export function formatTimestamp(timestamp: number): string {
+const LOCALE_MAP: Record<string, string> = {
+  'zh-cn': 'zh-CN',
+  'zh-hant': 'zh-TW',
+  ja: 'ja-JP',
+  en: 'en-US',
+  es: 'es-ES',
+};
+
+export function formatTimestamp(timestamp: number, language = 'zh-cn'): string {
   const date = new Date(timestamp);
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
@@ -215,14 +221,23 @@ export function formatTimestamp(timestamp: number): string {
   const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
   if (diffMins < 1) {
-    return '刚刚';
+    return t('time-just-now', language) as string;
   } else if (diffMins < 60) {
-    return `${diffMins}分钟前`;
+    return (t('time-minutes-ago', language) as string).replace(
+      '{n}',
+      diffMins.toString(),
+    );
   } else if (diffHours < 24) {
-    return `${diffHours}小时前`;
+    return (t('time-hours-ago', language) as string).replace(
+      '{n}',
+      diffHours.toString(),
+    );
   } else if (diffDays < 7) {
-    return `${diffDays}天前`;
+    return (t('time-days-ago', language) as string).replace(
+      '{n}',
+      diffDays.toString(),
+    );
   } else {
-    return date.toLocaleDateString('zh-CN');
+    return date.toLocaleDateString(LOCALE_MAP[language] || 'en-US');
   }
 }

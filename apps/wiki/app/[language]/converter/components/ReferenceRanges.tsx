@@ -1,9 +1,10 @@
 'use client';
 
-import { Link } from '@/components/progress';
 import { useAtom } from 'jotai';
 import { Calculator } from 'lucide-react';
 import { motion } from 'motion/react';
+import { Link } from '@/components/progress';
+import { type TranslationKey, t } from '@/lib/i18n/client';
 import { conversionStateAtom } from '../lib/atoms';
 import type { HormoneType } from '../lib/types';
 import {
@@ -16,11 +17,9 @@ import { ConversionTooltip } from './ConversionTooltip';
 
 interface ReferenceRangesProps {
   hormone: HormoneType;
+  language: string;
 }
 
-/**
- * 判断是否应该跳过单位转换显示
- */
 function shouldSkipUnitConversion(
   rangeUnit: string,
   fromUnit: string,
@@ -37,20 +36,15 @@ function shouldSkipUnitConversion(
   return true;
 }
 
-/**
- * 判断是否应该显示转换tooltip
- */
 function shouldShowConversionTooltip(
   rangeUnit: string,
   displayUnit: string,
   hormone: HormoneType,
 ): boolean {
-  // 如果单位相同，不需要tooltip
   if (rangeUnit === displayUnit) {
     return false;
   }
 
-  // 如果单位等价，不需要tooltip
   if (areUnitsEquivalent(hormone, rangeUnit, displayUnit)) {
     return false;
   }
@@ -58,14 +52,12 @@ function shouldShowConversionTooltip(
   return true;
 }
 
-export function ReferenceRanges({ hormone }: ReferenceRangesProps) {
+export function ReferenceRanges({ hormone, language }: ReferenceRangesProps) {
   const [state] = useAtom(conversionStateAtom);
 
-  // 获取当前选择的单位
   const fromUnit = state.fromUnit;
   const toUnit = state.toUnit;
 
-  // 检查两个单位是否等价
   const unitsAreEquivalent = areUnitsEquivalent(hormone, fromUnit, toUnit);
 
   const visibleRanges = hormone.ranges.filter(
@@ -81,12 +73,13 @@ export function ReferenceRanges({ hormone }: ReferenceRangesProps) {
     >
       <div className="flex items-center gap-2 mb-4">
         <Calculator className="w-5 h-5 text-info" />
-        <h3 className="text-lg font-semibold">参考范围说明</h3>
+        <h3 className="text-lg font-semibold">
+          {t('conv-reference-ranges', language)}
+        </h3>
       </div>
       {visibleRanges.length > 0 ? (
         <div className="space-y-4">
           {visibleRanges.map((range, index) => {
-            // 转换范围到fromUnit和toUnit
             const fromUnitRange = convertRangeToUnit(range, fromUnit, hormone);
             const toUnitRange = convertRangeToUnit(range, toUnit, hormone);
 
@@ -107,13 +100,12 @@ export function ReferenceRanges({ hormone }: ReferenceRangesProps) {
                 }`}
               >
                 <div className="font-medium text-base-content">
-                  {range.label}
+                  {t(range.label as TranslationKey, language)}
                 </div>
                 <div className="text-sm text-base-content/70 mt-1">
                   {!fromUnitRange ||
                   !toUnitRange ||
                   shouldSkipUnitConversion(range.unit, fromUnit, toUnit) ? (
-                    // 转换失败或需要跳过转换时，只显示原始单位
                     <>
                       {formatRangeText(range.min, range.max, range.hideMax)}{' '}
                       {range.unit}
@@ -133,10 +125,10 @@ export function ReferenceRanges({ hormone }: ReferenceRangesProps) {
                           fromUnit,
                           hormone,
                         )}
+                        language={language}
                       />
                     </>
                   ) : (
-                    // 其他情况显示两种单位的范围
                     <>
                       {formatRangeText(
                         fromUnitRange.min,
@@ -151,6 +143,7 @@ export function ReferenceRanges({ hormone }: ReferenceRangesProps) {
                           fromUnit,
                           hormone,
                         )}
+                        language={language}
                       />
                       <span className="text-base-content/50 mx-2">|</span>
                       {formatRangeText(
@@ -166,24 +159,28 @@ export function ReferenceRanges({ hormone }: ReferenceRangesProps) {
                           toUnit,
                           hormone,
                         )}
+                        language={language}
                       />
                     </>
                   )}
                 </div>
                 {range.description && (
                   <div className="text-xs text-base-content/60 mt-1">
-                    {range.description}
+                    {t(range.description as TranslationKey, language)}
                   </div>
                 )}
                 {range.source && (
                   <div className="text-xs text-base-content/50 mt-1 italic">
-                    数据来源：
+                    {t('conv-data-source', language)}：
                     <Link
-                      href={range.source.url}
+                      href={range.source.url.replace(
+                        '/zh-cn/',
+                        `/${language}/`,
+                      )}
                       className="link link-primary hover:link-accent transition-colors"
                       rel="noopener noreferrer"
                     >
-                      {range.source.name}
+                      {t(range.source.name as TranslationKey, language)}
                     </Link>
                   </div>
                 )}
@@ -192,7 +189,9 @@ export function ReferenceRanges({ hormone }: ReferenceRangesProps) {
           })}
         </div>
       ) : (
-        <div className="text-sm text-base-content/60">暂无参考范围</div>
+        <div className="text-sm text-base-content/60">
+          {t('conv-no-ranges', language)}
+        </div>
       )}
     </motion.div>
   );

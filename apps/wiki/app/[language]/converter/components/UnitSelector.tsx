@@ -1,6 +1,7 @@
 'use client';
 
 import { useMemo } from 'react';
+import { t } from '@/lib/i18n/client';
 import type { HormoneUnit } from '../lib/types';
 
 interface CombinedHormoneUnit extends HormoneUnit {
@@ -17,13 +18,11 @@ interface UnitSelectorProps {
   value: string;
   onChange: (value: string) => void;
   units: HormoneUnit[];
+  language: string;
   className?: string;
 }
 
-/**
- * 处理等价单位合并和分组
- */
-function processUnits(units: HormoneUnit[]): UnitGroup[] {
+function processUnits(units: HormoneUnit[], language: string): UnitGroup[] {
   // 按 multiplier 分组，找出等价单位
   const multiplierGroups = new Map<string, HormoneUnit[]>();
 
@@ -89,14 +88,14 @@ function processUnits(units: HormoneUnit[]): UnitGroup[] {
 
   if (commonUnits.length > 0) {
     groups.push({
-      label: '常用单位',
+      label: t('conv-common-units', language) as string,
       units: commonUnits,
     });
   }
 
   if (uncommonUnits.length > 0) {
     groups.push({
-      label: '其他单位',
+      label: t('conv-other-units', language) as string,
       units: uncommonUnits,
     });
   }
@@ -108,9 +107,13 @@ export function UnitSelector({
   value,
   onChange,
   units,
+  language,
   className = '',
 }: UnitSelectorProps) {
-  const groups = useMemo(() => processUnits(units), [units]);
+  const groups = useMemo(
+    () => processUnits(units, language),
+    [units, language],
+  );
 
   const realValue = useMemo(() => {
     for (const group of groups) {

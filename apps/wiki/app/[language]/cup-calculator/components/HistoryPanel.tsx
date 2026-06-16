@@ -4,11 +4,16 @@ import { useAtom } from 'jotai';
 import { Check, Clock, Copy, Trash2, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
+import { t } from '@/lib/i18n/client';
 import { clearHistoryAtom, historyAtom, showHistoryAtom } from '../lib/atoms';
 import type { HistoryRecord } from '../lib/types';
 import { formatTimestamp } from '../lib/utils';
 
-export function HistoryPanel() {
+interface HistoryPanelProps {
+  language: string;
+}
+
+export function HistoryPanel({ language }: HistoryPanelProps) {
   const [history] = useAtom(historyAtom);
   const [, clearHistory] = useAtom(clearHistoryAtom);
   const [showHistory, setShowHistory] = useAtom(showHistoryAtom);
@@ -22,17 +27,21 @@ export function HistoryPanel() {
       setCopiedId(record.id);
       setTimeout(() => setCopiedId(null), 2000);
     } catch (err) {
-      console.error('复制失败:', err);
+      console.error('Copy failed:', err);
     }
   };
 
   const handleClearHistory = () => {
-    if (confirm('确定要清除所有历史记录吗？此操作不可撤销。')) {
+    if (confirm(t('cup-clear-confirm', language))) {
       clearHistory();
     }
   };
 
   if (!showHistory) return null;
+
+  const recordCountText = (
+    t('cup-history-records', language) as string
+  ).replace('{count}', history.length.toString());
 
   return (
     <AnimatePresence>
@@ -51,17 +60,16 @@ export function HistoryPanel() {
           className="bg-base-100 rounded-xl shadow-2xl w-full max-w-4xl max-h-[80vh] overflow-hidden"
           onClick={(e) => e.stopPropagation()}
         >
-          {/* 头部 */}
           <div className="bg-gradient-to-r from-pink-50 to-purple-50 dark:from-pink-950/20 dark:to-purple-950/20 p-6 border-b border-base-300/30">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Clock className="w-6 h-6 text-pink-500" />
                 <div>
                   <h2 className="text-xl font-semibold text-base-content">
-                    测量历史
+                    {t('cup-history-title', language)}
                   </h2>
                   <p className="text-sm text-base-content/60">
-                    共 {history.length} 条记录，数据仅存储在浏览器本地
+                    {recordCountText}
                   </p>
                 </div>
               </div>
@@ -73,7 +81,7 @@ export function HistoryPanel() {
                     className="btn btn-ghost btn-sm gap-2 text-error hover:bg-error/10"
                   >
                     <Trash2 className="w-4 h-4" />
-                    清空
+                    {t('cup-history-clear', language)}
                   </button>
                 )}
                 <button
@@ -87,16 +95,15 @@ export function HistoryPanel() {
             </div>
           </div>
 
-          {/* 内容区域 */}
           <div className="overflow-y-auto max-h-[calc(80vh-120px)]">
             {history.length === 0 ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <Clock className="w-16 h-16 text-base-content/30 mb-4" />
                 <h3 className="text-lg font-medium text-base-content/60 mb-2">
-                  暂无历史记录
+                  {t('cup-history-empty', language)}
                 </h3>
                 <p className="text-sm text-base-content/40">
-                  完成测量后，结果会自动保存到这里
+                  {t('cup-history-empty-hint', language)}
                 </p>
               </div>
             ) : (
@@ -112,7 +119,7 @@ export function HistoryPanel() {
                     <div className="flex items-start justify-between mb-3">
                       <div>
                         <div className="text-sm text-base-content/60">
-                          {formatTimestamp(record.timestamp)}
+                          {formatTimestamp(record.timestamp, language)}
                         </div>
                         {record.result.isValid && record.result.fullSize && (
                           <div className="text-lg font-semibold text-base-content mt-1">
@@ -129,22 +136,23 @@ export function HistoryPanel() {
                           {copiedId === record.id ? (
                             <>
                               <Check className="w-3 h-3" />
-                              已复制
+                              {t('cup-history-copied', language)}
                             </>
                           ) : (
                             <>
                               <Copy className="w-3 h-3" />
-                              复制
+                              {t('cup-history-copy', language)}
                             </>
                           )}
                         </button>
                       )}
                     </div>
 
-                    {/* 测量数据 */}
                     <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-xs">
                       <div className="bg-white/50 dark:bg-black/20 rounded p-2">
-                        <div className="text-base-content/60">胸下围(放松)</div>
+                        <div className="text-base-content/60">
+                          {t('cup-meas-underbust-relaxed', language)}
+                        </div>
                         <div className="font-mono">
                           {record.measurements.underBustRelaxed?.toFixed(1) ||
                             '—'}{' '}
@@ -152,7 +160,9 @@ export function HistoryPanel() {
                         </div>
                       </div>
                       <div className="bg-white/50 dark:bg-black/20 rounded p-2">
-                        <div className="text-base-content/60">胸下围(呼气)</div>
+                        <div className="text-base-content/60">
+                          {t('cup-meas-underbust-exhale', language)}
+                        </div>
                         <div className="font-mono">
                           {record.measurements.underBustExhale?.toFixed(1) ||
                             '—'}{' '}
@@ -160,33 +170,38 @@ export function HistoryPanel() {
                         </div>
                       </div>
                       <div className="bg-white/50 dark:bg-black/20 rounded p-2">
-                        <div className="text-base-content/60">胸围(放松)</div>
+                        <div className="text-base-content/60">
+                          {t('cup-meas-bust-relaxed', language)}
+                        </div>
                         <div className="font-mono">
                           {record.measurements.bustRelaxed?.toFixed(1) || '—'}{' '}
                           cm
                         </div>
                       </div>
                       <div className="bg-white/50 dark:bg-black/20 rounded p-2">
-                        <div className="text-base-content/60">胸围(45°)</div>
+                        <div className="text-base-content/60">
+                          {t('cup-meas-bust-bend45', language)}
+                        </div>
                         <div className="font-mono">
                           {record.measurements.bustBend45?.toFixed(1) || '—'} cm
                         </div>
                       </div>
                       <div className="bg-white/50 dark:bg-black/20 rounded p-2">
-                        <div className="text-base-content/60">胸围(90°)</div>
+                        <div className="text-base-content/60">
+                          {t('cup-meas-bust-bend90', language)}
+                        </div>
                         <div className="font-mono">
                           {record.measurements.bustBend90?.toFixed(1) || '—'} cm
                         </div>
                       </div>
                     </div>
 
-                    {/* 计算结果 */}
                     {record.result.isValid && (
                       <div className="mt-3 pt-3 border-t border-base-300/30">
                         <div className="grid grid-cols-3 gap-2 text-xs">
                           <div>
                             <span className="text-base-content/60">
-                              胸下围：
+                              {t('cup-result-underbust', language)}：
                             </span>
                             <span className="font-mono">
                               {record.result.underBust?.toFixed(1)} cm
@@ -194,26 +209,21 @@ export function HistoryPanel() {
                           </div>
                           <div>
                             <span className="text-base-content/60">
-                              罩杯差值：
+                              {t('cup-result-cup-difference', language)}：
                             </span>
                             <span className="font-mono">
                               {record.result.cupDifference?.toFixed(1)} cm
                             </span>
                           </div>
                           <div>
-                            <span className="text-base-content/60">罩杯：</span>
+                            <span className="text-base-content/60">
+                              {t('cup-result-cup', language)}：
+                            </span>
                             <span className="font-mono">
                               {record.result.cupSize}
                             </span>
                           </div>
                         </div>
-                      </div>
-                    )}
-
-                    {/* 特殊消息 */}
-                    {!record.result.fullSize && record.result.message && (
-                      <div className="mt-3 text-sm text-base-content/70 italic">
-                        {record.result.message}
                       </div>
                     )}
                   </motion.div>

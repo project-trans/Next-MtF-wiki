@@ -1,21 +1,24 @@
 import { HelpCircle } from 'lucide-react';
+import { t } from '@/lib/i18n/client';
 import type { HormoneRange } from '../lib/types';
 import { formatRangeText } from '../lib/utils';
 
 interface ConversionTooltipProps {
   originalRange: HormoneRange;
   isVisible: boolean;
+  language: string;
 }
 
 export function ConversionTooltip({
   originalRange,
   isVisible,
+  language,
 }: ConversionTooltipProps) {
   if (!isVisible) {
     return null;
   }
 
-  const tooltipContent = `转换自：${formatRangeText(
+  const tooltipContent = `${t('conv-converted-from', language)}：${formatRangeText(
     originalRange.min,
     originalRange.max,
     originalRange.hideMax,

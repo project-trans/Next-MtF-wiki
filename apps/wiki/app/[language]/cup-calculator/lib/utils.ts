@@ -1,9 +1,6 @@
 import { CUP_SIZES } from './constants';
 import type { CupResult, InternationalBraSize, MeasurementData } from './types';
 
-/**
- * 计算罩杯尺寸
- */
 export function calculateCupSize(measurements: MeasurementData): CupResult {
   const {
     underBustRelaxed,
@@ -13,7 +10,6 @@ export function calculateCupSize(measurements: MeasurementData): CupResult {
     bustBend90,
   } = measurements;
 
-  // 检查所有必需的测量数据是否存在
   if (
     underBustRelaxed === null ||
     underBustExhale === null ||
@@ -28,11 +24,10 @@ export function calculateCupSize(measurements: MeasurementData): CupResult {
       cupSize: null,
       bandSize: null,
       fullSize: null,
-      message: '请完成所有测量步骤',
+      messageKey: 'cup-msg-incomplete',
     };
   }
 
-  // 检查数据有效性
   if (
     Number.isNaN(underBustRelaxed) ||
     Number.isNaN(underBustExhale) ||
@@ -52,11 +47,10 @@ export function calculateCupSize(measurements: MeasurementData): CupResult {
       cupSize: null,
       bandSize: null,
       fullSize: null,
-      message: '数值错误，请检查输入的数据',
+      messageKey: 'cup-msg-invalid',
     };
   }
 
-  // 按照原算法计算
   const underBust = (underBustRelaxed + underBustExhale) / 2;
   const cupDifference = (bustRelaxed + bustBend45 + bustBend90) / 3 - underBust;
 
@@ -68,14 +62,12 @@ export function calculateCupSize(measurements: MeasurementData): CupResult {
       cupSize: null,
       bandSize: null,
       fullSize: null,
-      message: '请检查测量数据',
+      messageKey: 'cup-msg-recheck',
     };
   }
 
-  // 按照原版逻辑判断罩杯尺寸（使用 <= 判断）
   let cupInfo = null;
 
-  // 循环查找对应的罩杯尺寸
   for (let i = 0; i < CUP_SIZES.length; i++) {
     if (cupDifference <= CUP_SIZES[i].threshold) {
       cupInfo = CUP_SIZES[i];
@@ -83,7 +75,6 @@ export function calculateCupSize(measurements: MeasurementData): CupResult {
     }
   }
 
-  // 理论上不应该出现找不到的情况，因为最后一个threshold是Infinity
   if (!cupInfo) {
     return {
       isValid: false,
@@ -92,16 +83,14 @@ export function calculateCupSize(measurements: MeasurementData): CupResult {
       cupSize: null,
       bandSize: null,
       fullSize: null,
-      message: '计算结果超出预设范围',
+      messageKey: 'cup-msg-out-of-range',
     };
   }
 
-  // 计算胸围尺寸（向上取整到最近的5的倍数）
   const bandSize = Math.ceil(underBust / 5) * 5;
   const fullSize = `${bandSize}${cupInfo.size}`;
 
-  // 如果有特殊消息，直接返回
-  if (cupInfo.message) {
+  if (cupInfo.messageKey) {
     return {
       isValid: true,
       underBust,
@@ -109,7 +98,7 @@ export function calculateCupSize(measurements: MeasurementData): CupResult {
       cupSize: cupInfo.size,
       bandSize,
       fullSize,
-      message: cupInfo.message,
+      messageKey: cupInfo.messageKey,
     };
   }
 
@@ -120,21 +109,15 @@ export function calculateCupSize(measurements: MeasurementData): CupResult {
     cupSize: cupInfo.size,
     bandSize,
     fullSize,
-    message: `您的内衣尺寸是：${fullSize}`,
+    messageKey: 'cup-msg-result',
   };
 }
 
-/**
- * 格式化数值显示
- */
 export function formatValue(value: number | null): string {
   if (value === null) return '—';
   return value.toFixed(1);
 }
 
-/**
- * 验证输入值
- */
 export function validateInput(value: string): {
   isValid: boolean;
   numValue: number | null;
@@ -151,9 +134,6 @@ export function validateInput(value: string): {
   return { isValid: true, numValue };
 }
 
-/**
- * 检查是否所有测量都已完成
- */
 export function isAllMeasurementsComplete(
   measurements: MeasurementData,
 ): boolean {
@@ -162,12 +142,17 @@ export function isAllMeasurementsComplete(
   );
 }
 
-/**
- * 格式化时间戳
- */
-export function formatTimestamp(timestamp: number): string {
+const LOCALE_MAP: Record<string, string> = {
+  'zh-cn': 'zh-CN',
+  'zh-hant': 'zh-TW',
+  ja: 'ja-JP',
+  en: 'en-US',
+  es: 'es-ES',
+};
+
+export function formatTimestamp(timestamp: number, language = 'zh-cn'): string {
   const date = new Date(timestamp);
-  return date.toLocaleString('zh-CN', {
+  return date.toLocaleString(LOCALE_MAP[language] || 'en-US', {
     year: 'numeric',
     month: '2-digit',
     day: '2-digit',
@@ -176,22 +161,17 @@ export function formatTimestamp(timestamp: number): string {
   });
 }
 
-/**
- * 根据胸下围和罩杯差值计算国际尺码标准
- * 基于维基百科的胸罩尺码标准，直接从测量数据计算各国尺码
- * 参考: https://en.wikipedia.org/wiki/Bra_size
- */
 export function calculateInternationalSizes(
   underBust: number,
   cupDifference: number,
+  belowAALabel = 'AA-',
 ): InternationalBraSize | null {
   if (!underBust || !cupDifference || underBust <= 0 || cupDifference <= 0) {
     return null;
   }
 
-  // 欧盟标准罩杯字母 (不同的差值范围)
   let europeCupLetter: string;
-  if (cupDifference < 10) europeCupLetter = 'AA以下';
+  if (cupDifference < 10) europeCupLetter = belowAALabel;
   else if (cupDifference <= 12) europeCupLetter = 'AA';
   else if (cupDifference <= 14) europeCupLetter = 'A';
   else if (cupDifference <= 16) europeCupLetter = 'B';

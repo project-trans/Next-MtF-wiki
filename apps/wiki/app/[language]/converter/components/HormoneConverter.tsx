@@ -3,6 +3,7 @@
 import { useAtom } from 'jotai';
 import { Beaker, Clock } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
+import { type TranslationKey, t } from '@/lib/i18n/client';
 import {
   historyAtom,
   selectedHormoneAtom,
@@ -13,16 +14,24 @@ import { HistoryPanel } from './HistoryPanel';
 import { HormoneCard } from './HormoneCard';
 import { ReferenceRanges } from './ReferenceRanges';
 
-export function HormoneConverter() {
+interface HormoneConverterProps {
+  language: string;
+}
+
+export function HormoneConverter({ language }: HormoneConverterProps) {
   const [selectedHormone, setSelectedHormone] = useAtom(selectedHormoneAtom);
   const [, setShowHistory] = useAtom(showHistoryAtom);
   const [history] = useAtom(historyAtom);
 
   const selectedHormoneData = HORMONES.find((h) => h.id === selectedHormone);
 
+  const unitsCountText = (t('conv-units-count', language) as string).replace(
+    '{count}',
+    '0',
+  );
+
   return (
     <div className="space-y-8">
-      {/* 激素类型选择 */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -30,10 +39,11 @@ export function HormoneConverter() {
       >
         <div className="flex items-center gap-2 mb-4">
           <Beaker className="w-5 h-5 text-primary" />
-          <h2 className="text-lg font-semibold">选择激素类型</h2>
+          <h2 className="text-lg font-semibold">
+            {t('conv-select-hormone', language)}
+          </h2>
         </div>
 
-        {/* 移动端下拉选择 */}
         <div className="block md:hidden mb-4">
           <select
             value={selectedHormone}
@@ -42,13 +52,12 @@ export function HormoneConverter() {
           >
             {HORMONES.map((hormone) => (
               <option key={hormone.id} value={hormone.id}>
-                {hormone.name}
+                {t(hormone.name as TranslationKey, language)}
               </option>
             ))}
           </select>
         </div>
 
-        {/* 桌面端网格选择 */}
         <div className="hidden md:grid grid-cols-2 lg:grid-cols-3 gap-4">
           {HORMONES.map((hormone) => (
             <motion.button
@@ -63,31 +72,31 @@ export function HormoneConverter() {
               whileTap={{ scale: 0.98 }}
             >
               <div className="font-medium text-base-content text-sm">
-                {hormone.name}
+                {t(hormone.name as TranslationKey, language)}
               </div>
               <div className="text-xs text-base-content/60 mt-1">
-                {hormone.units.length} 种单位
+                {(t('conv-units-count', language) as string).replace(
+                  '{count}',
+                  hormone.units.length.toString(),
+                )}
               </div>
             </motion.button>
           ))}
         </div>
       </motion.div>
 
-      {/* 主要内容区域 - 大屏设备水平布局，小屏设备垂直布局 */}
       <div className="grid grid-cols-1 lg:grid-cols-7 gap-4 md:gap-8">
-        {/* 左侧：换算器界面和功能按钮 */}
         <div className="lg:col-span-4 space-y-4 md:space-y-8">
-          {/* 换算器界面 */}
           <AnimatePresence>
             {selectedHormoneData && (
               <HormoneCard
                 key={selectedHormone}
                 hormone={selectedHormoneData}
+                language={language}
               />
             )}
           </AnimatePresence>
 
-          {/* 功能按钮 */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -100,7 +109,7 @@ export function HormoneConverter() {
               className="btn btn-outline gap-2"
             >
               <Clock className="w-4 h-4" />
-              查看历史
+              {t('conv-view-history', language)}
               {history.length > 0 && (
                 <span className="badge badge-primary badge-sm">
                   {history.length}
@@ -110,21 +119,20 @@ export function HormoneConverter() {
           </motion.div>
         </div>
 
-        {/* 右侧：参考范围说明 */}
         <div className="lg:col-span-3">
           <AnimatePresence>
             {selectedHormoneData && (
               <ReferenceRanges
                 key={selectedHormone}
                 hormone={selectedHormoneData}
+                language={language}
               />
             )}
           </AnimatePresence>
         </div>
       </div>
 
-      {/* 历史记录面板 */}
-      <HistoryPanel />
+      <HistoryPanel language={language} />
     </div>
   );
 }

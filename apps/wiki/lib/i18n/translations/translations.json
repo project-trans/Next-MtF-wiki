@@ -136,5 +136,803 @@
     "zh-hant": "當前字體",
     "ja": "現在のフォント",
     "en": "Current Font"
+  },
+  "cup-page-title": {
+    "zh-cn": "罩杯计算器",
+    "zh-hant": "胸圍計算",
+    "ja": "ブラジャーサイズ計算",
+    "es": "Calculadora de talla de sujetador",
+    "en": "Cup Calculator"
+  },
+  "cup-page-description": {
+    "zh-cn": "通过软尺测量计算合身的胸罩尺寸",
+    "zh-hant": "透過軟尺測量計算合身的胸罩尺寸",
+    "ja": "メジャーで測定して合うブラジャーのサイズを計算",
+    "es": "Calcula tu talla de sujetador con una cinta métrica",
+    "en": "Calculate your bra size using a measuring tape"
+  },
+  "cup-instructions-title": {
+    "zh-cn": "测量说明",
+    "zh-hant": "測量說明",
+    "ja": "測定の説明",
+    "es": "Instrucciones de medición",
+    "en": "Measurement Instructions"
+  },
+  "cup-local-only": {
+    "zh-cn": "运算都在您的本地完成，不收集任何数据",
+    "zh-hant": "計算會在你的電腦上完成，不會向伺服器回傳任何資料",
+    "ja": "計算はすべてローカルで行われ、データは一切収集されません",
+    "es": "Todos los cálculos se realizan localmente, no se recopilan datos",
+    "en": "All calculations run locally; no data is collected"
+  },
+  "cup-prepare": {
+    "zh-cn": "请准备一根软尺并面对镜子，看得到胸部。按照下面的步骤依次测量并填入数值。",
+    "zh-hant": "請準備一條軟尺面向鏡子，能看見胸部。依下列步驟依序測量並填入數值。",
+    "ja": "メジャーを用意し、鏡の前で胸が見える状態にしてください。以下の手順で順に測定し数値を入力してください。",
+    "es": "Prepara una cinta métrica frente a un espejo donde puedas ver tu pecho. Sigue los pasos a continuación e ingresa los valores.",
+    "en": "Have a soft measuring tape ready and stand facing a mirror so you can see your chest. Follow the steps below and enter each measurement."
+  },
+  "cup-step1": {
+    "zh-cn": "请直立，放松，用软尺贴合乳房下缘",
+    "zh-hant": "請站直、放鬆，將軟尺貼合乳房下緣",
+    "ja": "まっすぐ立ち、リラックスした状態でメジャーを乳房の下縁に当てて",
+    "es": "De pie, relajada, coloca la cinta justo debajo del pecho",
+    "en": "Stand upright and relaxed, place the tape against the underbust"
+  },
+  "cup-step1-suffix": {
+    "zh-cn": "，水平绕身体一圈：",
+    "zh-hant": "，水平繞身體一圈：",
+    "ja": "、水平に体に一周巻きます：",
+    "es": " y rodea el cuerpo horizontalmente:",
+    "en": " and wrap horizontally around the body:"
+  },
+  "cup-step2": {
+    "zh-cn": "请呼气：",
+    "zh-hant": "請呼氣：",
+    "ja": "息を吐いた状態で：",
+    "es": "Exhala:",
+    "en": "Now exhale:"
+  },
+  "cup-step3": {
+    "zh-cn": "请直立，放松，用软尺经过乳头",
+    "zh-hant": "請站直、放鬆，將軟尺經乳頭",
+    "ja": "まっすぐ立ち、リラックスした状態でメジャーを乳頭の位置に当てて",
+    "es": "De pie, relajada, pasa la cinta por los pezones",
+    "en": "Stand upright and relaxed, run the tape across the nipples"
+  },
+  "cup-step3-suffix": {
+    "zh-cn": "，绕身体一圈：",
+    "zh-hant": "，繞身體一圈：",
+    "ja": "、体に一周巻きます：",
+    "es": " rodeando el cuerpo:",
+    "en": " and wrap around the body:"
+  },
+  "cup-step4": {
+    "zh-cn": "请俯身 45 度：",
+    "zh-hant": "請俯身 45 度：",
+    "ja": "45度前傾した姿勢で：",
+    "es": "Inclínate 45 grados:",
+    "en": "Bend forward 45 degrees:"
+  },
+  "cup-step5": {
+    "zh-cn": "请鞠躬 90 度：",
+    "zh-hant": "請鞠躬 90 度：",
+    "ja": "90度お辞儀した姿勢で：",
+    "es": "Inclínate 90 grados:",
+    "en": "Bend forward 90 degrees:"
+  },
+  "cup-calculate": {
+    "zh-cn": "计算罩杯尺寸",
+    "zh-hant": "計算罩杯尺寸",
+    "ja": "サイズを計算",
+    "es": "Calcular talla",
+    "en": "Calculate Cup Size"
+  },
+  "cup-result-title": {
+    "zh-cn": "计算结果",
+    "zh-hant": "計算結果",
+    "ja": "計算結果",
+    "es": "Resultado",
+    "en": "Result"
+  },
+  "cup-result-underbust": {
+    "zh-cn": "胸下围",
+    "zh-hant": "下胸圍",
+    "ja": "アンダーバスト",
+    "es": "Bajo busto",
+    "en": "Underbust"
+  },
+  "cup-result-cup-difference": {
+    "zh-cn": "罩杯差值",
+    "zh-hant": "罩杯差值",
+    "ja": "カップ差",
+    "es": "Diferencia de copa",
+    "en": "Cup Difference"
+  },
+  "cup-result-cup": {
+    "zh-cn": "罩杯",
+    "zh-hant": "罩杯",
+    "ja": "カップ",
+    "es": "Copa",
+    "en": "Cup"
+  },
+  "cup-eu-standard": {
+    "zh-cn": "欧洲尺码标准",
+    "zh-hant": "歐洲尺碼標準",
+    "ja": "欧州サイズ規格",
+    "es": "Estándar europeo",
+    "en": "European Size Standard"
+  },
+  "cup-history": {
+    "zh-cn": "查看历史记录",
+    "zh-hant": "查看歷史記錄",
+    "ja": "履歴を見る",
+    "es": "Ver historial",
+    "en": "View History"
+  },
+  "cup-restart": {
+    "zh-cn": "重新开始",
+    "zh-hant": "重新開始",
+    "ja": "やり直す",
+    "es": "Reiniciar",
+    "en": "Restart"
+  },
+  "cup-restart-confirm": {
+    "zh-cn": "确定要重新开始测量吗？当前数据将被清除。",
+    "zh-hant": "確定要重新開始測量嗎？當前資料將被清除。",
+    "ja": "本当に最初から測定し直しますか？現在の入力は消去されます。",
+    "es": "¿Seguro que quieres reiniciar? Los datos actuales se borrarán.",
+    "en": "Restart measurement? Current data will be cleared."
+  },
+  "cup-clear-confirm": {
+    "zh-cn": "确定要清除所有历史记录吗？此操作不可撤销。",
+    "zh-hant": "確定要清除所有歷史記錄嗎？此操作不可撤銷。",
+    "ja": "すべての履歴を削除しますか？この操作は取り消せません。",
+    "es": "¿Borrar todo el historial? Esta acción no se puede deshacer.",
+    "en": "Clear all history? This cannot be undone."
+  },
+  "cup-history-title": {
+    "zh-cn": "测量历史",
+    "zh-hant": "測量歷史",
+    "ja": "測定履歴",
+    "es": "Historial de mediciones",
+    "en": "Measurement History"
+  },
+  "cup-history-records": {
+    "zh-cn": "共 {count} 条记录，数据仅存储在浏览器本地",
+    "zh-hant": "共 {count} 筆記錄，資料僅儲存在瀏覽器本機",
+    "ja": "全 {count} 件、データはブラウザにのみ保存されます",
+    "es": "{count} registros, los datos solo se guardan localmente",
+    "en": "{count} records, stored only in your browser"
+  },
+  "cup-history-empty": {
+    "zh-cn": "暂无历史记录",
+    "zh-hant": "尚無歷史記錄",
+    "ja": "履歴がありません",
+    "es": "Sin historial",
+    "en": "No history yet"
+  },
+  "cup-history-empty-hint": {
+    "zh-cn": "完成测量后，结果会自动保存到这里",
+    "zh-hant": "完成測量後，結果會自動儲存到這裡",
+    "ja": "測定が完了すると、ここに自動的に保存されます",
+    "es": "Tus resultados aparecerán aquí al completar una medición",
+    "en": "Your results will appear here after a measurement"
+  },
+  "cup-history-clear": {
+    "zh-cn": "清空",
+    "zh-hant": "清空",
+    "ja": "クリア",
+    "es": "Borrar",
+    "en": "Clear"
+  },
+  "cup-history-copied": {
+    "zh-cn": "已复制",
+    "zh-hant": "已複製",
+    "ja": "コピー済み",
+    "es": "Copiado",
+    "en": "Copied"
+  },
+  "cup-history-copy": {
+    "zh-cn": "复制",
+    "zh-hant": "複製",
+    "ja": "コピー",
+    "es": "Copiar",
+    "en": "Copy"
+  },
+  "cup-meas-underbust-relaxed": {
+    "zh-cn": "胸下围(放松)",
+    "zh-hant": "下胸圍 (放鬆)",
+    "ja": "アンダーバスト (リラックス)",
+    "es": "Bajo busto (relajado)",
+    "en": "Underbust (relaxed)"
+  },
+  "cup-meas-underbust-exhale": {
+    "zh-cn": "胸下围(呼气)",
+    "zh-hant": "下胸圍 (呼氣)",
+    "ja": "アンダーバスト (呼気)",
+    "es": "Bajo busto (exhalación)",
+    "en": "Underbust (exhale)"
+  },
+  "cup-meas-bust-relaxed": {
+    "zh-cn": "胸围(放松)",
+    "zh-hant": "胸圍 (放鬆)",
+    "ja": "バスト (リラックス)",
+    "es": "Busto (relajado)",
+    "en": "Bust (relaxed)"
+  },
+  "cup-meas-bust-bend45": {
+    "zh-cn": "胸围(45°)",
+    "zh-hant": "胸圍 (45°)",
+    "ja": "バスト (45°)",
+    "es": "Busto (45°)",
+    "en": "Bust (45°)"
+  },
+  "cup-meas-bust-bend90": {
+    "zh-cn": "胸围(90°)",
+    "zh-hant": "胸圍 (90°)",
+    "ja": "バスト (90°)",
+    "es": "Busto (90°)",
+    "en": "Bust (90°)"
+  },
+  "cup-msg-incomplete": {
+    "zh-cn": "请完成所有测量步骤",
+    "zh-hant": "請完成所有測量步驟",
+    "ja": "すべての測定を完了してください",
+    "es": "Completa todas las mediciones",
+    "en": "Please complete all measurement steps"
+  },
+  "cup-msg-invalid": {
+    "zh-cn": "数值错误，请检查输入的数据",
+    "zh-hant": "數值有誤，請檢查輸入的資料",
+    "ja": "数値が不正です。入力をご確認ください",
+    "es": "Valores incorrectos, revisa los datos",
+    "en": "Invalid values, please check your input"
+  },
+  "cup-msg-recheck": {
+    "zh-cn": "请检查测量数据",
+    "zh-hant": "請檢查測量資料",
+    "ja": "測定データを確認してください",
+    "es": "Revisa las mediciones",
+    "en": "Please verify the measurements"
+  },
+  "cup-msg-out-of-range": {
+    "zh-cn": "计算结果超出预设范围",
+    "zh-hant": "計算結果超出預設範圍",
+    "ja": "計算結果がプリセット範囲を超えています",
+    "es": "El resultado supera el rango previsto",
+    "en": "Result is out of preset range"
+  },
+  "cup-msg-too-small": {
+    "zh-cn": "小妹妹你还不需要穿内衣哦",
+    "zh-hant": "小妹妹妳還不需要穿內衣唷",
+    "ja": "まだブラジャーは必要ないようです",
+    "es": "Aún no necesitas usar sujetador",
+    "en": "You don't need a bra yet"
+  },
+  "cup-msg-aa": {
+    "zh-cn": "AA，买少女小背心去吧",
+    "zh-hant": "AA，購買少女內衣",
+    "ja": "AA、ジュニア用ブラを選びましょう",
+    "es": "AA, elige un sujetador juvenil",
+    "en": "AA — try a junior camisole"
+  },
+  "cup-msg-too-large": {
+    "zh-cn": "你胸大你说了算（罩杯超出 MtF.wiki 预设）",
+    "zh-hant": "妳胸大妳說了算（罩杯超出 MtF.wiki 預設）",
+    "ja": "規定外のサイズです（MtF.wiki のプリセット範囲外）",
+    "es": "Talla fuera del rango previsto en MtF.wiki",
+    "en": "Cup size exceeds MtF.wiki's preset range"
+  },
+  "cup-msg-result": {
+    "zh-cn": "您的内衣尺寸是：{size}",
+    "zh-hant": "您的內衣尺寸是：{size}",
+    "ja": "あなたのサイズは：{size}",
+    "es": "Tu talla es: {size}",
+    "en": "Your size is: {size}"
+  },
+  "cup-eu-below-aa": {
+    "zh-cn": "AA以下",
+    "zh-hant": "AA以下",
+    "ja": "AA未満",
+    "es": "Menor a AA",
+    "en": "Below AA"
+  },
+  "cup-privacy-title": {
+    "zh-cn": "隐私保护",
+    "zh-hant": "隱私保護",
+    "ja": "プライバシー保護",
+    "es": "Privacidad",
+    "en": "Privacy"
+  },
+  "cup-privacy-text": {
+    "zh-cn": "所有测量数据和计算结果仅存储在您的浏览器本地，不会上传到服务器。您可以随时清除历史记录，保护个人隐私。",
+    "zh-hant": "所有測量資料和計算結果僅儲存在您的瀏覽器本機，不會上傳至伺服器。您可以隨時清除歷史記錄。",
+    "ja": "測定値と計算結果はすべてブラウザのローカルにのみ保存され、サーバーへ送信されることはありません。履歴はいつでも削除できます。",
+    "es": "Todos los datos y resultados se guardan solo en tu navegador, nunca se suben a un servidor. Puedes borrar el historial cuando quieras.",
+    "en": "All measurements and results stay in your browser; nothing is uploaded. You can clear the history at any time."
+  },
+  "cup-disclaimer-title": {
+    "zh-cn": "免责声明",
+    "zh-hant": "免責聲明",
+    "ja": "免責事項",
+    "es": "Aviso legal",
+    "en": "Disclaimer"
+  },
+  "cup-disclaimer-text": {
+    "zh-cn": "计算结果仅供参考。由于个体差异和品牌差异，建议在购买内衣时进行试穿确认。如有特殊需求，请咨询商家或专业人士。",
+    "zh-hant": "計算結果僅供參考。由於個體和品牌差異，建議購買時親自試穿確認。如有特殊需求，請洽詢店家或專業人士。",
+    "ja": "計算結果は参考値です。個人差・ブランド差があるため、購入時に試着して確認することをお勧めします。特別な事情がある場合は店員または専門家にご相談ください。",
+    "es": "Los resultados son orientativos. Dadas las diferencias individuales y entre marcas, prueba la prenda antes de comprarla y consulta a un profesional si lo necesitas.",
+    "en": "Results are for reference only. Because of individual and brand variation, try the garment before purchase, and consult a specialist if needed."
+  },
+  "cup-algorithm-title": {
+    "zh-cn": "算法说明",
+    "zh-hant": "演算法說明",
+    "ja": "アルゴリズム",
+    "es": "Algoritmo",
+    "en": "Algorithm"
+  },
+  "cup-algorithm-text": {
+    "zh-cn": "胸下围 = (放松测量 + 呼气测量) ÷ 2， 罩杯差值 = (胸围放松 + 胸围45° + 胸围90°) ÷ 3 - 胸下围， 最终尺寸 = 胸下围(向上取整到5的倍数) + 对应罩杯字母",
+    "zh-hant": "下胸圍 = (放鬆 + 呼氣) ÷ 2， 罩杯差值 = (放鬆 + 45° + 90°) ÷ 3 - 下胸圍， 最終尺寸 = 下胸圍 (向上取整至 5 的倍數) + 對應罩杯字母",
+    "ja": "アンダーバスト = (リラックス + 呼気) ÷ 2、 カップ差 = (リラックス + 45° + 90°) ÷ 3 − アンダーバスト、 最終サイズ = アンダーバスト (5 単位に切り上げ) + 対応するカップ文字",
+    "es": "Bajo busto = (relajado + exhalación) ÷ 2; diferencia de copa = (busto relajado + 45° + 90°) ÷ 3 − bajo busto; talla final = bajo busto (redondeado al múltiplo de 5) + letra de copa",
+    "en": "Underbust = (relaxed + exhale) ÷ 2; cup difference = (relaxed + 45° + 90°) ÷ 3 − underbust; final size = underbust (rounded up to nearest 5) + corresponding cup letter"
+  },
+  "conv-page-title": {
+    "zh-cn": "激素换算器",
+    "zh-hant": "荷爾蒙換算",
+    "ja": "ホルモン換算",
+    "es": "Conversor de hormonas",
+    "en": "Hormone Unit Converter"
+  },
+  "conv-page-intro": {
+    "zh-cn": "有关单位转换的具体规则，请参见",
+    "zh-hant": "關於單位換算的具體規則，請參見",
+    "ja": "単位換算の詳細については、",
+    "es": "Para los detalles de la conversión de unidades, consulta",
+    "en": "For unit conversion rules, see"
+  },
+  "conv-science-literacy": {
+    "zh-cn": "单位科普",
+    "zh-hant": "單位科普",
+    "ja": "単位の解説",
+    "es": "Guía de unidades",
+    "en": "Unit Guide"
+  },
+  "conv-iu-note": {
+    "zh-cn": "部分医院可能使用 IU（国际单位）作为衡量激素水平的单位，但由于 IU 为医学效价单位，其与质量单位的换算取决于药物种类且可能随时间变化。",
+    "zh-hant": "部分醫院可能使用 IU（國際單位）作為衡量荷爾蒙水平的單位，但由於 IU 為醫學效價單位，其與質量單位的換算取決於藥物種類且可能隨時間變化。",
+    "ja": "病院によってはホルモン値の単位として IU（国際単位）が使われることがありますが、IU は医学的効価の単位であり、質量単位への換算は薬剤や時期により変化します。",
+    "es": "Algunos hospitales usan IU (Unidad Internacional). Como la IU mide potencia farmacológica, su conversión a unidades de masa depende del fármaco y puede cambiar con el tiempo.",
+    "en": "Some hospitals use IU (International Units) for hormone levels. Because IU measures biological potency, its conversion to mass units depends on the drug and can change over time."
+  },
+  "conv-history-note": {
+    "zh-cn": "您的换算历史记录仅存储在浏览器本地，不会上传到服务器。",
+    "zh-hant": "您的換算歷史僅儲存於瀏覽器本機，不會上傳到伺服器。",
+    "ja": "換算履歴はブラウザのローカルにのみ保存され、サーバーには送信されません。",
+    "es": "Tu historial se guarda solo en tu navegador, no se sube a ningún servidor.",
+    "en": "Your conversion history stays in your browser; nothing is uploaded."
+  },
+  "conv-data-storage": {
+    "zh-cn": "数据存储说明",
+    "zh-hant": "資料儲存說明",
+    "ja": "データ保存について",
+    "es": "Almacenamiento",
+    "en": "Storage"
+  },
+  "conv-note-prefix": {
+    "zh-cn": "注意",
+    "zh-hant": "注意",
+    "ja": "注意",
+    "es": "Aviso",
+    "en": "Note"
+  },
+  "conv-iu-detail-link": {
+    "zh-cn": "单位科普 - 国际单位（IU）",
+    "zh-hant": "單位科普 - 國際單位（IU）",
+    "ja": "単位の解説 - 国際単位 (IU)",
+    "es": "Guía de unidades — Unidad Internacional (IU)",
+    "en": "Unit Guide — International Units (IU)"
+  },
+  "conv-iu-link-text": {
+    "zh-cn": "IU（国际单位）",
+    "zh-hant": "IU（國際單位）",
+    "ja": "IU（国際単位）",
+    "es": "IU (Unidad Internacional)",
+    "en": "IU (International Unit)"
+  },
+  "conv-detail-see": {
+    "zh-cn": "详见",
+    "zh-hant": "詳見",
+    "ja": "詳細：",
+    "es": "Ver más:",
+    "en": "See"
+  },
+  "conv-select-hormone": {
+    "zh-cn": "选择激素类型",
+    "zh-hant": "選擇荷爾蒙類型",
+    "ja": "ホルモンを選択",
+    "es": "Elegir hormona",
+    "en": "Select Hormone"
+  },
+  "conv-units-count": {
+    "zh-cn": "{count} 种单位",
+    "zh-hant": "{count} 種單位",
+    "ja": "{count} 種類の単位",
+    "es": "{count} unidades",
+    "en": "{count} units"
+  },
+  "conv-input-value": {
+    "zh-cn": "输入数值",
+    "zh-hant": "輸入數值",
+    "ja": "入力値",
+    "es": "Valor",
+    "en": "Input Value"
+  },
+  "conv-input-placeholder": {
+    "zh-cn": "请输入数值",
+    "zh-hant": "請輸入數值",
+    "ja": "数値を入力",
+    "es": "Ingresa un número",
+    "en": "Enter a number"
+  },
+  "conv-clear-input": {
+    "zh-cn": "清空输入",
+    "zh-hant": "清空輸入",
+    "ja": "入力をクリア",
+    "es": "Borrar entrada",
+    "en": "Clear input"
+  },
+  "conv-swap-units": {
+    "zh-cn": "交换单位",
+    "zh-hant": "交換單位",
+    "ja": "単位を入れ替え",
+    "es": "Intercambiar unidades",
+    "en": "Swap units"
+  },
+  "conv-result-label": {
+    "zh-cn": "转换结果",
+    "zh-hant": "換算結果",
+    "ja": "換算結果",
+    "es": "Resultado",
+    "en": "Result"
+  },
+  "conv-copy-result": {
+    "zh-cn": "复制结果",
+    "zh-hant": "複製結果",
+    "ja": "結果をコピー",
+    "es": "Copiar resultado",
+    "en": "Copy result"
+  },
+  "conv-iu-mass-warning": {
+    "zh-cn": "IU 和质量单位之间的换算结果仅供参考。",
+    "zh-hant": "IU 與質量單位之間的換算結果僅供參考。",
+    "ja": "IU と質量単位の換算結果は参考値です。",
+    "es": "La conversión entre IU y unidades de masa es orientativa.",
+    "en": "Conversions between IU and mass units are approximate."
+  },
+  "conv-convert": {
+    "zh-cn": "转换",
+    "zh-hant": "換算",
+    "ja": "換算",
+    "es": "Convertir",
+    "en": "Convert"
+  },
+  "conv-view-history": {
+    "zh-cn": "查看历史",
+    "zh-hant": "查看歷史",
+    "ja": "履歴を見る",
+    "es": "Ver historial",
+    "en": "View History"
+  },
+  "conv-history-title": {
+    "zh-cn": "换算历史",
+    "zh-hant": "換算歷史",
+    "ja": "換算履歴",
+    "es": "Historial de conversiones",
+    "en": "Conversion History"
+  },
+  "conv-history-storage": {
+    "zh-cn": "数据仅存储在浏览器本地，不会上传到服务器",
+    "zh-hant": "資料僅儲存於瀏覽器本機，不會上傳至伺服器",
+    "ja": "データはブラウザにのみ保存され、サーバーには送信されません",
+    "es": "Los datos se guardan solo en tu navegador, no se suben a un servidor",
+    "en": "Stored only in your browser; never uploaded"
+  },
+  "conv-history-empty": {
+    "zh-cn": "暂无换算历史",
+    "zh-hant": "尚無換算歷史",
+    "ja": "履歴がありません",
+    "es": "Sin historial",
+    "en": "No history yet"
+  },
+  "conv-unknown-hormone": {
+    "zh-cn": "未知激素",
+    "zh-hant": "未知荷爾蒙",
+    "ja": "不明なホルモン",
+    "es": "Hormona desconocida",
+    "en": "Unknown hormone"
+  },
+  "conv-clear": {
+    "zh-cn": "清空",
+    "zh-hant": "清空",
+    "ja": "クリア",
+    "es": "Borrar",
+    "en": "Clear"
+  },
+  "conv-help": {
+    "zh-cn": "使用帮助",
+    "zh-hant": "使用說明",
+    "ja": "使い方",
+    "es": "Ayuda",
+    "en": "Help"
+  },
+  "conv-help-basic": {
+    "zh-cn": "基本操作",
+    "zh-hant": "基本操作",
+    "ja": "基本操作",
+    "es": "Uso básico",
+    "en": "Basic Usage"
+  },
+  "conv-help-step1": {
+    "zh-cn": "选择激素类型",
+    "zh-hant": "選擇荷爾蒙類型",
+    "ja": "ホルモンを選択",
+    "es": "Selecciona la hormona",
+    "en": "Select a hormone"
+  },
+  "conv-help-step2": {
+    "zh-cn": "输入数值和选择单位",
+    "zh-hant": "輸入數值並選擇單位",
+    "ja": "数値を入力し単位を選択",
+    "es": "Introduce un valor y elige unidades",
+    "en": "Enter a value and pick units"
+  },
+  "conv-help-step3": {
+    "zh-cn": "查看自动转换结果",
+    "zh-hant": "查看自動換算結果",
+    "ja": "自動換算結果を確認",
+    "es": "Mira el resultado automático",
+    "en": "View the auto-converted result"
+  },
+  "conv-help-step4": {
+    "zh-cn": "点击复制按钮复制结果",
+    "zh-hant": "點擊複製按鈕複製結果",
+    "ja": "コピーボタンで結果をコピー",
+    "es": "Pulsa copiar para copiar el resultado",
+    "en": "Click Copy to copy the result"
+  },
+  "conv-help-ranges-title": {
+    "zh-cn": "范围提示",
+    "zh-hant": "範圍提示",
+    "ja": "範囲ガイド",
+    "es": "Rangos",
+    "en": "Range hints"
+  },
+  "conv-help-ranges-text": {
+    "zh-cn": "转换结果有时会显示颜色标识，表示数值是否属于特定的参考范围。请注意这些范围仅供参考，具体请咨询医生。",
+    "zh-hant": "換算結果有時會顯示顏色標示，表示數值是否落在特定的參考範圍。請注意此資訊僅供參考，請諮詢醫師。",
+    "ja": "換算結果には参考範囲を示す色が付くことがあります。あくまで参考値ですので、必ず医師にご相談ください。",
+    "es": "A veces el resultado muestra colores que indican si el valor cae en un rango de referencia. Es solo orientativo; consulta siempre a un médico.",
+    "en": "Results may be color-coded to indicate reference ranges. These are only orientative; always consult your physician."
+  },
+  "conv-reference-ranges": {
+    "zh-cn": "参考范围说明",
+    "zh-hant": "參考範圍說明",
+    "ja": "参考範囲",
+    "es": "Rangos de referencia",
+    "en": "Reference Ranges"
+  },
+  "conv-no-ranges": {
+    "zh-cn": "暂无参考范围",
+    "zh-hant": "尚無參考範圍",
+    "ja": "参考範囲なし",
+    "es": "Sin rangos disponibles",
+    "en": "No reference ranges"
+  },
+  "conv-data-source": {
+    "zh-cn": "数据来源",
+    "zh-hant": "資料來源",
+    "ja": "出典",
+    "es": "Fuente",
+    "en": "Source"
+  },
+  "conv-converted-from": {
+    "zh-cn": "转换自",
+    "zh-hant": "換算自",
+    "ja": "換算元",
+    "es": "Convertido desde",
+    "en": "Converted from"
+  },
+  "conv-common-units": {
+    "zh-cn": "常用单位",
+    "zh-hant": "常用單位",
+    "ja": "よく使う単位",
+    "es": "Unidades comunes",
+    "en": "Common units"
+  },
+  "conv-other-units": {
+    "zh-cn": "其他单位",
+    "zh-hant": "其他單位",
+    "ja": "その他の単位",
+    "es": "Otras unidades",
+    "en": "Other units"
+  },
+  "conv-anomalous-value": {
+    "zh-cn": "数值异常",
+    "zh-hant": "數值異常",
+    "ja": "異常値",
+    "es": "Valor anómalo",
+    "en": "Anomalous value"
+  },
+  "conv-anomalous-desc": {
+    "zh-cn": "偏离正常值过多，请检查输入是否正确",
+    "zh-hant": "偏離正常值過多，請檢查輸入是否正確",
+    "ja": "正常範囲から大きく外れています。入力をご確認ください",
+    "es": "Demasiado lejos del rango normal; revisa los datos",
+    "en": "Far outside the expected range; please check your input"
+  },
+  "雌二醇 (E2)": {
+    "zh-cn": "雌二醇 (E2)",
+    "zh-hant": "雌二醇 (E2)",
+    "ja": "エストラジオール (E2)",
+    "es": "Estradiol (E2)",
+    "en": "Estradiol (E2)"
+  },
+  "睾酮 (T)": {
+    "zh-cn": "睾酮 (T)",
+    "zh-hant": "睪酮 (T)",
+    "ja": "テストステロン (T)",
+    "es": "Testosterona (T)",
+    "en": "Testosterone (T)"
+  },
+  "泌乳素 (PRL)": {
+    "zh-cn": "泌乳素 (PRL)",
+    "zh-hant": "泌乳素 (PRL)",
+    "ja": "プロラクチン (PRL)",
+    "es": "Prolactina (PRL)",
+    "en": "Prolactin (PRL)"
+  },
+  "孕酮 (P4)": {
+    "zh-cn": "孕酮 (P4)",
+    "zh-hant": "孕酮 (P4)",
+    "ja": "プロゲステロン (P4)",
+    "es": "Progesterona (P4)",
+    "en": "Progesterone (P4)"
+  },
+  "卵泡刺激素 (FSH)": {
+    "zh-cn": "卵泡刺激素 (FSH)",
+    "zh-hant": "濾泡刺激素 (FSH)",
+    "ja": "卵胞刺激ホルモン (FSH)",
+    "es": "Hormona folículoestimulante (FSH)",
+    "en": "Follicle-Stimulating Hormone (FSH)"
+  },
+  "促黄体素 (LH)": {
+    "zh-cn": "促黄体素 (LH)",
+    "zh-hant": "促黃體素 (LH)",
+    "ja": "黄体形成ホルモン (LH)",
+    "es": "Hormona luteinizante (LH)",
+    "en": "Luteinizing Hormone (LH)"
+  },
+  "男性参考范围": {
+    "zh-cn": "男性参考范围",
+    "zh-hant": "男性參考範圍",
+    "ja": "男性の参考範囲",
+    "es": "Rango de referencia masculino",
+    "en": "Male reference range"
+  },
+  "女性参考范围": {
+    "zh-cn": "女性参考范围",
+    "zh-hant": "女性參考範圍",
+    "ja": "女性の参考範囲",
+    "es": "Rango de referencia femenino",
+    "en": "Female reference range"
+  },
+  "非针剂女性向 GAHT 目标范围": {
+    "zh-cn": "非针剂女性向 GAHT 目标范围",
+    "zh-hant": "非針劑女性向 GAHT 目標範圍",
+    "ja": "非注射剤の女性化 GAHT 目標範囲",
+    "es": "Rango objetivo de GAHT feminizante (no inyectable)",
+    "en": "Feminizing GAHT target range (non-injectable)"
+  },
+  "女性向 GAHT 目标范围": {
+    "zh-cn": "女性向 GAHT 目标范围",
+    "zh-hant": "女性向 GAHT 目標範圍",
+    "ja": "女性化 GAHT 目標範囲",
+    "es": "Rango objetivo de GAHT feminizante",
+    "en": "Feminizing GAHT target range"
+  },
+  "女性卵泡期": {
+    "zh-cn": "女性卵泡期",
+    "zh-hant": "女性卵泡期",
+    "ja": "女性 卵胞期",
+    "es": "Fase folicular (femenino)",
+    "en": "Follicular phase (female)"
+  },
+  "女性黄体期": {
+    "zh-cn": "女性黄体期",
+    "zh-hant": "女性黃體期",
+    "ja": "女性 黄体期",
+    "es": "Fase lútea (femenino)",
+    "en": "Luteal phase (female)"
+  },
+  "显著升高": {
+    "zh-cn": "显著升高",
+    "zh-hant": "顯著升高",
+    "ja": "著しく上昇",
+    "es": "Significativamente elevado",
+    "en": "Significantly elevated"
+  },
+  "绝经后女性": {
+    "zh-cn": "绝经后女性",
+    "zh-hant": "停經後女性",
+    "ja": "閉経後女性",
+    "es": "Mujer posmenopáusica",
+    "en": "Postmenopausal female"
+  },
+  "数值异常": {
+    "zh-cn": "数值异常",
+    "zh-hant": "數值異常",
+    "ja": "異常値",
+    "es": "Valor anómalo",
+    "en": "Anomalous value"
+  },
+  "需要注意": {
+    "zh-cn": "需要注意",
+    "zh-hant": "需要注意",
+    "ja": "注意が必要",
+    "es": "Requiere atención",
+    "en": "Requires attention"
+  },
+  "偏离正常值过多，请检查输入是否正确": {
+    "zh-cn": "偏离正常值过多，请检查输入是否正确",
+    "zh-hant": "偏離正常值過多，請檢查輸入是否正確",
+    "ja": "正常範囲から大きく外れています。入力をご確認ください",
+    "es": "Demasiado lejos del rango normal; revisa los datos",
+    "en": "Far outside the expected range; please check your input"
+  },
+  "HRT 综述 - MtF.wiki": {
+    "zh-cn": "HRT 综述 - MtF.wiki",
+    "zh-hant": "HRT 綜述 - MtF.wiki",
+    "ja": "HRT 概論 - MtF.wiki",
+    "es": "Resumen de TRH - MtF.wiki",
+    "en": "HRT Overview - MtF.wiki"
+  },
+  "治疗期间的监测 - MtF.wiki": {
+    "zh-cn": "治疗期间的监测 - MtF.wiki",
+    "zh-hant": "治療期間的監測 - MtF.wiki",
+    "ja": "治療中のモニタリング - MtF.wiki",
+    "es": "Monitoreo durante el tratamiento - MtF.wiki",
+    "en": "Monitoring during treatment - MtF.wiki"
+  },
+  "time-just-now": {
+    "zh-cn": "刚刚",
+    "zh-hant": "剛剛",
+    "ja": "たった今",
+    "es": "Ahora",
+    "en": "Just now"
+  },
+  "time-minutes-ago": {
+    "zh-cn": "{n}分钟前",
+    "zh-hant": "{n} 分鐘前",
+    "ja": "{n} 分前",
+    "es": "Hace {n} min",
+    "en": "{n} min ago"
+  },
+  "time-hours-ago": {
+    "zh-cn": "{n}小时前",
+    "zh-hant": "{n} 小時前",
+    "ja": "{n} 時間前",
+    "es": "Hace {n} h",
+    "en": "{n} h ago"
+  },
+  "time-days-ago": {
+    "zh-cn": "{n}天前",
+    "zh-hant": "{n} 天前",
+    "ja": "{n} 日前",
+    "es": "Hace {n} d",
+    "en": "{n} d ago"
   }
 }

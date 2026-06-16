@@ -10,11 +10,13 @@ import {
   XCircle,
 } from 'lucide-react';
 import { motion } from 'motion/react';
+import { type TranslationKey, t } from '@/lib/i18n/client';
 import type { HormoneRange } from '../lib/types';
 
 interface RangeIndicatorProps {
   ranges?: HormoneRange[];
   isVisible: boolean;
+  language: string;
 }
 
 // MtF 主题色配置
@@ -82,7 +84,11 @@ function getIconComponent(iconType?: string) {
   }
 }
 
-export function RangeIndicator({ ranges, isVisible }: RangeIndicatorProps) {
+export function RangeIndicator({
+  ranges,
+  isVisible,
+  language,
+}: RangeIndicatorProps) {
   if (!isVisible || !ranges || ranges.length === 0) {
     return null;
   }
@@ -116,10 +122,12 @@ export function RangeIndicator({ ranges, isVisible }: RangeIndicatorProps) {
               />
               <div>
                 <div className="font-medium text-base-content">
-                  {range.label}
+                  {t(range.label as TranslationKey, language)}
                 </div>
                 <div className="text-sm text-base-content/70">
-                  {range.description}
+                  {range.description
+                    ? t(range.description as TranslationKey, language)
+                    : ''}
                 </div>
               </div>
             </div>

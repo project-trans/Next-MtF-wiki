@@ -1,12 +1,17 @@
 'use client';
 
 import { useAtom } from 'jotai';
-import { motion, AnimatePresence } from 'motion/react';
-import { historyAtom, clearHistoryAtom, showHistoryAtom } from '../lib/atoms';
+import { Clock, Trash2, X } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
+import { type TranslationKey, t } from '@/lib/i18n/client';
+import { clearHistoryAtom, historyAtom, showHistoryAtom } from '../lib/atoms';
 import { formatTimestamp, formatValue, getHormoneById } from '../lib/utils';
-import { Trash2, Clock, X } from 'lucide-react';
 
-export function HistoryPanel() {
+interface HistoryPanelProps {
+  language: string;
+}
+
+export function HistoryPanel({ language }: HistoryPanelProps) {
   const [history] = useAtom(historyAtom);
   const [, clearHistory] = useAtom(clearHistoryAtom);
   const [showHistory, setShowHistory] = useAtom(showHistoryAtom);
@@ -32,7 +37,9 @@ export function HistoryPanel() {
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <Clock className="w-5 h-5 text-primary" />
-              <h2 className="text-xl font-semibold">换算历史</h2>
+              <h2 className="text-xl font-semibold">
+                {t('conv-history-title', language)}
+              </h2>
               <span className="badge badge-primary">{history.length}</span>
             </div>
             <div className="flex items-center gap-2">
@@ -43,7 +50,7 @@ export function HistoryPanel() {
                   className="btn btn-ghost btn-sm text-error"
                 >
                   <Trash2 className="w-4 h-4" />
-                  清空
+                  {t('conv-clear', language)}
                 </button>
               )}
               <button
@@ -56,7 +63,7 @@ export function HistoryPanel() {
             </div>
           </div>
           <p className="text-sm text-base-content/60 mt-2">
-            数据仅存储在浏览器本地，不会上传到服务器
+            {t('conv-history-storage', language)}
           </p>
         </div>
 
@@ -69,7 +76,7 @@ export function HistoryPanel() {
                 className="p-8 text-center text-base-content/60"
               >
                 <Clock className="w-12 h-12 mx-auto mb-4 opacity-50" />
-                <p>暂无换算历史</p>
+                <p>{t('conv-history-empty', language)}</p>
               </motion.div>
             ) : (
               <div className="p-4 space-y-3">
@@ -85,10 +92,12 @@ export function HistoryPanel() {
                     >
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-medium text-primary">
-                          {hormone?.name || '未知激素'}
+                          {hormone
+                            ? t(hormone.name as TranslationKey, language)
+                            : t('conv-unknown-hormone', language)}
                         </span>
                         <span className="text-xs text-base-content/60">
-                          {formatTimestamp(record.timestamp)}
+                          {formatTimestamp(record.timestamp, language)}
                         </span>
                       </div>
                       <div className="text-sm">

@@ -3,8 +3,13 @@
 import { HelpCircle, X } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import { useState } from 'react';
+import { t } from '@/lib/i18n/client';
 
-export function HelpTooltip() {
+interface HelpTooltipProps {
+  language: string;
+}
+
+export function HelpTooltip({ language }: HelpTooltipProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -13,7 +18,7 @@ export function HelpTooltip() {
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="btn btn-circle btn-ghost btn-sm"
-        title="使用帮助"
+        title={t('conv-help', language) as string}
       >
         <HelpCircle className="w-4 h-4" />
       </button>
@@ -27,7 +32,9 @@ export function HelpTooltip() {
             className="absolute right-0 top-full mt-2 w-80 bg-base-100 rounded-lg shadow-xl border border-base-300 p-4 z-50"
           >
             <div className="flex items-center justify-between mb-3">
-              <h3 className="font-semibold text-base-content">使用帮助</h3>
+              <h3 className="font-semibold text-base-content">
+                {t('conv-help', language)}
+              </h3>
               <button
                 type="button"
                 onClick={() => setIsOpen(false)}
@@ -39,20 +46,23 @@ export function HelpTooltip() {
 
             <div className="space-y-3 text-sm text-base-content/80">
               <div>
-                <h4 className="font-medium text-base-content mb-1">基本操作</h4>
+                <h4 className="font-medium text-base-content mb-1">
+                  {t('conv-help-basic', language)}
+                </h4>
                 <ul className="space-y-1 text-xs">
-                  <li>• 选择激素类型</li>
-                  <li>• 输入数值和选择单位</li>
-                  <li>• 查看自动转换结果</li>
-                  <li>• 点击复制按钮复制结果</li>
+                  <li>• {t('conv-help-step1', language)}</li>
+                  <li>• {t('conv-help-step2', language)}</li>
+                  <li>• {t('conv-help-step3', language)}</li>
+                  <li>• {t('conv-help-step4', language)}</li>
                 </ul>
               </div>
 
               <div>
-                <h4 className="font-medium text-base-content mb-1">范围提示</h4>
+                <h4 className="font-medium text-base-content mb-1">
+                  {t('conv-help-ranges-title', language)}
+                </h4>
                 <p className="text-xs">
-                  转换结果有时会显示颜色标识，表示数值是否属于特定的参考范围。
-                  请注意这些范围仅供参考，具体请咨询医生。
+                  {t('conv-help-ranges-text', language)}
                 </p>
               </div>
             </div>
