@@ -136,5 +136,68 @@
     "zh-hant": "當前字體",
     "ja": "現在のフォント",
     "en": "Current Font"
+  },
+  "terminology-search": {
+    "zh-cn": "搜索术语…",
+    "zh-hant": "搜尋術語…",
+    "ja": "用語を検索…",
+    "es": "Buscar término…",
+    "en": "Search terms…"
+  },
+  "terminology-count": {
+    "zh-cn": "显示 {shown} / {total} 条",
+    "zh-hant": "顯示 {shown} / {total} 條",
+    "ja": "{shown} / {total} 件表示",
+    "es": "Mostrando {shown} de {total}",
+    "en": "Showing {shown} of {total}"
+  },
+  "terminology-no-results": {
+    "zh-cn": "无匹配结果",
+    "zh-hant": "無匹配結果",
+    "ja": "結果なし",
+    "es": "Sin resultados",
+    "en": "No results found"
+  },
+  "terminology-source": {
+    "zh-cn": "源术语",
+    "zh-hant": "源術語",
+    "ja": "原語",
+    "es": "Término fuente",
+    "en": "Source term"
+  },
+  "terminology-aliases": {
+    "zh-cn": "异名",
+    "zh-hant": "異名",
+    "ja": "異名",
+    "es": "Sinónimos",
+    "en": "Aliases"
+  },
+  "terminology-avoid": {
+    "zh-cn": "避免使用",
+    "zh-hant": "避免使用",
+    "ja": "使用を避ける",
+    "es": "Evitar",
+    "en": "Avoid"
+  },
+  "terminology-disputed": {
+    "zh-cn": "存在争议",
+    "zh-hant": "存在爭議",
+    "ja": "議論あり",
+    "es": "Disputado",
+    "en": "Disputed"
+  },
+  "terminology-notes": {
+    "zh-cn": "备注",
+    "zh-hant": "備註",
+    "ja": "備考",
+    "es": "Notas",
+    "en": "Notes"
+  },
+  "terminology-columns": {
+    "zh-cn": "列",
+    "zh-hant": "欄",
+    "ja": "列",
+    "es": "Columnas",
+    "en": "Columns"
   }
 }

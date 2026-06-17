@@ -15,6 +15,7 @@ import { LanguageAlternate } from '@/components/LanguageAlternate';
 import { LocalImage } from '@/components/LocalImage';
 import { MarkdownCopyInterceptor } from '@/components/MarkdownCopyInterceptor';
 import { Link } from '@/components/progress';
+import SearchableTerminologyTable from '@/components/SearchableTerminologyTable';
 import { ShortCodeComp } from '@/components/shortcode';
 import { cache } from '@/lib/cache';
 import { t } from '@/lib/i18n/client';
@@ -33,12 +34,26 @@ import SingleChildRedirect from '../components/SingleChildRedirect';
 import remarkCsvToTable from './remarkCsvToTable';
 import remarkHtmlContent from './remarkHtmlContent';
 import remarkQrCode, { remarkHugoShortcode } from './remarkHugoShortcode';
+import remarkTerminologyGlossary from './remarkTerminologyGlossary';
 import type { Frontmatter } from './types';
 import {
   getAvailableLanguages,
   getContentDir,
   getContentGitRootDir,
 } from './utils';
+
+const loadTerminologyData = cache(async (): Promise<string> => {
+  try {
+    const tsvPath = path.join(
+      getContentGitRootDir(),
+      'data',
+      'terminology.tsv',
+    );
+    return await fs.readFile(tsvPath, 'utf-8');
+  } catch {
+    return '';
+  }
+});
 
 interface DocParams {
   language: string;
@@ -322,11 +337,18 @@ export default async function DocPage({
     });
   }
 
+  const terminologyData = await loadTerminologyData();
+
+  function remarkTerminologyGlossaryPlugin() {
+    return remarkTerminologyGlossary({ language, data: terminologyData });
+  }
+
   const mdxRawContent: string = strippedSource;
   const remarkPlugins = [
     remarkHeadingIdPlugin,
     remarkCsvToTablePlugin,
     remarkHugoShortcodePlugin,
+    remarkTerminologyGlossaryPlugin,
     remarkGfm,
     remarkMath,
     remarkHtmlContent,
@@ -352,6 +374,7 @@ export default async function DocPage({
 
   // 定义组件映射
   const components: MDXComponents = {
+    SearchableTerminologyTable,
     ShortCodeComp: (props) => (
       <ShortCodeComp
         {...props}

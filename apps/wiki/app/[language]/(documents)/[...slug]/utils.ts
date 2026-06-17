@@ -51,5 +51,6 @@ export function getNonSelfClosingElements() {
     'meme/onimai-ja',
     'project-trans',
     'github/contributors',
+    'terminology-glossary',
   ];
 }
