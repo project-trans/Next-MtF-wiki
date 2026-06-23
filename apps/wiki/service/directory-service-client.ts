@@ -30,3 +30,10 @@ export interface DocItemRedirectItem {
   displayPath: string;
   redirectTo: string;
 }
+
+export interface DocNavigationOrderEntry {
+  previous: string | null;
+  next: string | null;
+}
+
+export type DocNavigationOrderMap = Map<string, DocNavigationOrderEntry>;

@@ -13,6 +13,8 @@ import type {
   DocItemForClient,
   DocItemRedirectItem,
   DocMetadata,
+  DocNavigationOrderEntry,
+  DocNavigationOrderMap,
 } from './directory-service-client';
 import { getLocalImagePath } from './path-utils';
 
@@ -269,6 +271,50 @@ export async function getDocsNavigationRoot(
 ): Promise<DocItem> {
   return await getDocsNavigationRootInner(language, subfolder);
 }
+function shouldIncludeInNavigationOrder(item: DocItem): boolean {
+  if (!item.displayPath) {
+    return false;
+  }
+  if (item.metadata.redirectToSingleChild) {
+    return false;
+  }
+  if (item.slug) {
+    return true;
+  }
+  return Boolean(item.isIndex);
+}
+
+function collectNavigationOrder(item: DocItem, result: string[]): void {
+  if (shouldIncludeInNavigationOrder(item)) {
+    result.push(item.displayPath);
+  }
+  if (item.children) {
+    for (const child of item.children) {
+      collectNavigationOrder(child, result);
+    }
+  }
+}
+
+function buildNavigationOrder(root: DocItem): {
+  order: string[];
+  map: DocNavigationOrderMap;
+} {
+  const displayPaths: string[] = [];
+  collectNavigationOrder(root, displayPaths);
+  const orderMap: DocNavigationOrderMap = new Map<
+    string,
+    DocNavigationOrderEntry
+  >();
+  for (let index = 0; index < displayPaths.length; index++) {
+    const current = displayPaths[index];
+    const previous = index > 0 ? displayPaths[index - 1] : null;
+    const next =
+      index < displayPaths.length - 1 ? displayPaths[index + 1] : null;
+    orderMap.set(current, { previous, next });
+  }
+  return { order: displayPaths, map: orderMap };
+}
+
 const getDocsNavigationRootWithMapInner = cache(
   async (
     language: string,
@@ -277,6 +323,8 @@ const getDocsNavigationRootWithMapInner = cache(
     root: DocItem;
     map: Map<string, DocItem>;
     redirectMap: Map<string, DocItemRedirectItem>;
+    order: string[];
+    orderMap: DocNavigationOrderMap;
   }> => {
     function addRedirectItem(
       item: DocItem,
@@ -344,7 +392,14 @@ const getDocsNavigationRootWithMapInner = cache(
       }
     }
     collectPaths(rootItem);
-    return { root: rootItem, map: map, redirectMap: redirectMap };
+    const { order, map: navigationOrderMap } = buildNavigationOrder(rootItem);
+    return {
+      root: rootItem,
+      map: map,
+      redirectMap: redirectMap,
+      order,
+      orderMap: navigationOrderMap,
+    };
   },
 );
 
@@ -355,12 +410,12 @@ export async function getDocsNavigationMap(
   root: DocItem;
   map: Map<string, DocItem>;
   redirectMap: Map<string, DocItemRedirectItem>;
+  order: string[];
+  orderMap: DocNavigationOrderMap;
 }> {
-  const { root, map, redirectMap } = await getDocsNavigationRootWithMapInner(
-    language,
-    subfolder,
-  );
-  return { root, map, redirectMap };
+  const { root, map, redirectMap, order, orderMap } =
+    await getDocsNavigationRootWithMapInner(language, subfolder);
+  return { root, map, redirectMap, order, orderMap };
 }
 
 const getDocsNavigationForClientInner = cache(
