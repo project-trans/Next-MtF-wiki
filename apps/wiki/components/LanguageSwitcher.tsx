@@ -3,7 +3,7 @@
 import { useAtom } from 'jotai';
 import { atomWithStorage } from 'jotai/utils';
 import { ChevronDown, Languages } from 'lucide-react';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { languageAlternateAtom } from './LanguageAlternate';
 import { Link } from './progress';
 
@@ -25,6 +25,23 @@ export default function LanguageSwitcher({
   const [globalLanguageAlternate] = useAtom(languageAlternateAtom);
 
   const [, setLanguage] = useAtom(languageAtom);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        detailsRef.current &&
+        !detailsRef.current.contains(event.target as Node)
+      ) {
+        detailsRef.current.removeAttribute('open');
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+
+    return () => {
+      document.removeEventListener('click', handleClickOutside);
+    };
+  }, []);
 
   // 判断语言是否在可用的替代语言中
   const isLanguageAvailable = (langCode: string) => {
