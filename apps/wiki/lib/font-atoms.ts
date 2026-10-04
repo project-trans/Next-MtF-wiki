@@ -43,12 +43,18 @@ export const fontOptionsAtom = atom<FontOption[]>((get) => {
   const fontsMap = get(fontsMapAtom);
   if (!fontsMap) return [];
 
-  return Object.entries(fontsMap).map(([displayName, data]) => ({
-    key: displayName,
-    value: displayName,
-    displayName,
-    fontFamily: data.fontFamily,
-  }));
+  return Object.entries(fontsMap)
+    .sort(([a], [b]) => {
+      if (a === '默认字体') return -1;
+      if (b === '默认字体') return 1;
+      return 0;
+    })
+    .map(([displayName, data]) => ({
+      key: displayName,
+      value: displayName,
+      displayName,
+      fontFamily: data.fontFamily,
+    }));
 });
 
 // 获取字体数据
